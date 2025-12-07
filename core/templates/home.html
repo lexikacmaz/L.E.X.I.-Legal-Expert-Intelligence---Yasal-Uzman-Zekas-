@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    /* 1. YÜKLENİYOR EKRANI */
+    #loading-overlay {
+        display: none; 
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(255, 255, 255, 0.9); z-index: 99999;
+        justify-content: center; align-items: center; flex-direction: column;
+    }
+    .spinner {
+        width: 50px; height: 50px;
+        border: 5px solid #ccc; border-top: 5px solid var(--ana-renk);
+        border-radius: 50%; animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    /* 2. ANA DÜZEN */
+    .main-layout {
+        display: flex;
+        justify-content: center; /* Ortala */
+        align-items: flex-start;
+        max-width: 1400px;
+        margin: 20px auto;
+        gap: 20px;
+        position: relative;
+    }
+
+    /* 3. YAN SÜTUNLAR (REKLAM) - Z-INDEX DÜZELTMESİ */
+    .side-col {
+        width: 220px;
+        flex-shrink: 0;
+        position: sticky;
+        top: 20px;
+        text-align: center;
+        z-index: 50; /* ÖNEMLİ: Chat kutusu üstüne binmesin diye yükselttik */
+    }
+    
+    .banner-box {
+        border-radius: 8px;
+        overflow: hidden;
+        transition: transform 0.3s;
+        /* Boşsa border olmasın, doluysa olsun */
+    }
+    .banner-box:hover { transform: scale(1.02); }
+    
+    /* Linkin resmi tam sarması için */
+    .banner-link {
+        display: block;
+        width: 100%;
+        height: 100%;
+        text-decoration: none;
+    }
+    
+    .banner-img { width: 100%; height: auto; display: block; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+    /* SADECE ADMIN GÖRSÜN DİYE OLAN KUTU */
+    .admin-placeholder {
+        height: 400px; 
+        background: repeating-linear-gradient(45deg, #eee, #eee 10px, #f5f5f5 10px, #f5f5f5 20px);
+        border: 2px dashed #ccc; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        color: #888; 
+        border-radius: 10px;
+        font-size: 0.9rem;
+        flex-direction: column;
+    }
+
+    /* 4. ORTA SÜTUN (CHAT) */
+    .center-col {
+        flex-grow: 1; 
+        max-width: 800px; 
+        min-width: 300px; /* Çok küçülmesin */
+        margin: 0 auto;
+        z-index: 1; /* Reklamların altında kalsın */
+    }
+
+    /* MOBİL UYUMLULUK */
+    @media (max-width: 1000px) {
+        .main-layout { flex-direction: column; align-items: center; }
+        .side-col { 
+            width: 100%; 
+            max-width: 350px; /* Mobilde reklam çok devasa olmasın */
+            margin-bottom: 20px; 
+            position: static; 
+            z-index: 1;
+        }
+        .center-col { width: 100%; padding: 0 10px; }
+    }
+
+    /* CHAT KUTUSU */
+    .ai-response-box {
+        background-color: var(--menu-bg); color: var(--yazi-renk);
+        padding: 30px; border-radius: 15px; border: 1px solid var(--ana-renk);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1); margin-bottom: 30px; text-align: left;
+    }
+
+    .chat-form {
+        display: flex; gap: 10px; background: white; padding: 10px;
+        border-radius: 50px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 1px solid #eee;
+    }
+    .chat-input { flex: 1; border: none; padding: 10px 20px; font-size: 1rem; outline: none; background: transparent; }
+    .chat-btn {
+        background: var(--btn-renk); color: white; border: none;
+        padding: 10px 30px; border-radius: 30px; font-weight: bold; cursor: pointer; transition: transform 0.2s;
+    }
+    .chat-btn:hover { transform: scale(1.05); }
+
+    /* ACCORDION */
+    .custom-details { margin-top: 15px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
+    .custom-details summary { background: #eee; padding: 10px 15px; cursor: pointer; font-weight: bold; list-style: none; display: flex; justify-content: space-between; }
+    .custom-details[open] summary { border-bottom: 1px solid #ddd; }
+    .details-content { padding: 15px; background: #fff; }
+</style>
+
+<div id="loading-overlay">
+    <div class="spinner"></div>
+    <div style="margin-top: 15px; font-weight: bold; color: #555;">Yapay Zeka Yanıtlıyor...</div>
+</div>
+
+<div class="main-layout">
+    
+    <aside class="side-col">
+        {% if banner_sol and banner_sol.resim %}
+            <div class="banner-box">
+                <a href="{{ banner_sol.link|default:'#' }}" target="_blank" class="banner-link">
+                    <img src="{{ banner_sol.resim.url }}" class="banner-img" alt="Reklam">
+                </a>
+                <small style="color:#aaa; display:block; margin-top:5px;">Reklam</small>
+            </div>
+        {% elif request.user.is_superuser %}
+            <div class="admin-placeholder">
+                <span>📢 Sol Reklam Alanı</span>
+                <small>(Boş)</small>
+                <a href="/panel/ekle/reklam/" style="font-size:0.8rem; margin-top:5px;">+ Ekle</a>
+            </div>
+        {% endif %}
+    </aside>
+
+    <main class="center-col">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h1 style="color: var(--baslik-renk); margin-bottom: 10px;">{{ ayar.site_basligi }}</h1>
+            
+            {% if kalan_hak > 0 %}
+                <span style="background: var(--ana-renk); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem;">
+                    🎁 Kalan Hakkınız: <strong>{{ kalan_hak }}</strong>
+                </span>
+            {% else %}
+                <span style="background: #dc3545; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem;">
+                    🔒 Hakkınız bitti.
+                </span>
+            {% endif %}
+        </div>
+
+        <div class="ai-response-box">
+            {% if cevap %}
+                {{ cevap|safe }}
+            {% else %}
+                <div style="text-align: center; color: #888; padding: 40px;">
+                    <span style="font-size: 3rem; display: block; margin-bottom: 10px;">⚖️</span>
+                    Sorunuzu aşağıya yazın, yapay zeka mevzuata göre cevaplasın.
+                </div>
+            {% endif %}
+        </div>
+
+        <form method="post" class="chat-form" onsubmit="showLoading()">
+            {% csrf_token %}
+            <input type="text" name="soru" class="chat-input" placeholder="Örn: Kıdem tazminatı nasıl hesaplanır?" required autocomplete="off">
+            <button type="submit" class="chat-btn">Gönder</button>
+        </form>
+    </main>
+
+    <aside class="side-col">
+        {% if banner_sag and banner_sag.resim %}
+            <div class="banner-box">
+                <a href="{{ banner_sag.link|default:'#' }}" target="_blank" class="banner-link">
+                    <img src="{{ banner_sag.resim.url }}" class="banner-img" alt="Reklam">
+                </a>
+                <small style="color:#aaa; display:block; margin-top:5px;">Reklam</small>
+            </div>
+        {% elif request.user.is_superuser %}
+            <div class="admin-placeholder">
+                <span>📢 Sağ Reklam Alanı</span>
+                <small>(Boş)</small>
+                <a href="/panel/ekle/reklam/" style="font-size:0.8rem; margin-top:5px;">+ Ekle</a>
+            </div>
+        {% endif %}
+    </aside>
+
+</div>
+
+<script>
+    function showLoading() {
+        document.getElementById('loading-overlay').style.display = 'flex';
+    }
+</script>
+{% endblock %}

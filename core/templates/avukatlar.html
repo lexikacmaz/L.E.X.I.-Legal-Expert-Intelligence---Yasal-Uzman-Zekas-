@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 style="text-align: center; color: var(--baslik-renk);">Uzman Kadromuz</h1>
+<p style="text-align: center; color: var(--yazi-renk); opacity: 0.7;">Alanında en iyi avukatlarla çalışıyoruz.</p>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px;">
+    {% for avukat in avukatlar %}
+    <div style="background: var(--menu-bg); border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; border: 1px solid var(--ana-renk);">
+        
+        {% if avukat.resim %}
+            <img src="{{ avukat.resim.url }}" style="width: 100%; height: 250px; object-fit: cover;">
+        {% else %}
+            <div style="width: 100%; height: 250px; background: #ddd; display: flex; align-items: center; justify-content: center; font-size: 3rem;">⚖️</div>
+        {% endif %}
+        
+        <div style="padding: 20px;">
+            <h3 style="margin: 0; color: var(--ana-renk);">{{ avukat.isim }}</h3>
+            <p style="color: #888; font-style: italic; margin: 5px 0;">{{ avukat.uzmanlik }}</p>
+            <p style="font-size: 0.9rem; color: var(--yazi-renk);">{{ avukat.ozet }}</p>
+            
+            <a href="{% url 'randevu_al' avukat.id %}" class="btn" style="display:block; margin-top:15px; width:100%; box-sizing: border-box;">
+                📞 Görüşme Talep Et
+            </a>
+            
+        </div>
+    </div>
+    {% empty %}
+        <p style="text-align: center; width: 100%;">Henüz eklenmiş bir avukat yok.</p>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ kategori.isim }} Asistanı</title>
+    <style>
+        body { font-family: sans-serif; background: #e5ddd5; margin: 0; display: flex; flex-direction: column; height: 100vh; }
+        .header { background: #075e54; color: white; padding: 15px; text-align: center; }
+        .chat-area { flex: 1; padding: 20px; overflow-y: auto; }
+        .msg { background: white; padding: 10px; border-radius: 10px; margin-bottom: 10px; max-width: 80%; }
+        .bot { background: white; align-self: flex-start; }
+        .user { background: #dcf8c6; align-self: flex-end; margin-left: auto; }
+        .input-area { padding: 20px; background: #f0f0f0; display: flex; gap: 10px; }
+        input { flex: 1; padding: 10px; border-radius: 20px; border: 1px solid #ccc; }
+        button { padding: 10px 20px; background: #075e54; color: white; border: none; border-radius: 20px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>{{ kategori.isim }} Uzmanı</h1>
+        <a href="{% url 'asistan_secimi' %}" style="color:white; text-decoration:none; font-size: 0.8rem;">&larr; Ana Sayfaya Dön</a>
+    </div>
+
+    <div class="chat-area">
+        {% if soru %}
+            <div class="msg user"><strong>Siz:</strong> {{ soru }}</div>
+        {% endif %}
+        
+        {% if cevap %}
+            <div class="msg bot"><strong>Bot:</strong> {{ cevap|safe }}</div>
+        {% else %}
+            <div class="msg bot">Merhaba! Ben {{ kategori.isim }} konusunda uzmanım. Sorunuzu bekliyorum.</div>
+        {% endif %}
+    </div>
+
+    <form class="input-area" method="POST">
+        {% csrf_token %}
+        <input type="text" name="soru" placeholder="Sorunuzu yazın..." required>
+        <button type="submit">Gönder</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Basit Yönetim Paneli</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f4f4; padding: 40px; text-align: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; max-width: 900px; margin: 0 auto; }
+        .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; transition: 0.3s; text-decoration: none; color: #333; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        h1 { color: #333; margin-bottom: 20px; }
+        .icon { font-size: 3rem; margin-bottom: 15px; display: block; }
+        .btn-back { display: inline-block; margin-top: 30px; color: #666; text-decoration: none; }
+        
+        /* Yeni eklenen Admin Butonu Stili */
+        .btn-django-admin {
+            display: inline-block;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            transition: 0.3s;
+        }
+        .btn-django-admin:hover { background-color: #000; }
+    </style>
+</head>
+<body>
+    <h1>⚙️ Site Yönetim Merkezi</h1>
+
+    <a href="/admin/" target="_blank" class="btn-django-admin">🔧 Teknik Admin Girişi (Django)</a>
+    
+    <div class="grid">
+        <a href="{% url 'panel_ayarlar' %}" class="card">
+            <span class="icon">🎨</span>
+            <h3>Tasarım & Renkler</h3>
+            <p>Sitenin rengini, fontunu ve logosunu değiştir.</p>
+        </a>
+        <a href="{% url 'panel_icerik' 'siparis' %}" class="card">
+            <span class="icon">💰</span>
+            <h3>Siparişler</h3>
+            <p>Kim ne satın aldı?</p>
+        </a>
+
+        <a href="{% url 'panel_icerik' 'sohbet' %}" class="card">
+            <span class="icon">💬</span>
+            <h3>Sohbet Kayıtları</h3>
+            <p>Kullanıcılar ne sordu?</p>
+        </a>
+
+        <a href="{% url 'panel_icerik' 'randevu' %}" class="card">
+            <span class="icon">📅</span>
+            <h3>Avukat Görüşmeleri</h3>
+            <p>Randevu talepleri.</p>
+        </a>
+        <a href="{% url 'panel_icerik' 'avukat' %}" class="card">
+            <span class="icon">👨‍⚖️</span>
+            <h3>Avukatları Yönet</h3>
+            <p>Avukat ekle veya çıkar.</p>
+        </a>
+
+        <a href="{% url 'panel_icerik' 'paket' %}" class="card">
+            <span class="icon">📦</span>
+            <h3>Paketleri Yönet</h3>
+            <p>Fiyatları ve paketleri güncelle.</p>
+        </a>
+
+        <a href="{% url 'panel_icerik' 'kanun' %}" class="card">
+            <span class="icon">📚</span>
+            <h3>AI Bilgi Bankası</h3>
+            <p>Yapay zekaya yeni kanunlar öğret.</p>
+        </a>
+        
+        <a href="{% url 'panel_icerik' 'reklam' %}" class="card">
+            <span class="icon">📢</span>
+            <h3>Reklam Yönetimi</h3>
+            <p>Sağ/Sol bannerları düzenle.</p>
+        </a>
+
+        <a href="/admin/core/hukukkategori/" target="_blank" class="card" style="border: 2px solid #007bff;">
+            <span class="icon">🤖</span>
+            <h3>AI Bot Kategorileri</h3>
+            <p>Bot türlerini (Kira, Ceza vb.) ve talimatlarını düzenle.</p>
+        </a>
+
+    </div>
+
+    <a href="{% url 'home' %}" class="btn-back">← Siteye Geri Dön</a>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="max-width: 900px; margin: 50px auto; background: white; padding: 50px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.05);">
+    <h1 style="color: var(--ana-renk); text-align: center;">Yasal Bilgilendirme ve Sorumluluk Reddi</h1>
+    <hr>
+
+    <h3>1. Sorumluluk Reddi (Disclaimer)</h3>
+    <p>Bu web sitesi (LegalAI), yapay zeka teknolojileri kullanılarak oluşturulmuş bilgilendirme amaçlı bir platformdur. Burada sunulan bilgiler, emsal yargı kararları ve mevzuat taramalarına dayansa da, <strong>kesinlikle bir avukat tavsiyesi veya hukuki danışmanlık yerine geçmez.</strong></p>
+    <p>Sistem tarafından üretilen cevapların güncelliği, doğruluğu veya eksiksizliği konusunda garanti verilmez. Kullanıcılar, hukuki sorunları için mutlaka yetkili bir avukata başvurmalıdır. Bu sitenin kullanımından doğabilecek hak kayıplarından site yönetimi sorumlu tutulamaz.</p>
+
+    <h3>2. Kişisel Verilerin Korunması (KVKK)</h3>
+    <p>Sistemimize girdiğiniz sorular, yapay zeka modelinin eğitimi ve hizmet kalitesinin artırılması amacıyla anonimleştirilerek işlenebilir. Ancak, formlar aracılığıyla (Satın alma vb.) paylaştığınız ad, soyad ve iletişim bilgileriniz, yalnızca hizmetin ifası amacıyla saklanır ve 3. kişilerle asla paylaşılmaz.</p>
+
+    <h3>3. Kullanım Koşulları</h3>
+    <p>Siteye giriş yapan her kullanıcı, ilk soruyu ücretsiz sorma hakkına sahiptir. Hizmetin devamlılığı için belirlenen paketlerin satın alınması gerekebilir. Site yönetimi, fiyatlarda ve hizmet politikasında değişiklik yapma hakkını saklı tutar.</p>
+
+    <br>
+    <div style="text-align: center;">
+        <a href="{% url 'home' %}" class="btn">Okudum, Anladım.</a>
+    </div>
+</div>
+{% endblock %}

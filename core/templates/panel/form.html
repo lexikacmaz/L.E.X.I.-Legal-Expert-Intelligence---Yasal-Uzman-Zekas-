@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* TÜM GOOGLE FONTLARINI ADMİN PANELİNE ÇEKELİM Kİ ÖNİZLEME ÇALIŞSIN */
+        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond&family=Inter&family=Lato&family=Libre+Baskerville&family=Lora&family=Merriweather&family=Montserrat&family=Open+Sans&family=Oswald&family=Playfair+Display&family=Poppins&family=Raleway&family=Roboto&display=swap');
+
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 40px; }
+        .container { background: white; max-width: 600px; margin: 0 auto; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #333; margin-bottom: 30px; }
+        
+        label { display: block; margin: 15px 0 8px; font-weight: 600; color: #555; }
+        input[type="text"], input[type="password"], textarea, select { 
+            width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; box-sizing: border-box; 
+        }
+        
+        /* Renk Kutuları */
+        input[type="color"] { width: 100%; height: 50px; padding: 5px; cursor: pointer; border: 1px solid #ddd; border-radius: 8px; }
+        
+        /* FONT SEÇİM KUTUSUNDAKİ SİHİR */
+        select option { padding: 10px; font-size: 1.1rem; }
+        
+        button { background: linear-gradient(135deg, #007bff, #0056b3); color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; margin-top: 30px; cursor: pointer; font-size: 1.1rem; font-weight: bold; transition: 0.3s; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,123,255,0.3); }
+        .cancel { display: block; text-align: center; margin-top: 20px; color: #888; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>✏️ {{ title }}</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if form.instance.resim %}
+            <div style="text-align: center; margin-bottom: 20px; background: #f9f9f9; padding: 10px; border-radius: 10px;">
+                <p style="color:#666; margin:0;">Mevcut Banner:</p>
+                <img src="{{ form.instance.resim.url }}" style="max-height: 150px; border: 1px solid #ddd; margin-top: 5px;">
+            </div>
+        {% endif %}
+            {% for field in form %}
+                <label>{{ field.label }}</label>
+                
+                {% if field.name == 'font_baslik' or field.name == 'font_genel' %}
+                    <select name="{{ field.name }}" id="id_{{ field.name }}" onchange="updatePreview(this)">
+                        {% for value, label in field.field.choices %}
+                            <option value="{{ value }}" 
+                                    style="font-family: '{{ value }}', sans-serif;" 
+                                    {% if field.value == value %}selected{% endif %}>
+                                {{ label }} (Önizleme: Hukuk Adalet)
+                            </option>
+                        {% endfor %}
+                    </select>
+                {% else %}
+                    {{ field }}
+                {% endif %}
+                
+                {% if field.help_text %}
+                    <small style="color: #999;">{{ field.help_text }}</small>
+                {% endif %}
+            {% endfor %}
+
+            <button type="submit">Değişiklikleri Kaydet</button>
+        </form>
+        <a href="{% url 'panel_dashboard' %}" class="cancel">İptal</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="max-width: 1200px; margin: 40px auto;">
+    
+    <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            {% if avukat.resim %}
+                <img src="{{ avukat.resim.url }}" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+            {% else %}
+                <div style="width: 80px; height: 80px; background: #ddd; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem;">⚖️</div>
+            {% endif %}
+            <div>
+                <h2 style="margin: 0; color: var(--ana-renk);">Sn. {{ avukat.isim }}</h2>
+                <p style="margin: 5px 0; color: #666;">{{ avukat.uzmanlik }}</p>
+            </div>
+        </div>
+        <div>
+            <a href="{% url 'avukat_profil_duzenle' %}" class="btn">✏️ Profilimi Düzenle</a>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px;">
+        
+        <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+            <h3 style="color: #d9534f; border-bottom: 2px solid #eee; padding-bottom: 10px;">🔴 Bekleyen Talepler</h3>
+            
+            {% for r in bekleyenler %}
+            <div style="background: #fff5f5; padding: 15px; border-left: 5px solid #d9534f; margin-bottom: 15px; border-radius: 5px;">
+                <h4 style="margin: 0;">{{ r.ad_soyad }}</h4>
+                <p style="margin: 5px 0;"><strong>Tel:</strong> <a href="tel:{{ r.telefon }}">{{ r.telefon }}</a></p>
+                <p style="background: white; padding: 10px; font-style: italic; color: #555;">"{{ r.mesaj }}"</p>
+                <small style="color: #999;">{{ r.tarih|date:"d M Y H:i" }}</small>
+                <br><br>
+                <a href="{% url 'avukat_randevu_islem' r.id %}" class="btn" style="padding: 5px 15px; font-size: 0.9rem;">İşlem Yap</a>
+            </div>
+            {% empty %}
+                <p style="color: #999;">Yeni talep yok.</p>
+            {% endfor %}
+        </div>
+
+        <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+            <h3 style="color: #5cb85c; border-bottom: 2px solid #eee; padding-bottom: 10px;">🟢 Geçmiş / Tamamlananlar</h3>
+            
+            {% for r in gecmis %}
+            <div style="padding: 15px; border-bottom: 1px solid #eee;">
+                <strong>{{ r.ad_soyad }}</strong>
+                <span style="background: #eee; padding: 2px 8px; border-radius: 10px; font-size: 0.8rem; margin-left: 10px;">{{ r.durum }}</span>
+                <p style="font-size: 0.9rem; color: #666; margin: 5px 0;">{{ r.mesaj|truncatechars:50 }}</p>
+                <a href="{% url 'avukat_randevu_islem' r.id %}" style="font-size: 0.8rem; color: var(--ana-renk);">Düzenle</a>
+            </div>
+            {% empty %}
+                <p style="color: #999;">Geçmiş kayıt yok.</p>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}

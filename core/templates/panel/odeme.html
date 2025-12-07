@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="max-width: 500px; margin: 0 auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); text-align: center;">
+    <h2 style="color: var(--ana-renk);">Güvenli Ödeme</h2>
+    <p>Toplam Tutar: <strong style="font-size: 1.5rem;">{{ siparis.paket.fiyat }}</strong></p>
+    
+    <div style="background: linear-gradient(135deg, #444, #111); color: white; padding: 20px; border-radius: 15px; text-align: left; margin-bottom: 30px;">
+        <div style="font-size: 1.2rem; margin-bottom: 20px;">💳 Kredi Kartı</div>
+        <div style="font-size: 1.5rem; letter-spacing: 2px; margin-bottom: 15px;">0000 0000 0000 0000</div>
+        <div style="display: flex; justify-content: space-between;">
+            <span>AD SOYAD</span>
+            <span>AA/YY</span>
+        </div>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" placeholder="Kart Üzerindeki İsim" required style="width: 90%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px;">
+        <input type="text" placeholder="Kart Numarası" required style="width: 90%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px;">
+        <div style="display: flex; gap: 10px; justify-content: center;">
+            <input type="text" placeholder="SKT (Ay/Yıl)" required style="width: 40%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+            <input type="text" placeholder="CVC" required style="width: 40%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+        
+        <button type="submit" class="btn" style="width: 100%; margin-top: 20px; background: #28a745;">Ödemeyi Tamamla</button>
+    </form>
+    <p style="font-size: 0.8rem; color: #999; margin-top: 15px;">🔒 256-bit SSL ile korunmaktadır.</p>
+</div>
+{% endblock %}

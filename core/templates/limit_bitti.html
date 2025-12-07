@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="text-align: center; padding: 60px 20px;">
+    <div style="font-size: 5rem;">🛑</div>
+    <h1 style="color: var(--baslik-renk);">Ücretsiz Soru Hakkınız Doldu</h1>
+    <p style="font-size: 1.2rem; color: #666; max-width: 600px; margin: 10px auto;">
+        Detaylı analiz ve hukuki destek almaya devam etmek için size en uygun paketi seçin veya tek seferlik soru hakkı satın alın.
+    </p>
+
+    <div style="margin-top: 40px;">
+        <a href="{% url 'paketler' %}" class="btn" style="padding: 15px 40px; font-size: 1.2rem; animation: pulse 2s infinite;">
+            🚀 Paketleri İncele ve Satın Al
+        </a>
+    </div>
+    
+    <p style="margin-top: 30px; font-size: 0.9rem; color: #999;">
+        Profesyonel avukatlarımızla görüşmek için <a href="{% url 'avukatlar' %}" style="color: var(--ana-renk);">tıklayın.</a>
+    </p>
+</div>
+
+<style>
+    @keyframes pulse {
+        0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7); }
+        50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(0, 0, 0, 0); }
+        100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
+    }
+</style>
+{% endblock %}

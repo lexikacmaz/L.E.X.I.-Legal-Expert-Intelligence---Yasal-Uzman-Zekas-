@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="text-align: center; padding: 50px;">
+    <div style="font-size: 5rem; color: #28a745;">✅</div>
+    <h1>Ödeme Başarılı!</h1>
+    <p>Siparişiniz alınmıştır. Avukatlarımız en kısa sürede sizinle iletişime geçecektir.</p>
+    <br>
+    <a href="{% url 'home' %}" class="btn">Ana Sayfaya Dön</a>
+</div>
+{% endblock %}

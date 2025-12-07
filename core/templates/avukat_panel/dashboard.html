@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    /* PANEL ÖZEL STİLLERİ */
+    .dashboard-container { max-width: 1200px; margin: 30px auto; font-family: 'Segoe UI', sans-serif; }
+    
+    /* 1. ÜST BİLGİ KARTI (HEADER) */
+    .profile-header {
+        background: white; padding: 30px; border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        display: flex; align-items: center; justify-content: space-between;
+        border-bottom: 4px solid var(--ana-renk);
+    }
+    .profile-info h1 { margin: 0; color: var(--baslik-renk); font-size: 1.8rem; }
+    .profile-info p { margin: 5px 0 0; color: #666; font-size: 1rem; }
+    
+    /* 2. İSTATİSTİK KARTLARI (SAYILAR) */
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 25px; }
+    .stat-card {
+        background: white; padding: 25px; border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center;
+        transition: transform 0.3s;
+    }
+    .stat-card:hover { transform: translateY(-5px); }
+    .stat-number { font-size: 2.5rem; font-weight: bold; color: var(--ana-renk); display: block; }
+    .stat-label { color: #888; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+
+    /* 3. İŞ BÖLÜMÜ (GRID) */
+    .tasks-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-top: 30px; }
+    
+    .panel-section { background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden; }
+    .section-header {
+        padding: 20px; border-bottom: 1px solid #eee;
+        display: flex; justify-content: space-between; align-items: center;
+    }
+    .section-title { margin: 0; font-size: 1.2rem; color: #333; }
+    
+    /* RANDEVU KARTLARI */
+    .appointment-card {
+        padding: 20px; border-bottom: 1px solid #f0f0f0;
+        display: flex; justify-content: space-between; align-items: center;
+        transition: background 0.2s;
+    }
+    .appointment-card:hover { background: #f9f9f9; }
+    .client-name { font-weight: bold; font-size: 1.1rem; color: #333; display: block; }
+    .client-meta { color: #888; font-size: 0.9rem; margin-top: 5px; display: block; }
+    .message-box {
+        background: #fff8e1; border-left: 4px solid #ffc107;
+        padding: 10px; margin-top: 10px; font-size: 0.9rem; color: #555;
+        border-radius: 4px;
+    }
+    
+    /* BUTONLAR */
+    .btn-action {
+        background: var(--ana-renk); color: white; padding: 10px 20px;
+        text-decoration: none; border-radius: 6px; font-size: 0.9rem; font-weight: bold;
+    }
+    .btn-outline {
+        border: 2px solid #ddd; color: #555; padding: 8px 15px;
+        text-decoration: none; border-radius: 6px; font-size: 0.9rem;
+    }
+    .btn-outline:hover { border-color: var(--ana-renk); color: var(--ana-renk); }
+    
+    /* DURUM ETİKETLERİ */
+    .status-badge { padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; font-weight: bold; }
+    .status-done { background: #d4edda; color: #155724; }
+    .status-cancel { background: #f8d7da; color: #721c24; }
+</style>
+
+<div class="dashboard-container">
+    
+    <div class="profile-header">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            {% if avukat.resim %}
+                <img src="{{ avukat.resim.url }}" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+            {% else %}
+                <div style="width: 80px; height: 80px; background: #eee; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem;">⚖️</div>
+            {% endif %}
+            <div class="profile-info">
+                <h1>Merhaba, {{ avukat.isim }}</h1>
+                <p>{{ avukat.uzmanlik }} Uzmanı | Panelinizdesiniz.</p>
+            </div>
+        </div>
+        <a href="{% url 'avukat_profil_duzenle' %}" class="btn-outline">✏️ Bilgilerimi Düzenle</a>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-number" style="color: #ffc107;">{{ istatistik.bekleyen }}</span>
+            <span class="stat-label">Bekleyen Görüşme</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number" style="color: #28a745;">{{ istatistik.biten }}</span>
+            <span class="stat-label">Tamamlanan İş</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">{{ istatistik.toplam }}</span>
+            <span class="stat-label">Toplam Kayıt</span>
+        </div>
+    </div>
+
+    <div class="tasks-grid">
+        
+        <div class="panel-section">
+            <div class="section-header">
+                <h3 class="section-title">⚡ Hemen İlgilenmeniz Gerekenler</h3>
+            </div>
+            
+            {% for r in bekleyenler %}
+            <div class="appointment-card">
+                <div style="flex: 1;">
+                    <span class="client-name">{{ r.ad_soyad }}</span>
+                    <span class="client-meta">📞 {{ r.telefon }} | 📅 {{ r.tarih|date:"d M Y - H:i" }}</span>
+                    
+                    {% if r.mesaj %}
+                    <div class="message-box">
+                        <strong>Not:</strong> {{ r.mesaj }}
+                    </div>
+                    {% endif %}
+                </div>
+                <div style="margin-left: 20px;">
+                    <a href="{% url 'avukat_randevu_islem' r.id %}" class="btn-action">İşlemi Başlat</a>
+                </div>
+            </div>
+            {% empty %}
+                <div style="padding: 40px; text-align: center; color: #999;">
+                    <span style="font-size: 2rem;">☕</span><br>
+                    Harika! Bekleyen görüşmeniz yok.
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="panel-section">
+            <div class="section-header">
+                <h3 class="section-title">📂 Son İşlemler</h3>
+            </div>
+            
+            {% for r in gecmis %}
+            <div class="appointment-card" style="padding: 15px;">
+                <div>
+                    <span class="client-name" style="font-size: 1rem;">{{ r.ad_soyad }}</span>
+                    <span class="client-meta">{{ r.tarih|date:"d.m.Y" }}</span>
+                </div>
+                <div>
+                    {% if r.durum == 'Görüşüldü' %}
+                        <span class="status-badge status-done">Tamamlandı</span>
+                    {% else %}
+                        <span class="status-badge status-cancel">İptal</span>
+                    {% endif %}
+                    <br>
+                    <a href="{% url 'avukat_randevu_islem' r.id %}" style="font-size: 0.8rem; color: #999; text-decoration: underline;">Detay</a>
+                </div>
+            </div>
+            {% empty %}
+                <div style="padding: 20px; text-align: center; color: #999;">Kayıt yok.</div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}

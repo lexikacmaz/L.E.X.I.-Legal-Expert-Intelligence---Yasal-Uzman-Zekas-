@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .login-container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 40px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+    .login-header { margin-bottom: 30px; }
+    .login-header h2 { color: #333; }
+    
+    /* Form elemanlarını düzgün göstermek için */
+    .form-group { margin-bottom: 15px; text-align: left; }
+    .form-group label { display: block; margin-bottom: 5px; color: #666; }
+    .form-group input { 
+        width: 100%; 
+        padding: 10px; 
+        border: 1px solid #ddd; 
+        border-radius: 5px; 
+        box-sizing: border-box; /* Taşmayı engeller */
+    }
+
+    /* O meşhur butonu buraya da ekleyelim */
+    .btn-login {
+        width: 100%;
+        padding: 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s;
+        margin-top: 10px;
+    }
+    .btn-login:hover { background-color: #0056b3; }
+</style>
+
+<div class="login-container">
+    <div class="login-header">
+        <div style="font-size: 3rem; margin-bottom: 10px;">⚖️</div>
+        <h2>Avukat Girişi</h2>
+        <p style="color: #888;">Lütfen hesap bilgilerinizi giriniz.</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        
+        {% if form.errors %}
+            <p style="color: red; font-size: 0.9rem;">Kullanıcı adı veya şifre hatalı.</p>
+        {% endif %}
+
+        <div class="form-group">
+            <label>Kullanıcı Adı:</label>
+            {{ form.username }} 
+        </div>
+
+        <div class="form-group">
+            <label>Şifre:</label>
+            {{ form.password }}
+        </div>
+
+        <button type="submit" class="btn-login">Giriş Yap</button>
+        <input type="hidden" name="next" value="{% url 'avukat_dashboard' %}">
+    </form>
+</div>
+{% endblock %}

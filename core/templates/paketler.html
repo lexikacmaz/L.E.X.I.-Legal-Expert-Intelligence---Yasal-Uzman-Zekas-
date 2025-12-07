@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 style="text-align: center;">Hizmet Paketlerimiz</h1>
+<p style="text-align: center; color: #666;">Size en uygun çözümü seçin.</p>
+
+<div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; margin-top: 30px;">
+    {% for paket in paketler %}
+    <div style="background: white; border-radius: 15px; width: 300px; padding: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-top: 5px solid var(--ana-renk); text-align: center; position: relative;">
+        <h2 style="margin-top: 0;">{{ paket.isim }}</h2>
+        <div style="font-size: 2rem; font-weight: bold; color: var(--baslik-renk); margin: 20px 0;">{{ paket.fiyat }}</div>
+        
+        <div style="text-align: left; margin-bottom: 30px; color: #555;">
+            {{ paket.ozellikler|linebreaks }}
+        </div>
+        
+        <a href="{% url 'satin_al' paket.id %}" class="btn" style="display:block; width: 100%; text-align: center; box-sizing: border-box;">Satın Al</a>
+    </div>
+    {% empty %}
+        <p>Henüz paket eklenmedi.</p>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+    <h2 style="text-align: center; color: var(--ana-renk);">Sipariş Oluştur</h2>
+    <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid var(--ana-renk); margin-bottom: 20px;">
+        <strong>Seçilen Paket:</strong> {{ paket.isim }} <br>
+        <strong>Fiyat:</strong> {{ paket.fiyat }}
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        
+        <label>Ad Soyad</label>
+        <input type="text" name="ad_soyad" required style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px;">
+        
+        <label>Telefon</label>
+        <input type="text" name="telefon" required style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px;">
+        
+        <label>E-posta</label>
+        <input type="email" name="email" required style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px;">
+        
+        <label>Fatura Adresi</label>
+        <textarea name="adres" rows="4" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px;"></textarea>
+        
+        <button type="submit" class="btn" style="width: 100%; font-size: 1.1rem;">Ödemeye Geç →</button>
+    </form>
+</div>
+{% endblock %}

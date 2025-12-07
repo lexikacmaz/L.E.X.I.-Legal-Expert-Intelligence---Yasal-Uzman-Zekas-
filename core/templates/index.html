@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>HukukAI Asistan</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #E0E0E0;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .container {
+            width: 80%;
+            max-width: 800px;
+            text-align: center;
+        }
+        h1 { color: #4F8BF9; font-size: 3rem; margin-bottom: 0; }
+        p { color: #aaa; margin-top: 5px; }
+        
+        .chat-box {
+            background-color: #1E1E1E;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+            min-height: 200px;
+            text-align: left;
+            border: 1px solid #333;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        
+        .message { margin-bottom: 15px; padding: 10px; border-radius: 10px; }
+        .user { background-color: #2D2D2D; border-left: 4px solid #4F8BF9; color: #fff; }
+        .ai { background-color: #252525; color: #ddd; white-space: pre-wrap; }
+        
+        form { margin-top: 20px; display: flex; gap: 10px; }
+        input[type="text"] {
+            flex: 1;
+            padding: 15px;
+            border-radius: 30px;
+            border: 2px solid #4F8BF9;
+            background-color: #2D2D2D;
+            color: white;
+            font-size: 16px;
+            outline: none;
+        }
+        button {
+            padding: 15px 30px;
+            background-color: #4F8BF9;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        button:hover { background-color: #3a6ecf; }
+
+        .admin-link {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-decoration: none;
+            color: #4F8BF9;
+            border: 1px solid #4F8BF9;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .admin-link:hover { background-color: #4F8BF9; color: white; }
+    </style>
+</head>
+<body>
+
+    <a href="/admin" class="admin-link">⚙️ Yönetici Paneli</a>
+
+    <div class="container">
+        <h1>LegalAI</h1>
+        <p>Yapay Zeka Destekli Hukuk Danışmanınız</p>
+
+        <div class="chat-box">
+            {% if soru %}
+                <div class="message user"><strong>Siz:</strong> {{ soru }}</div>
+                <div class="message ai"><strong>Asistan:</strong> {{ cevap|safe }}</div>
+            {% else %}
+                <div style="color: #666; text-align: center; margin-top: 70px;">
+                    Merhabalar! Bana hukuki sorunuzu sorabilirsiniz.
+                </div>
+            {% endif %}
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="soru" placeholder="Sorunuzu buraya yazın..." required autofocus>
+            <button type="submit">Gönder</button>
+        </form>
+    </div>
+
+</body>
+</html>

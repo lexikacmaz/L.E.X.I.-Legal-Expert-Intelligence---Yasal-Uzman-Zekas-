@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Liste Yönetimi</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f4f4; padding: 40px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        h2 { text-transform: uppercase; color: #333; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        
+        .item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #eee; }
+        .item:last-child { border-bottom: none; }
+        
+        .btn-add { background: #28a745; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block; margin-bottom: 20px; font-weight: bold; }
+        .btn-delete { background: #dc3545; color: white; text-decoration: none; padding: 5px 10px; border-radius: 5px; font-size: 0.9rem; }
+        .btn-back { color: #666; text-decoration: none; display: inline-block; margin-top: 20px; }
+        
+        .badge { background: #007bff; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.8rem; margin-left: 10px; }
+        .btn-edit { 
+        background: #ffc107; 
+        color: #333; 
+        text-decoration: none; 
+        padding: 5px 10px; 
+        border-radius: 5px; 
+        font-size: 0.9rem; 
+        margin-right: 5px; 
+        font-weight: bold;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📂 {{ tip|upper }} LİSTESİ</h2>
+        
+        <a href="{% url 'panel_ekle' tip %}" class="btn-add">+ Yeni Ekle</a>
+        
+        {% for item in items %}
+        <div class="item">
+            <div>
+                <strong>
+                    {% if item.isim %}{{ item.isim }}
+                    {% elif item.madde_no %}{{ item.madde_no }}
+                    {% elif item.ad_soyad %}{{ item.ad_soyad }} {% elif item.soru %}{{ item.soru|truncatechars:50 }} {% endif %}
+                </strong>
+                
+                {% if item.durum %} <span class="badge">{{ item.durum }}</span> {% endif %}
+                {% if item.tarih %} <small style="color:#999; margin-left:10px;">{{ item.tarih|date:"d M Y H:i" }}</small> {% endif %}
+                
+                {% if item.uzmanlik %}<span class="badge">{{ item.uzmanlik }}</span>{% endif %}
+                {% if item.fiyat %}<span class="badge">{{ item.fiyat }}</span>{% endif %}
+                {% if item.konu %}<span style="color:#666; font-size:0.9rem;"> - {{ item.konu }}</span>{% endif %}
+            </div>
+            <a href="{% url 'panel_duzenle' tip item.id %}" class="btn-edit">Düzenle</a>
+            <a href="{% url 'panel_sil' tip item.id %}" class="btn-delete" onclick="return confirm('Silmek istediğine emin misin?')">Sil</a>
+        </div>
+        {% empty %}
+            <p style="color: #999; text-align: center; padding: 20px;">Listede henüz kayıt yok.</p>
+        {% endfor %}
+
+        <a href="{% url 'panel_dashboard' %}" class="btn-back">← Panele Dön</a>
+    </div>
+</body>
+</html>

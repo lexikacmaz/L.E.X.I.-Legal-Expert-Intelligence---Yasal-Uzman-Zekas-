@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    /* Sadece bu sayfaya özel stiller */
+    .asistan-container { text-align: center; padding: 50px 20px; }
+    .grid-container { 
+        display: grid; 
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+        gap: 25px; 
+        max-width: 1200px; 
+        margin: 40px auto; 
+    }
+    .kategori-card { 
+        background: white; 
+        padding: 30px; 
+        border-radius: 12px; 
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08); 
+        text-decoration: none; 
+        color: #333; 
+        transition: transform 0.3s ease, border-color 0.3s ease;
+        border: 2px solid transparent;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .kategori-card:hover { 
+        transform: translateY(-5px); 
+        border-color: #007bff; 
+    }
+    .icon-box { font-size: 2.5rem; margin-bottom: 15px; }
+    .kategori-card h3 { color: #2c3e50; margin-bottom: 10px; }
+    .kategori-card p { color: #7f8c8d; font-size: 0.9rem; }
+    .btn-basla {
+        margin-top: 15px;
+        padding: 8px 20px;
+        background-color: #e3f2fd;
+        color: #007bff;
+        border-radius: 20px;
+        font-weight: bold;
+    }
+</style>
+
+<div class="asistan-container">
+    <h1>Yapay Zeka Hukuk Asistanı</h1>
+    <p>Sorunuz hangi alanla ilgili? Size özel uzman botu seçin.</p>
+
+    <div class="grid-container">
+        {% for kat in kategoriler %}
+        <a href="{% url 'uzman_bot' kat.slug %}" class="kategori-card">
+            <div class="icon-box">{{ kat.ikon }}</div>
+            <h3>{{ kat.isim }}</h3>
+            <p>{{ kat.aciklama }}</p>
+        </a>
+        {% empty %}
+            <div style="width:100%; text-align:center;">
+                <p>Henüz kategori eklenmemiş. Lütfen Admin panelinden kategori ekleyin.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

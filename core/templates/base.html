@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ ayar.site_basligi }}</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script>
+        const fontBaslik = "{{ ayar.font_baslik }}";
+        const fontGenel = "{{ ayar.font_genel }}";
+        const fontBaslikUrl = fontBaslik.replace(/ /g, '+');
+        const fontGenelUrl = fontGenel.replace(/ /g, '+');
+        const link = document.createElement('link');
+        link.href = `https://fonts.googleapis.com/css2?family=${fontBaslikUrl}:wght@400;700&family=${fontGenelUrl}:wght@300;400;600&display=swap`;
+        link.rel = 'stylesheet';
+        document.head.appendChild(link);
+    </script>
+
+    <style>
+        /* SİTE AYARLARI */
+        :root {
+            --ana-renk: {{ ayar.renk_ana }};
+            --bg-renk: {{ ayar.renk_arkaplan }};
+            --baslik-renk: {{ ayar.renk_yazi_baslik }};
+            --yazi-renk: {{ ayar.renk_yazi_genel }};
+            --menu-bg: {{ ayar.renk_menu_bg }};
+            
+            /* YENİ EKLENEN BUTON RENGİ */
+            --btn-renk: {{ ayar.renk_buton }};
+            
+            --font-baslik: '{{ ayar.font_baslik }}', serif;
+            --font-genel: '{{ ayar.font_genel }}', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-renk);
+            color: var(--yazi-renk);
+            font-family: var(--font-genel);
+            margin: 0; padding: 0;
+        }
+
+        h1, h2, h3 { font-family: var(--font-baslik); color: var(--baslik-renk); }
+        a { text-decoration: none; color: inherit; }
+
+        /* Navbar */
+        nav {
+            background-color: var(--menu-bg);
+            padding: 10px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-links a {
+            margin: 0 15px;
+            font-weight: bold;
+            color: var(--ana-renk);
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        .nav-links a:hover { 
+            transform: scale(1.15);
+            color: var(--baslik-renk);
+            text-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* LOGO */
+        .logo a { font-size: 1.8rem; font-weight: bold; color: var(--baslik-renk); display: flex; align-items: center; text-decoration: none; }
+        .logo img { transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .logo a:hover img { transform: scale(1.1); }
+        
+        /* BUTON TASARIMI (GÜNCELLENDİ) */
+        .btn {
+            background-color: var(--btn-renk); /* Artık özel buton rengini kullanıyor */
+            color: white !important;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: bold;
+        }
+        .btn:hover { 
+            transform: scale(1.05); 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            filter: brightness(1.1); /* Üstüne gelince hafif parlasın */
+        }
+        
+        .container { max-width: 1000px; margin: 40px auto; padding: 20px; }
+        
+        /* Panel Linki */
+        .admin-link { 
+            font-size: 0.8rem; 
+            border: 1px solid var(--ana-renk); 
+            padding: 5px 10px; 
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        .admin-link:hover { background-color: var(--ana-renk); color: white; transform: translateY(-3px); }
+        .logout-btn { background: #dc3545; border-color: #dc3545; color: white; }
+        .logout-btn:hover { background: #c82333; }
+
+        /* ZORUNLU ONAY MODAL */
+        #consent-modal {
+            display: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 99999;
+            justify-content: center; align-items: center;
+            backdrop-filter: blur(8px);
+        }
+        .modal-content {
+            background: white; padding: 40px; width: 90%; max-width: 600px;
+            border-radius: 15px; text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-top: 10px solid var(--ana-renk);
+        }
+        .modal-content h2 { margin-top: 0; color: #333; }
+        .modal-btn {
+            background: var(--btn-renk);
+            color: white; padding: 15px 40px; font-size: 1.2rem;
+            border: none; border-radius: 30px; cursor: pointer; margin-top: 20px; transition: 0.3s;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="consent-modal">
+        <div class="modal-content">
+            <div style="font-size: 4rem;">⚖️</div>
+            <h2>Yasal Uyarı ve Bilgilendirme</h2>
+            <p>Hoş geldiniz. <strong>{{ ayar.site_basligi }}</strong> yapay zeka destekli bir bilgilendirme platformudur.</p>
+            <ul style="text-align: left; background: #f9f9f9; padding: 20px 40px; border-radius: 10px; font-size: 0.95rem; color: #555;">
+                <li>Burada sunulan bilgiler <strong>hukuki tavsiye niteliğinde değildir.</strong></li>
+                <li>Hukuki süreçleriniz için mutlaka bir <strong>avukata danışmalısınız.</strong></li>
+            </ul>
+            <button onclick="acceptTerms()" class="modal-btn">Okudum, Kabul Ediyorum</button>
+        </div>
+    </div>
+
+    <nav>
+        <div class="logo">
+            <a href="{% url 'home' %}" title="Ana Sayfaya Dön">
+                {% if ayar.logo %}
+                    <img src="{{ ayar.logo.url }}" style="height: 80px; object-fit: contain;"> 
+                {% else %}
+                    ⚖️ {{ ayar.site_basligi }} 
+                {% endif %}
+            </a>
+        </div>
+        
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Ana Sayfa</a>
+            <a href="{% url 'avukatlar' %}">Avukatlarımız</a>
+            <a href="{% url 'paketler' %}">Paketlerimiz</a>
+            <a href="{% url 'yasal' %}">Yasal Bilgilendirme</a>
+            <a href="{% url 'asistan_secimi' %}" style="color: #007bff;">🤖 AI Asistan</a>
+        </div>
+        
+        {% if user.is_authenticated %}
+            <div style="display: flex; gap: 10px; align-items: center;">
+                {% if user.is_superuser %}
+                    <a href="{% url 'panel_dashboard' %}" class="admin-link">⚙️ Yönetim Paneli</a>
+                {% else %}
+                    <a href="{% url 'avukat_dashboard' %}" class="admin-link">⚖️ Avukat Paneli</a>
+                {% endif %}
+                
+                <a href="{% url 'cikis_yap' %}" class="admin-link logout-btn">Çıkış Yap</a>
+            </div>
+        {% else %}
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <a href="{% url 'avukat_giris' %}" class="admin-link" style="margin-right: 10px;">⚖️ Avukat Girişi</a>
+                
+                <a href="{% url 'panel_dashboard' %}" class="admin-link" style="color: #666;">⚙️ Yönetim</a>
+            </div>
+        {% endif %}
+    </nav>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer style="background: #1a1a1a; color: #ccc; padding: 60px 0 20px; margin-top: 60px; border-top: 5px solid var(--ana-renk);">
+        <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;">
+            
+            <div>
+                <h2 style="color: white; margin-top: 0;">{{ ayar.site_basligi }}</h2>
+                <p style="font-size: 0.9rem; line-height: 1.6; opacity: 0.7;">
+                    Yapay zeka destekli hukuk asistanı ile sorularınıza anında cevap bulun, uzman avukatlarımızla iletişime geçin.
+                </p>
+            </div>
+
+            <div>
+                <h4 style="color: white; margin-bottom: 20px;">Hızlı Erişim</h4>
+                <ul style="list-style: none; padding: 0; line-height: 2;">
+                    <li><a href="{% url 'home' %}">Ana Sayfa</a></li>
+                    <li><a href="{% url 'avukatlar' %}">Avukatlarımız</a></li>
+                    <li><a href="{% url 'paketler' %}">Hizmet Paketleri</a></li>
+                    <li><a href="{% url 'yasal' %}">Yasal Bilgilendirme</a></li>
+                    <li><a href="{% url 'asistan_secimi' %}">🤖 AI Asistan</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 style="color: white; margin-bottom: 20px;">Yasal Uyarı</h4>
+                <p style="font-size: 0.8rem; line-height: 1.5; color: #888;">
+                    Bu sitede yer alan bilgiler hukuki tavsiye niteliğinde değildir. 
+                    Sadece bilgilendirme amaçlıdır. Hukuki sorunlarınızda 
+                    mutlaka bir avukata danışmalısınız. Sitemizi kullanarak 
+                    <a href="{% url 'yasal' %}" style="text-decoration: underline;">Kullanım Koşulları</a>'nı kabul etmiş sayılırsınız.
+                </p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; font-size: 0.8rem;">
+            &copy; 2024 {{ ayar.site_basligi }}. Tüm Hakları Saklıdır. | KVKK Aydınlatma Metni
+        </div>
+    </footer>
+
+    <script>
+        window.onload = function() {
+            if (!localStorage.getItem('kullanim_kosullari_onayi')) {
+                document.getElementById('consent-modal').style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        };
+        function acceptTerms() {
+            localStorage.setItem('kullanim_kosullari_onayi', 'true');
+            document.getElementById('consent-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+</body>
+</html>

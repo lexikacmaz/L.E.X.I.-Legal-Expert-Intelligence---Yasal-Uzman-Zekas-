@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="max-width: 600px; margin: 50px auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+    <h2 style="color: var(--ana-renk); text-align: center;">Randevu / Görüşme Talep Et</h2>
+    <div style="text-align: center; margin-bottom: 20px;">
+        <strong>Seçilen Avukat:</strong> {{ avukat.isim }} <br>
+        <small>{{ avukat.uzmanlik }}</small>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <label>Ad Soyad</label>
+        <input type="text" name="ad_soyad" required style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px;">
+        
+        <label>Telefon</label>
+        <input type="text" name="telefon" required style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px;">
+        
+        <label>Konuşulacak Konu / Notunuz</label>
+        <textarea name="mesaj" rows="4" placeholder="Kısaca sorununuzdan bahsedin..." style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px;"></textarea>
+        
+        <button type="submit" class="btn" style="width: 100%;">Talebi Gönder</button>
+    </form>
+</div>
+{% endblock %}
