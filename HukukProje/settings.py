@@ -3,9 +3,16 @@ Django settings for HukukProje project.
 """
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+# .env dosyasını yükle
+load_dotenv()
 
 # Projenin ana dizini
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# API Anahtarı
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 # GÜVENLİK AYARLARI
 SECRET_KEY = 'django-insecure--q$bpt%v66x-c!od&m!v3+2*+$w-5$@047ti4bw5b$bq^7sdyf'
@@ -27,18 +34,15 @@ INSTALLED_APPS = [
     'core', # Senin uygulaman
 ]
 
-# --- DÜZELTİLEN MIDDLEWARE (TEK VE DOĞRU LİSTE) ---
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware', # Session en üstlerde olmalı
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware', # Auth, Session'dan sonra gelmeli
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
-    # BİZİM GÜVENLİK GÖREVLİSİ (EN SONDA OLMALI)
-    'core.middleware.BetaAccessMiddleware',
+    'core.middleware.BetaAccessMiddleware', # Beta Engelleyici
 ]
 
 ROOT_URLCONF = 'HukukProje.urls'
@@ -46,7 +50,7 @@ ROOT_URLCONF = 'HukukProje.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'], # Eğer ana dizinde templates klasörü kullanırsan
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -107,9 +111,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # --- GİRİŞ / ÇIKIŞ YÖNLENDİRMELERİ ---
-# Eğer sistem otomatik bir yönlendirme yaparsa buraya gitsin:
-LOGIN_URL = '/beta-giris/'  # DÜZELTME: Giriş yapılmamışsa buraya atsın
-LOGIN_REDIRECT_URL = '/'    # DÜZELTME: Giriş yapınca Ana Sayfaya gitsin
-LOGOUT_REDIRECT_URL = '/'   # Çıkış yapınca Ana Sayfaya (veya girişe) gitsin
+LOGIN_URL = '/beta-giris/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

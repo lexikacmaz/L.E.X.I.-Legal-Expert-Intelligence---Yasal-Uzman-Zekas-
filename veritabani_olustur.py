@@ -2,92 +2,130 @@ import os
 import django
 import google.generativeai as genai
 import chromadb
+from dotenv import load_dotenv
+from tqdm import tqdm  # İlerleme çubuğu kütüphanesi
+import time
 
-# 1. Django Ortamını Yükle
-# DİKKAT: 'proje_adi' kısmını kendi klasör adınla değiştir (settings.py'ın olduğu klasör)
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'HukukProje.settings') 
+# 1. Ayarları Yükle
+load_dotenv()
+
+# 2. Django Kurulumu
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'HukukProje.settings')
 django.setup()
 
-from core.models import KanunMaddesi, HukukKategori
+from core.models import KanunMaddesi, HukukKategori, EmsalKarar
 
-# 2. API Ayarları (Embeddings için gerekli)
-API_KEY = "AIzaSyAiAsM8IIa0LqLlUhfbqVS3RiRE3g_M12Q" # Senin Key
-genai.configure(api_key=API_KEY)
+# 3. API Kontrolü
+API_KEY = os.getenv("GOOGLE_API_KEY")
+if not API_KEY:
+    print("❌ HATA: API Anahtarı .env dosyasında bulunamadı!")
+    exit()
 
-# 3. ChromaDB (Offline Veritabanı) Hazırla
-client = chromadb.PersistentClient(path="./chroma_db") # Bu klasöre kaydedecek
+try:
+    genai.configure(api_key=API_KEY)
+except Exception as e:
+    print(f"❌ API Hatası: {e}")
+    exit()
+
+# 4. Veritabanı Bağlantısı
+client = chromadb.PersistentClient(path="./chroma_db")
 
 def verileri_vektorlestir():
-    print("🚀 İŞLEM BAŞLIYOR: Kanunlar vektör veritabanına işleniyor...")
-    
+    print("\n" + "█"*60)
+    print("🚀  L.E.X.I - YAPAY ZEKA HAFIZASI OLUŞTURULUYOR")
+    print("█"*60 + "\n")
+
     kategoriler = HukukKategori.objects.filter(aktif_mi=True)
-    
     if not kategoriler.exists():
-        print("⚠️ HATA: Hiç aktif kategori bulunamadı! Lütfen önce Admin panelinden Kategori ve Kanun ekleyin.")
+        print("⚠️ HATA: Yüklenecek kategori bulunamadı. Önce 'python manage.py yukle_kira_full' komutunu çalıştırın.")
         return
 
+    toplam_basarili = 0
+
     for kat in kategoriler:
-        print(f"\n📂 Kategori: {kat.isim} ({kat.slug}) işleniyor...")
+        print(f"📂 KATEGORİ: {kat.isim} ({kat.slug}) Hazırlanıyor...")
         
-        # Varsa eski koleksiyonu sil, temiz kurulum yap
+        # Koleksiyonu Sıfırla
         try:
             client.delete_collection(name=kat.slug)
         except:
             pass
-            
         collection = client.create_collection(name=kat.slug)
-        
-        # O kategorideki kanunları çek
+
+        # Verileri Çek
         kanunlar = KanunMaddesi.objects.filter(kategori=kat)
-        
-        if not kanunlar.exists():
-            print(f"   ↳ Bu kategoride hiç kanun yok, geçiliyor.")
-            continue
+        emsaller = EmsalKarar.objects.all() # Gerekirse filtrele
 
         ids = []
         documents = []
         metadatas = []
-        
+
+        # Kanunları Hazırla
         for kanun in kanunlar:
-            # Yapay zekanın okuyacağı metin
-            icerik = f"KANUN: {kanun.kanun_adi}\nMADDE: {kanun.madde_no}\nİÇERİK: {kanun.icerik}"
-            
-            ids.append(str(kanun.id))
-            documents.append(icerik)
-            metadatas.append({"baslik": kanun.kanun_adi, "no": kanun.madde_no})
-            
-        # Toplu İşlem (Batch Processing)
-        print(f"   ↳ {len(documents)} madde Google'a gönderilip vektöre çevriliyor...")
+            text = f"KANUN: {kanun.kanun_adi}\nNO: {kanun.madde_no}\nİÇERİK: {kanun.icerik}"
+            ids.append(f"kanun_{kanun.id}")
+            documents.append(text)
+            metadatas.append({"tip": "kanun", "baslik": kanun.madde_no})
+
+        # Emsal Kararları Hazırla (Sadece Kira Hukuku ise hepsini ekle)
+        if kat.slug == "kira-hukuku":
+            for emsal in emsaller:
+                text = f"YARGITAY KARARI\nBAŞLIK: {emsal.baslik}\nÖZET: {emsal.ozet}"
+                ids.append(f"emsal_{emsal.id}")
+                documents.append(text)
+                metadatas.append({"tip": "emsal", "baslik": emsal.baslik})
+
+        total_items = len(documents)
+        if total_items == 0:
+            print("   ⚠️ Veri yok, geçiliyor.\n")
+            continue
+
+        print(f"   ↳ {total_items} adet veri işlenmek üzere Google'a gönderiliyor...")
         
-        # Google Embeddings kullanarak vektöre çevir
+        # --- İLERLEME ÇUBUĞU İLE YÜKLEME ---
+        batch_size = 10
         vectors = []
-        batch_size = 20 # 20'şerli paketler halinde yolla
         
-        for i in range(0, len(documents), batch_size):
-            batch = documents[i:i+batch_size]
+        # TQDM: İlerleme çubuğunu burada başlatıyoruz
+        pbar = tqdm(total=total_items, desc="   ⚡ İşleniyor", unit="veri", colour="green")
+        
+        for i in range(0, total_items, batch_size):
+            batch_docs = documents[i:i+batch_size]
             try:
+                # Google'dan Vektör Al
                 result = genai.embed_content(
                     model="models/text-embedding-004",
-                    content=batch,
+                    content=batch_docs,
                     task_type="retrieval_document"
                 )
                 vectors.extend(result['embedding'])
+                
+                # Çubuğu ilerlet
+                pbar.update(len(batch_docs))
+                
             except Exception as e:
-                print(f"   ❌ HATA (Batch {i}): {e}")
+                pbar.write(f"   ❌ HATA (Batch {i}): {e}") # Hata olursa çubuğu bozmadan yaz
+        
+        pbar.close()
 
         # ChromaDB'ye Kaydet
         if len(vectors) == len(documents):
+            print("   💾 Hafızaya kaydediliyor...", end="")
             collection.add(
                 ids=ids,
                 documents=documents,
                 embeddings=vectors,
                 metadatas=metadatas
             )
-            print(f"   ✅ {len(documents)} madde başarıyla kaydedildi!")
+            print(" ✅")
+            toplam_basarili += len(documents)
         else:
-            print("   ⚠️ Vektör sayısı uyuşmuyor, kayıt yapılamadı.")
+            print(f"\n   ⚠️ DİKKAT: Eksik veri var ({len(documents)} veri -> {len(vectors)} vektör).")
 
-    print("\n🏁 TÜM İŞLEMLER BİTTİ! Artık sisteminiz 'Offline Memory' özelliğine sahip.")
+        print("-" * 40 + "\n")
+
+    print(f"🏁 İŞLEM TAMAMLANDI! Toplam {toplam_basarili} hukuki bilgi L.E.X.I hafızasına yüklendi.")
+    print("👉 Şimdi 'python manage.py runserver' yazarak siteyi açabilirsin.")
 
 if __name__ == "__main__":
     verileri_vektorlestir()

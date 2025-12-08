@@ -9,11 +9,12 @@ from django.contrib.auth import logout, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.conf import settings 
 
 # MODELLER
 from .models import (
     SiteAyarlari, Avukat, Paket, KanunMaddesi, Siparis, 
-    SohbetGecmisi, AvukatRandevu, ReklamBanner, HukukKategori, BetaKullanici
+    SohbetGecmisi, AvukatRandevu, ReklamBanner, HukukKategori, BetaKullanici, 
 )
 
 # FORMLAR
@@ -31,7 +32,7 @@ except:
     chroma_client = None
 
 # API KEY
-API_KEY = "AIzaSyAiAsM8IIa0LqLlUhfbqVS3RiRE3g_M12Q" 
+API_KEY = settings.GOOGLE_API_KEY
 genai.configure(api_key=API_KEY)
 EMBEDDING_MODEL = "models/text-embedding-004"
 
@@ -107,12 +108,18 @@ def generate_safe_content(prompt):
             continue
     raise Exception(f"Hiçbir model çalıştırılamadı. Hata: {last_error}")
 
+# core/views.py içindeki home fonksiyonunu bununla değiştir:
+
 def home(request):
     ayar = get_settings()
     banner_sol = ReklamBanner.objects.filter(pozisyon='Sol', aktif_mi=True).order_by('?').first()
     banner_sag = ReklamBanner.objects.filter(pozisyon='Sag', aktif_mi=True).order_by('?').first()
     kategoriler = HukukKategori.objects.filter(aktif_mi=True)
-    cevap = None
+    
+    # 1. ADIM: Cevabı Session'dan (Hafızadan) Al ve SİL
+    # Sayfa yenilendiğinde bu değişken boş geleceği için cevap kutusu kaybolur.
+    cevap = request.session.pop('ai_cevap', None)
+    
     secilen_bot_slug = "genel"
     
     if 'kalan_hak' not in request.session: request.session['kalan_hak'] = 1
@@ -126,6 +133,8 @@ def home(request):
         if kalan_hak <= 0 and not request.user.is_superuser:
             return render(request, 'limit_bitti.html', {'ayar': ayar})
 
+        # --- AI İŞLEMLERİ ---
+        yeni_cevap = ""
         try:
             if secilen_bot_slug == 'genel':
                 prompt = f"""
@@ -134,13 +143,15 @@ def home(request):
                 KURALLAR: Cevabı HTML formatında (h3, ul, li) ver. Kısa ve net olsun.
                 Başlıklar: 🧐 Durum Analizi, ⚠️ Riskler, 💰 Masraflar, ✅ Yol Haritası.
                 """
-                cevap = generate_safe_content(prompt)
+                yeni_cevap = generate_safe_content(prompt)
             else:
+                # Özel Bot Mantığı
                 try:
                     collection = chroma_client.get_collection(name=secilen_bot_slug)
                 except:
-                    cevap = "<h3>⚠️ Veri Tabanı Hatası</h3><p>Veri yüklenmemiş. Genel Bot'u kullanın.</p>"
-                    return render_home(request, ayar, cevap, kategoriler, banner_sol, banner_sag, secilen_bot_slug, kalan_hak)
+                    # Hata durumunda session'a hata mesajı kaydedip dön
+                    request.session['ai_cevap'] = "<h3>⚠️ Veri Tabanı Hatası</h3><p>Veri yüklenmemiş. Genel Bot'u kullanın.</p>"
+                    return redirect('home')
 
                 try:
                     soru_vec = genai.embed_content(model=EMBEDDING_MODEL, content=soru, task_type="retrieval_query")['embedding']
@@ -158,20 +169,27 @@ def home(request):
                     SORU: "{soru}"
                     KURALLAR: HTML formatında cevapla. Uydurma.
                     """
-                    cevap = generate_safe_content(prompt)
+                    yeni_cevap = generate_safe_content(prompt)
                 else:
-                    cevap = f"<h3>🚫 Sonuç Bulunamadı</h3><p>Veritabanında bilgi yok.</p>"
+                    yeni_cevap = f"<h3>🚫 Sonuç Bulunamadı</h3><p>Veritabanında bilgi yok.</p>"
 
-            cevap = cevap.replace('```html', '').replace('```', '')
-            SohbetGecmisi.objects.create(soru=soru, cevap=cevap)
+            # Cevap temizliği ve kaydı
+            yeni_cevap = yeni_cevap.replace('```html', '').replace('```', '')
+            SohbetGecmisi.objects.create(soru=soru, cevap=yeni_cevap)
             
             if not request.user.is_superuser:
                 request.session['kalan_hak'] -= 1
                 request.session.modified = True
-                kalan_hak = request.session['kalan_hak']
+            
+            # 2. ADIM: Cevabı Session'a Kaydet ve Yönlendir
+            # Bu sayede sayfa "POST" modunda kalmaz, "GET" moduna geçer.
+            request.session['ai_cevap'] = yeni_cevap
+            return redirect('home') 
 
         except Exception as e:
-            cevap = f"<p class='error'>Hata: {str(e)}</p>"
+            # Hata durumunda da yönlendir
+            request.session['ai_cevap'] = f"<p class='error'>Hata: {str(e)}</p>"
+            return redirect('home')
 
     return render_home(request, ayar, cevap, kategoriler, banner_sol, banner_sag, secilen_bot_slug, kalan_hak)
 
