@@ -207,11 +207,13 @@ class SistemBildirimi(models.Model):
     
     # core/models.py en altına ekle:
 
+# core/models.py içinde BetaKullanici modelini bul ve güncelle:
 class BetaKullanici(models.Model):
-    kullanici_adi = models.CharField(max_length=50, unique=True)
-    sifre = models.CharField(max_length=50) # Basit beta olduğu için şifreli tutmuyoruz, direkt görüp yönet diye.
-    aktif_mi = models.BooleanField(default=True)
-    notlar = models.TextField(blank=True, help_text="Bu hesabı kime verdin?")
+    kullanici_adi = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    sifre = models.CharField(max_length=100)
+    onaylandi = models.BooleanField(default=False) # Yeni eklediğimiz alan (Varsayılan: Onaysız)
+    olusturulma_tarihi = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.kullanici_adi
+        return self.email

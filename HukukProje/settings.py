@@ -8,13 +8,11 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # GÜVENLİK AYARLARI
-# Canlıya alırken (Deploy) bu anahtarı gizli tutmalısın.
 SECRET_KEY = 'django-insecure--q$bpt%v66x-c!od&m!v3+2*+$w-5$@047ti4bw5b$bq^7sdyf'
 
-# Geliştirme aşamasında True, sunucuya atınca False olacak.
+# Geliştirme aşamasında True
 DEBUG = True
 
-# Her yerden erişim için '*' yaptık (VDS ve Localhost için gerekli)
 ALLOWED_HOSTS = ['*']
 
 
@@ -29,14 +27,18 @@ INSTALLED_APPS = [
     'core', # Senin uygulaman
 ]
 
+# --- DÜZELTİLEN MIDDLEWARE (TEK VE DOĞRU LİSTE) ---
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware', # Session en üstlerde olmalı
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware', # Auth, Session'dan sonra gelmeli
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+    # BİZİM GÜVENLİK GÖREVLİSİ (EN SONDA OLMALI)
+    'core.middleware.BetaAccessMiddleware',
 ]
 
 ROOT_URLCONF = 'HukukProje.urls'
@@ -44,10 +46,11 @@ ROOT_URLCONF = 'HukukProje.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [], # Eğer templates klasörün ana dizindeyse buraya eklenir
+        'DIRS': [BASE_DIR / 'templates'], # Eğer ana dizinde templates klasörü kullanırsan
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -85,50 +88,28 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# DİL VE SAAT AYARLARI (Türkiye İçin Ayarlandı)
-LANGUAGE_CODE = 'tr'  # Türkçe
-
-TIME_ZONE = 'Europe/Istanbul' # Türkiye Saati
-
+# DİL VE SAAT AYARLARI
+LANGUAGE_CODE = 'tr'
+TIME_ZONE = 'Europe/Istanbul'
 USE_I18N = True
-
 USE_TZ = True
 
 
-# --- STATİK DOSYALAR (CSS, JavaScript, Images) ---
+# --- STATİK DOSYALAR ---
 STATIC_URL = 'static/'
-
-# Proje içindeki static klasörü (Varsa)
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
-
-# Sunucuda (VDS) dosyaların toplanacağı yer
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
-# --- MEDYA AYARLARI (Yüklenen Resimler İçin) ---
-# Tarayıcıdan erişim adresi
+# --- MEDYA AYARLARI ---
 MEDIA_URL = '/media/'
-
-# Dosyaların bilgisayarda kaydedileceği klasör
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # --- GİRİŞ / ÇIKIŞ YÖNLENDİRMELERİ ---
-# Giriş yapan kullanıcı nereye gitsin?
-LOGIN_REDIRECT_URL = 'avukat_dashboard' 
+# Eğer sistem otomatik bir yönlendirme yaparsa buraya gitsin:
+LOGIN_URL = '/beta-giris/'  # DÜZELTME: Giriş yapılmamışsa buraya atsın
+LOGIN_REDIRECT_URL = '/'    # DÜZELTME: Giriş yapınca Ana Sayfaya gitsin
+LOGOUT_REDIRECT_URL = '/'   # Çıkış yapınca Ana Sayfaya (veya girişe) gitsin
 
-# Çıkış yapan kullanıcı nereye gitsin?
-LOGOUT_REDIRECT_URL = 'home'
-
-# Varsayılan Otomatik Alan Tipi (Uyarı vermemesi için)
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-MIDDLEWARE = [
-    # ... diğerleri ...
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
-    # EN ALTA BUNU EKLE:
-    'core.middleware.BetaAccessMiddleware', 
-]

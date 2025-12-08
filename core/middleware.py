@@ -1,6 +1,3 @@
-
-# core/middleware.py (Dosya yoksa oluştur)
-
 from django.shortcuts import redirect
 from django.urls import reverse
 
@@ -9,17 +6,31 @@ class BetaAccessMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        # 1. Eğer kullanıcı zaten Beta izni aldıysa geçsin
-        if request.session.get('beta_erisim_izni'):
+        # 1. Herkesin girebileceği serbest yollar (Giriş, Kayıt, Admin, Dosyalar)
+        allowed_paths = [
+            reverse('beta_giris'),   # /beta-giris/
+            reverse('beta_basvuru'), # /beta-basvuru/
+            '/admin/',               # Admin paneli
+            '/static/',              # CSS/JS dosyaları
+            '/media/',               # Resimler
+            '/avukat-giris/',        # Avukat girişi
+        ]
+
+        # Eğer gidilen yol, izin verilenlerden biriyse KONTROL ETME, GEÇİR.
+        if any(request.path.startswith(path) for path in allowed_paths):
             return self.get_response(request)
 
-        # 2. Eğer gidilen yer zaten "Beta Giriş Sayfası" ise geçsin (Döngüye girmesin)
-        if request.path == reverse('beta_giris'):
-            return self.get_response(request)
-            
-        # 3. Admin paneline ve statik dosyalara izin ver (Yoksa kilitli kalırsın)
-        if request.path.startswith('/admin/') or request.path.startswith('/static/') or request.path.startswith('/media/'):
-            return self.get_response(request)
+        # 2. KONTROL NOKTASI: İçeri girmek istiyor. Kimliği var mı?
+        
+        # A) Yönetici mi? (Admin hesabıyla girenler)
+        is_admin = request.user.is_authenticated and request.user.is_superuser
+        
+        # B) Beta Kullanıcısı mı? (Session'da ID var mı?)
+        is_beta_user = 'beta_kullanici_id' in request.session
 
-        # 4. Yukarıdakiler değilse, HOP HEMŞERİM NEREYE? -> Giriş sayfasına at
-        return redirect('beta_giris')
+        # Eğer ne Yönetici ne de Beta kullanıcısı ise -> GİRİŞE AT
+        if not (is_admin or is_beta_user):
+            return redirect('beta_giris')
+
+        # Kimliği varsa -> DEVAM ET
+        return self.get_response(request)

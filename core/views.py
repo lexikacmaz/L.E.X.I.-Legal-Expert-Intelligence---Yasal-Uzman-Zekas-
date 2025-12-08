@@ -2,21 +2,25 @@ import time
 import chromadb
 import numpy as np
 import google.generativeai as genai
+import os
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 
-# MODELLER VE FORMLAR
+# MODELLER
 from .models import (
     SiteAyarlari, Avukat, Paket, KanunMaddesi, Siparis, 
     SohbetGecmisi, AvukatRandevu, ReklamBanner, HukukKategori, BetaKullanici
 )
+
+# FORMLAR
 from .forms import (
     AyarForm, AvukatForm, PaketForm, KanunForm, SiparisForm, 
     RandevuForm, SohbetForm, RandevuAdminForm, AvukatProfilForm, 
-    RandevuDurumForm, ReklamForm, BetaGirisForm, BetaKullaniciForm
+    RandevuDurumForm, ReklamForm, BetaGirisForm, BetaKullaniciForm, BetaBasvuruForm
 )
 
 # --- GLOBAL AYARLAR ---
@@ -26,7 +30,8 @@ try:
 except:
     chroma_client = None
 
-API_KEY = "AIzaSyAiAsM8IIa0LqLlUhfbqVS3RiRE3g_M12Q"
+# API KEY
+API_KEY = "AIzaSyAiAsM8IIa0LqLlUhfbqVS3RiRE3g_M12Q" 
 genai.configure(api_key=API_KEY)
 EMBEDDING_MODEL = "models/text-embedding-004"
 
@@ -34,37 +39,63 @@ def get_settings():
     ayar, created = SiteAyarlari.objects.get_or_create(id=1)
     return ayar
 
-# --- BETA GİRİŞ EKRANI ---
-def beta_giris_yap(request):
-    if request.session.get('beta_erisim_izni'):
-        return redirect('home')
-        
-    hata = None
+# ==========================================
+# --- BETA SİSTEMİ (BAŞVURU VE GİRİŞ) ---
+# ==========================================
+
+def beta_basvuru(request):
+    """Kullanıcıların başvuru yapmasını sağlar."""
     if request.method == 'POST':
-        form = BetaGirisForm(request.POST)
+        form = BetaBasvuruForm(request.POST)
         if form.is_valid():
-            kadi = form.cleaned_data['kullanici_adi']
-            sifre = form.cleaned_data['sifre']
-            user = BetaKullanici.objects.filter(kullanici_adi=kadi, sifre=sifre, aktif_mi=True).first()
-            
-            if user:
-                request.session['beta_erisim_izni'] = True
-                return redirect('home')
-            else:
-                hata = "Hatalı kullanıcı adı veya şifre!"
+            # Kaydı oluştur ama ONAYLAMA (Admin onaylayacak)
+            yeni_kullanici = form.save(commit=False)
+            yeni_kullanici.onaylandi = False 
+            yeni_kullanici.save()
+            messages.success(request, 'Başvurunuz alındı! Yönetici onayladığında giriş yapabileceksiniz.')
+            return redirect('beta_giris')
     else:
-        form = BetaGirisForm()
+        form = BetaBasvuruForm()
+    
+    return render(request, 'beta_basvuru.html', {'form': form})
 
-    return render(request, 'beta_login.html', {'form': form, 'hata': hata})
+def beta_giris_yap(request):
+    """Hem Yönetici (Superuser) hem de Beta Kullanıcıları buradan girebilir."""
+    if request.method == 'POST':
+        kadi = request.POST.get('kullanici_adi')
+        sifre = request.POST.get('sifre')
 
-# --- GÜVENLİ MODEL SEÇİCİ ---
+        # 1. ÖNCE: Yönetici (Superuser) mi?
+        admin_user = authenticate(request, username=kadi, password=sifre)
+        
+        if admin_user is not None:
+            if admin_user.is_superuser:
+                login(request, admin_user)
+                messages.success(request, f'Yönetici girişi başarılı. Hoşgeldin {kadi} 👑')
+                # DÜZELTME BURADA: 'home' yerine '/' yazdık
+                return redirect('/') 
+
+        # 2. SONRA: Beta Kullanıcısı mı?
+        beta_user = BetaKullanici.objects.filter(kullanici_adi=kadi, sifre=sifre).first()
+
+        if beta_user:
+            if beta_user.onaylandi:
+                request.session['beta_kullanici_id'] = beta_user.id
+                messages.success(request, f'Giriş başarılı. Hoşgeldin {beta_user.kullanici_adi}')
+                # DÜZELTME BURADA: 'home' yerine '/' yazdık
+                return redirect('/')
+            else:
+                messages.error(request, 'Hesabınız henüz onaylanmadı. Lütfen bekleyiniz.')
+        else:
+            messages.error(request, 'Kullanıcı adı veya şifre hatalı!')
+
+    return render(request, 'beta_giris.html')
+# ==========================================
+# --- AI VE ANASAYFA ---
+# ==========================================
+
 def generate_safe_content(prompt):
-    model_listesi = [
-        "gemini-flash-latest",
-        "gemini-1.5-flash",
-        "gemini-1.5-pro",
-        "gemini-pro"
-    ]
+    model_listesi = ["gemini-flash-latest", "gemini-1.5-flash", "gemini-1.5-pro", "gemini-pro"]
     last_error = None
     for model_name in model_listesi:
         try:
@@ -76,7 +107,6 @@ def generate_safe_content(prompt):
             continue
     raise Exception(f"Hiçbir model çalıştırılamadı. Hata: {last_error}")
 
-# --- ANA SAYFA ---
 def home(request):
     ayar = get_settings()
     banner_sol = ReklamBanner.objects.filter(pozisyon='Sol', aktif_mi=True).order_by('?').first()
@@ -118,11 +148,9 @@ def home(request):
                     soru_vec = genai.embed_content(model="models/embedding-001", content=soru, task_type="retrieval_query")['embedding']
 
                 results = collection.query(query_embeddings=[soru_vec], n_results=3)
-                bulunan_metinler = results['documents'][0]
                 
-                if not bulunan_metinler:
-                    cevap = f"<h3>🚫 Sonuç Bulunamadı</h3><p>Veritabanında bilgi yok.</p>"
-                else:
+                if 'documents' in results and results['documents'] and results['documents'][0]:
+                    bulunan_metinler = results['documents'][0]
                     context_text = "\n\n".join(bulunan_metinler)
                     prompt = f"""
                     GÖREVİN: Sadece aşağıdaki verileri kullanan hukuk uzmanısın.
@@ -131,6 +159,8 @@ def home(request):
                     KURALLAR: HTML formatında cevapla. Uydurma.
                     """
                     cevap = generate_safe_content(prompt)
+                else:
+                    cevap = f"<h3>🚫 Sonuç Bulunamadı</h3><p>Veritabanında bilgi yok.</p>"
 
             cevap = cevap.replace('```html', '').replace('```', '')
             SohbetGecmisi.objects.create(soru=soru, cevap=cevap)
@@ -152,7 +182,66 @@ def render_home(request, ayar, cevap, kategoriler, b_sol, b_sag, bot, hak):
         'secilen_bot': bot, 'kalan_hak': hak,
     })
 
-# --- YÖNETİM PANELİ İŞLEMLERİ (DÜZELTİLEN KISIM) ---
+# ==========================================
+# --- DİĞER SAYFALAR (AVUKATLAR, PAKETLER) ---
+# ==========================================
+
+def avukatlar(request):
+    ayar = get_settings()
+    liste = Avukat.objects.all()
+    return render(request, 'avukatlar.html', {'ayar': ayar, 'avukatlar': liste})
+
+def paketler(request):
+    ayar = get_settings()
+    liste = Paket.objects.all()
+    return render(request, 'paketler.html', {'ayar': ayar, 'paketler': liste})
+
+def yasal(request):
+    ayar = get_settings()
+    return render(request, 'legal.html', {'ayar': ayar})
+
+def satin_al(request, paket_id):
+    ayar = get_settings()
+    secilen_paket = get_object_or_404(Paket, id=paket_id)
+    if request.method == "POST":
+        form = SiparisForm(request.POST)
+        if form.is_valid():
+            siparis = form.save(commit=False)
+            siparis.paket = secilen_paket
+            siparis.save()
+            return redirect('odeme_sayfasi', siparis_id=siparis.id)
+    else: form = SiparisForm()
+    return render(request, 'satin_al.html', {'form': form, 'paket': secilen_paket, 'ayar': ayar})
+
+def odeme_sayfasi(request, siparis_id):
+    ayar = get_settings()
+    siparis = get_object_or_404(Siparis, id=siparis_id)
+    if request.method == "POST":
+        siparis.odendi_mi = True
+        siparis.save()
+        return redirect('siparis_basarili')
+    return render(request, 'odeme.html', {'siparis': siparis, 'ayar': ayar})
+
+def siparis_basarili(request):
+    ayar = get_settings()
+    return render(request, 'basarili.html', {'ayar': ayar})
+
+def randevu_al(request, avukat_id):
+    ayar = get_settings()
+    secilen_avukat = get_object_or_404(Avukat, id=avukat_id)
+    if request.method == "POST":
+        form = RandevuForm(request.POST)
+        if form.is_valid():
+            randevu = form.save(commit=False)
+            randevu.avukat = secilen_avukat
+            randevu.save()
+            return render(request, 'basarili.html', {'ayar': ayar, 'mesaj': 'Talebiniz iletildi.'})
+    else: form = RandevuForm()
+    return render(request, 'randevu.html', {'form': form, 'avukat': secilen_avukat, 'ayar': ayar})
+
+# ==========================================
+# --- YÖNETİM PANELİ ---
+# ==========================================
 
 @login_required(login_url='/admin/login/') 
 def panel_dashboard(request):
@@ -170,18 +259,12 @@ def panel_ayarlar(request):
 
 @login_required
 def panel_icerik(request, tip):
-    # Sözlüğü açık ve temiz yazdık
     models_map = {
-        'avukat': Avukat,
-        'paket': Paket,
-        'kanun': KanunMaddesi,
-        'reklam': ReklamBanner,
-        'siparis': Siparis,
-        'sohbet': SohbetGecmisi,
-        'randevu': AvukatRandevu,
-        'beta': BetaKullanici  # YENİ EKLENDİ
+        'avukat': Avukat, 'paket': Paket, 'kanun': KanunMaddesi, 
+        'reklam': ReklamBanner, 'siparis': Siparis, 
+        'sohbet': SohbetGecmisi, 'randevu': AvukatRandevu,
+        'beta': BetaKullanici
     }
-    
     Model = models_map.get(tip)
     items = Model.objects.all().order_by('-id') if Model else []
     return render(request, 'panel/liste.html', {'items': items, 'tip': tip})
@@ -189,13 +272,10 @@ def panel_icerik(request, tip):
 @login_required
 def panel_ekle(request, tip):
     forms_map = {
-        'avukat': AvukatForm,
-        'paket': PaketForm,
-        'reklam': ReklamForm,
-        'kanun': KanunForm,
-        'beta': BetaKullaniciForm # YENİ EKLENDİ
+        'avukat': AvukatForm, 'paket': PaketForm, 
+        'reklam': ReklamForm, 'kanun': KanunForm,
+        'beta': BetaKullaniciForm
     }
-    
     FormClass = forms_map.get(tip)
     if request.method == "POST":
         form = FormClass(request.POST, request.FILES)
@@ -206,21 +286,15 @@ def panel_ekle(request, tip):
 @login_required
 def panel_duzenle(request, tip, id):
     config = {
-        'avukat': (Avukat, AvukatForm),
-        'paket': (Paket, PaketForm),
-        'kanun': (KanunMaddesi, KanunForm),
-        'reklam': (ReklamBanner, ReklamForm),
-        'siparis': (Siparis, SiparisForm),
-        'sohbet': (SohbetGecmisi, SohbetForm),
+        'avukat': (Avukat, AvukatForm), 'paket': (Paket, PaketForm),
+        'kanun': (KanunMaddesi, KanunForm), 'reklam': (ReklamBanner, ReklamForm),
+        'siparis': (Siparis, SiparisForm), 'sohbet': (SohbetGecmisi, SohbetForm),
         'randevu': (AvukatRandevu, RandevuAdminForm),
-        'beta': (BetaKullanici, BetaKullaniciForm) # YENİ EKLENDİ
+        'beta': (BetaKullanici, BetaKullaniciForm)
     }
-    
     if tip not in config: return redirect('panel_dashboard')
-    
     Model, FormClass = config[tip]
     kayit = get_object_or_404(Model, id=id)
-    
     if request.method == "POST":
         form = FormClass(request.POST, request.FILES, instance=kayit)
         if form.is_valid(): form.save(); return redirect('panel_icerik', tip=tip)
@@ -229,25 +303,22 @@ def panel_duzenle(request, tip, id):
 
 @login_required
 def panel_sil(request, tip, id):
-    models_map = {
-        'avukat': Avukat,
-        'paket': Paket,
-        'reklam': ReklamBanner,
-        'kanun': KanunMaddesi,
-        'beta': BetaKullanici # YENİ EKLENDİ
-    }
+    models_map = {'avukat': Avukat, 'paket': Paket, 'reklam': ReklamBanner, 'kanun': KanunMaddesi, 'beta': BetaKullanici}
     Model = models_map.get(tip)
     if Model: get_object_or_404(Model, id=id).delete()
     return redirect('panel_icerik', tip=tip)
 
-# --- DİĞERLERİ ---
+# ==========================================
+# --- AVUKAT SİSTEMİ ---
+# ==========================================
+
 def avukat_giris_yap(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
             if user.is_superuser:
-                messages.error(request, "⚠️ Yönetici buradan giremez.")
+                messages.error(request, "⚠️ HATA: Yönetici buradan giremez.")
                 return render(request, 'registration/login.html', {'form': form})
             login(request, user)
             return redirect('avukat_dashboard')
@@ -255,8 +326,35 @@ def avukat_giris_yap(request):
     return render(request, 'registration/login.html', {'form': form})
 
 def cikis_yap(request): logout(request); return redirect('home')
-def avukat_dashboard(request): return render(request, 'avukat_panel/dashboard.html') # Özetledim
-def avukat_profil_duzenle(request): pass # Özetledim
-def avukat_randevu_islem(request, id): pass # Özetledim
+
+@login_required
+def avukat_dashboard(request):
+    if not hasattr(request.user, 'avukat'):
+        if request.user.is_superuser: return redirect('panel_dashboard')
+        return render(request, 'hata.html', {'mesaj': 'Yetkisiz giriş.'})
+    avukat = request.user.avukat
+    tum = AvukatRandevu.objects.filter(avukat=avukat)
+    istatistik = {'toplam': tum.count(), 'bekleyen': tum.filter(durum='Bekliyor').count(), 'tamamlanan': tum.filter(durum='Tamamlandı').count(), 'iptal': tum.filter(durum='İptal').count()}
+    return render(request, 'avukat_panel/dashboard.html', {'avukat': avukat, 'bekleyenler': tum.filter(durum='Bekliyor').order_by('-tarih'), 'gecmis': tum.exclude(durum='Bekliyor').order_by('-tarih'), 'istatistik': istatistik})
+
+@login_required
+def avukat_profil_duzenle(request):
+    avukat = request.user.avukat
+    if request.method == "POST":
+        form = AvukatProfilForm(request.POST, request.FILES, instance=avukat)
+        if form.is_valid(): form.save(); return redirect('avukat_dashboard')
+    else: form = AvukatProfilForm(instance=avukat)
+    return render(request, 'panel/form.html', {'form': form, 'title': 'Profilimi Düzenle'})
+
+@login_required
+def avukat_randevu_islem(request, id):
+    randevu = get_object_or_404(AvukatRandevu, id=id, avukat=request.user.avukat)
+    if request.method == "POST":
+        form = RandevuDurumForm(request.POST, instance=randevu)
+        if form.is_valid(): form.save(); return redirect('avukat_dashboard')
+    else: form = RandevuDurumForm(instance=randevu)
+    return render(request, 'panel/form.html', {'form': form, 'title': 'Randevu Durumu Güncelle'})
+
+# URL yönlendirmeleri
 def kategori_listesi(request): return redirect('home')
 def uzman_bot_chat(request, slug): return redirect('home')

@@ -3,6 +3,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from core import views
+from core.views import beta_basvuru
 
 urlpatterns = [
     # --- ANA SAYFA ---
@@ -39,6 +40,8 @@ urlpatterns = [
     path('siparis-basarili/', views.siparis_basarili, name='siparis_basarili'),
     path('randevu-al/<int:avukat_id>/', views.randevu_al, name='randevu_al'),
     path('beta-giris/', views.beta_giris_yap, name='beta_giris'),
+    path('beta-basvuru/', beta_basvuru, name='beta_basvuru'),
+
 
 ]
 

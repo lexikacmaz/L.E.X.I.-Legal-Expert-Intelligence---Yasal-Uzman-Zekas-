@@ -1,7 +1,8 @@
 from django.contrib import admin
+from .models import BetaKullanici
 from .models import (
     SiteAyarlari, Avukat, Paket, KanunMaddesi, Siparis, 
-    SohbetGecmisi, AvukatRandevu, ReklamBanner, HukukKategori, EmsalKarar
+    SohbetGecmisi, AvukatRandevu, ReklamBanner, HukukKategori, EmsalKarar , BetaKullanici ,
 )
 
 # --- SİTE AYARLARI ---
@@ -65,3 +66,12 @@ class SohbetAdmin(admin.ModelAdmin):
 class RandevuAdmin(admin.ModelAdmin):
     list_display = ('ad_soyad', 'avukat', 'tarih', 'durum')
     list_filter = ('durum', 'avukat')
+    
+class BetaKullaniciAdmin(admin.ModelAdmin):
+    list_display = ('kullanici_adi', 'email', 'onaylandi', 'olusturulma_tarihi') # Listede neler görünsün
+    list_filter = ('onaylandi',) # Onaylı/Onaysız diye filtreleme çubuğu ekler
+    list_editable = ('onaylandi',) # İçeri girmeden direkt listeden tik atıp onaylamanı sağlar
+    search_fields = ('kullanici_adi', 'email')
+
+admin.site.register(BetaKullanici, BetaKullaniciAdmin)
+

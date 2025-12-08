@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beta Başvuru • Hukuk AI</title>
+    <style>
+        :root {
+            --apple-bg: #000000;
+            --apple-card: #1c1c1e;
+            --apple-text: #f5f5f7;
+            --apple-blue: #2997ff;
+            --apple-gray: #86868b;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--apple-bg); /* Koyu mod Apple stili */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: var(--apple-text);
+        }
+        .container {
+            background: var(--apple-card);
+            padding: 50px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.05);
+        }
+        h2 { font-size: 32px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.5px; }
+        p.desc { color: var(--apple-gray); font-size: 17px; line-height: 1.4; margin-bottom: 35px; }
+        
+        /* Django Form Alanlarını Apple Stiline Çevirme */
+        input {
+            width: 100%;
+            padding: 18px;
+            margin-bottom: 16px;
+            border: 1px solid #3a3a3c;
+            border-radius: 14px;
+            font-size: 17px;
+            background: #2c2c2e;
+            color: white;
+            box-sizing: border-box;
+            transition: all 0.2s;
+        }
+        input:focus {
+            outline: none;
+            border-color: var(--apple-blue);
+            background: #3a3a3c;
+        }
+        input::placeholder { color: #6e6e73; }
+
+        button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(180deg, #2997ff 0%, #0077ed 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: filter 0.2s;
+        }
+        button:hover { filter: brightness(1.1); }
+        
+        .back-link {
+            margin-top: 30px;
+            display: inline-block;
+            font-size: 15px;
+            color: var(--apple-gray);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: white; }
+
+        .alert {
+            background: rgba(255, 69, 58, 0.1);
+            color: #ff453a;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Aramıza Katılın</h2>
+    <p class="desc">Erken erişim programına başvurarak Hukuk AI özelliklerini ilk deneyimleyenlerden olun.</p>
+
+    {% if form.errors %}
+        <div class="alert">
+            Lütfen bilgileri kontrol edin. Kullanıcı adı veya e-posta daha önce alınmış olabilir.
+        </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="kullanici_adi" required placeholder="Kullanıcı Adı Belirleyin">
+        <input type="email" name="email" required placeholder="E-posta Adresiniz">
+        <input type="password" name="sifre" required placeholder="Güçlü Bir Şifre Oluşturun">
+        
+        <button type="submit">Başvuruyu Tamamla</button>
+    </form>
+
+    <a href="{% url 'beta_giris' %}" class="back-link">Zaten hesabınız var mı? Giriş Yap</a>
+</div>
+
+</body>
+</html>
