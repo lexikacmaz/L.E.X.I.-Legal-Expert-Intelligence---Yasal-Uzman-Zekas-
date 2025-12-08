@@ -204,3 +204,14 @@ class SistemBildirimi(models.Model):
 
     def __str__(self):
         return self.baslik
+    
+    # core/models.py en altına ekle:
+
+class BetaKullanici(models.Model):
+    kullanici_adi = models.CharField(max_length=50, unique=True)
+    sifre = models.CharField(max_length=50) # Basit beta olduğu için şifreli tutmuyoruz, direkt görüp yönet diye.
+    aktif_mi = models.BooleanField(default=True)
+    notlar = models.TextField(blank=True, help_text="Bu hesabı kime verdin?")
+
+    def __str__(self):
+        return self.kullanici_adi

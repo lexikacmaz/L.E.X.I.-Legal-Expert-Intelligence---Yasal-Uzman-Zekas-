@@ -38,6 +38,8 @@ urlpatterns = [
     path('odeme/<int:siparis_id>/', views.odeme_sayfasi, name='odeme_sayfasi'),
     path('siparis-basarili/', views.siparis_basarili, name='siparis_basarili'),
     path('randevu-al/<int:avukat_id>/', views.randevu_al, name='randevu_al'),
+    path('beta-giris/', views.beta_giris_yap, name='beta_giris'),
+
 ]
 
 # --- MEDYA DOSYALARI İÇİN SİHİRLİ KOD ---

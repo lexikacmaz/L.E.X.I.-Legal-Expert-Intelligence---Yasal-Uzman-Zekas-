@@ -124,3 +124,11 @@ LOGOUT_REDIRECT_URL = 'home'
 
 # Varsayılan Otomatik Alan Tipi (Uyarı vermemesi için)
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MIDDLEWARE = [
+    # ... diğerleri ...
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+    # EN ALTA BUNU EKLE:
+    'core.middleware.BetaAccessMiddleware', 
+]
