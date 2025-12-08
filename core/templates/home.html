@@ -1,199 +1,322 @@
 {% extends 'base.html' %}
-{% block content %}
+{% load static %}
+
+{% block extra_css %}
 <style>
-    /* 1. YÜKLENİYOR EKRANI */
-    #loading-overlay {
-        display: none; 
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(255, 255, 255, 0.9); z-index: 99999;
-        justify-content: center; align-items: center; flex-direction: column;
-    }
-    .spinner {
-        width: 50px; height: 50px;
-        border: 5px solid #ccc; border-top: 5px solid var(--ana-renk);
-        border-radius: 50%; animation: spin 1s linear infinite;
-    }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-    /* 2. ANA DÜZEN */
-    .main-layout {
-        display: flex;
-        justify-content: center; /* Ortala */
-        align-items: flex-start;
-        max-width: 1400px;
-        margin: 20px auto;
-        gap: 20px;
-        position: relative;
-    }
-
-    /* 3. YAN SÜTUNLAR (REKLAM) - Z-INDEX DÜZELTMESİ */
-    .side-col {
-        width: 220px;
-        flex-shrink: 0;
-        position: sticky;
-        top: 20px;
-        text-align: center;
-        z-index: 50; /* ÖNEMLİ: Chat kutusu üstüne binmesin diye yükselttik */
-    }
+    /* --- ANA YAPILANDIRMA --- */
+    .container { display: grid; grid-template-columns: 1fr 680px 1fr; gap: 20px; max-width: 1400px; margin: 0 auto; width: 100%; padding-top: 40px; flex: 1; }
+    .main-content { display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 40px; }
     
-    .banner-box {
-        border-radius: 8px;
-        overflow: hidden;
-        transition: transform 0.3s;
-        /* Boşsa border olmasın, doluysa olsun */
-    }
-    .banner-box:hover { transform: scale(1.02); }
-    
-    /* Linkin resmi tam sarması için */
-    .banner-link {
-        display: block;
-        width: 100%;
-        height: 100%;
+    .ad-column { display: flex; flex-direction: column; align-items: center; }
+    .ad-banner { 
+        width: 160px; 
+        height: 600px; 
+        background-color: var(--bg-ad); 
+        border-radius: 8px; 
+        position: sticky; 
+        top: 90px; 
+        display: block; /* Link olduğu için block yapıyoruz */
         text-decoration: none;
+        box-shadow: var(--shadow-soft);
+        overflow: hidden; /* Resim taşarsa gizle */
+        transition: transform 0.3s ease;
+    }
+    .ad-banner:hover {
+        transform: scale(1.02); /* Üzerine gelince hafif büyüsün */
+    }
+
+    h1 { font-size: 48px; font-weight: 800; letter-spacing: -1px; margin-bottom: 10px; color: var(--text-main); line-height: 1.1; }
+    .highlight { background: linear-gradient(45deg, var(--accent-blue), #00c6ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .subtitle { font-size: 18px; color: var(--text-secondary); margin-bottom: 30px; max-width: 500px; font-weight: 400; }
+
+    /* --- LOADING OVERLAY --- */
+    #loading-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background-color: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+        z-index: 99999; display: none; flex-direction: column; justify-content: center; align-items: center;
+        opacity: 0; transition: opacity 0.3s ease;
+    }
+    [data-theme="dark"] #loading-overlay { background-color: rgba(0, 0, 0, 0.9); }
+
+    .spinner { width: 60px; height: 60px; border: 4px solid var(--border-color); border-top: 4px solid var(--accent-blue); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .loading-text { font-size: 18px; font-weight: 600; color: var(--text-main); animation: pulse 1.5s infinite ease-in-out; }
+    @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+
+    /* --- CEVAP KUTUSU --- */
+    .response-wrapper { width: 100%; max-width: 750px; margin-bottom: 30px; animation: slideDown 0.5s ease; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+    .audio-control-bar {
+        display: flex; justify-content: space-between; align-items: center;
+        background: var(--bg-tag); padding: 10px 20px;
+        border-top-left-radius: 20px; border-top-right-radius: 20px;
+        border: 1px solid var(--border-color); border-bottom: none;
     }
     
-    .banner-img { width: 100%; height: auto; display: block; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-
-    /* SADECE ADMIN GÖRSÜN DİYE OLAN KUTU */
-    .admin-placeholder {
-        height: 400px; 
-        background: repeating-linear-gradient(45deg, #eee, #eee 10px, #f5f5f5 10px, #f5f5f5 20px);
-        border: 2px dashed #ccc; 
-        display: flex; 
-        align-items: center; 
-        justify-content: center; 
-        color: #888; 
-        border-radius: 10px;
-        font-size: 0.9rem;
-        flex-direction: column;
+    .response-area {
+        text-align: left; background: var(--bg-card); padding: 30px; 
+        border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; 
+        border: 1px solid var(--border-color); box-shadow: var(--shadow-focus); 
+        font-size: 16px; line-height: 1.6; color: var(--text-main);
     }
 
-    /* 4. ORTA SÜTUN (CHAT) */
-    .center-col {
-        flex-grow: 1; 
-        max-width: 800px; 
-        min-width: 300px; /* Çok küçülmesin */
-        margin: 0 auto;
-        z-index: 1; /* Reklamların altında kalsın */
-    }
+    /* SESLİ OKUMA BUTONLARI */
+    .audio-btn { background: var(--accent-blue); color: white; border: none; padding: 6px 15px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 5px; transition: 0.2s; }
+    .audio-btn:hover { opacity: 0.9; transform: scale(1.05); }
+    .audio-btn.playing { background: #ff3b30; animation: pulseRed 1s infinite; }
+    @keyframes pulseRed { 0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); } }
 
-    /* MOBİL UYUMLULUK */
-    @media (max-width: 1000px) {
-        .main-layout { flex-direction: column; align-items: center; }
-        .side-col { 
-            width: 100%; 
-            max-width: 350px; /* Mobilde reklam çok devasa olmasın */
-            margin-bottom: 20px; 
-            position: static; 
-            z-index: 1;
-        }
-        .center-col { width: 100%; padding: 0 10px; }
-    }
+    .speed-select { background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); padding: 5px 10px; border-radius: 15px; font-size: 11px; outline: none; cursor: pointer; }
 
-    /* CHAT KUTUSU */
-    .ai-response-box {
-        background-color: var(--menu-bg); color: var(--yazi-renk);
-        padding: 30px; border-radius: 15px; border: 1px solid var(--ana-renk);
-        box-shadow: 0 5px 20px rgba(0,0,0,0.1); margin-bottom: 30px; text-align: left;
-    }
+    /* --- FORM ELEMANLARI --- */
+    .agent-selector { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; background: var(--bg-card); padding: 10px; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: var(--shadow-soft); }
+    .agent-selector input { display: none; }
+    .agent-label { padding: 8px 16px; border-radius: 12px; cursor: pointer; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; transition: all 0.3s ease; font-size: 13px; font-weight: 600; border: 1px solid transparent; }
+    .agent-label:hover { background-color: var(--bg-tag); color: var(--text-main); }
+    .agent-selector input:checked + .agent-label { background-color: var(--accent-blue); color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
 
-    .chat-form {
-        display: flex; gap: 10px; background: white; padding: 10px;
-        border-radius: 50px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 1px solid #eee;
-    }
-    .chat-input { flex: 1; border: none; padding: 10px 20px; font-size: 1rem; outline: none; background: transparent; }
-    .chat-btn {
-        background: var(--btn-renk); color: white; border: none;
-        padding: 10px 30px; border-radius: 30px; font-weight: bold; cursor: pointer; transition: transform 0.2s;
-    }
-    .chat-btn:hover { transform: scale(1.05); }
+    .rights-badge { display: inline-flex; align-items: center; gap: 6px; background-color: rgba(255, 193, 7, 0.15); color: #d39e00; border: 1px solid #d39e00; padding: 6px 16px; border-radius: 50px; font-size: 14px; font-weight: 700; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(255, 193, 7, 0.1); }
 
-    /* ACCORDION */
-    .custom-details { margin-top: 15px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
-    .custom-details summary { background: #eee; padding: 10px 15px; cursor: pointer; font-weight: bold; list-style: none; display: flex; justify-content: space-between; }
-    .custom-details[open] summary { border-bottom: 1px solid #ddd; }
-    .details-content { padding: 15px; background: #fff; }
+    .search-wrapper { position: relative; width: 100%; max-width: 700px; margin-bottom: 20px; }
+    .search-bar { width: 100%; padding: 22px 60px 22px 50px; font-size: 16px; border: 2px solid transparent; border-radius: 20px; background: var(--bg-input); color: var(--text-main); box-shadow: var(--shadow-soft); outline: none; transition: all 0.3s ease; }
+    [data-theme="dark"] .search-bar { border: 1px solid #333; }
+    .search-bar:focus { box-shadow: var(--shadow-focus); border-color: var(--accent-blue); background: var(--bg-card); }
+    
+    .input-actions { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); display: flex; gap: 10px; }
+    .icon-btn { background: none; border: none; padding: 8px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); transition: 0.2s; }
+    .icon-btn:hover { color: var(--accent-blue); background: var(--bg-tag); }
+    .submit-btn { background-color: var(--accent-blue); color: white !important; }
+    .paperclip-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); cursor: pointer; padding: 5px; transition: 0.2s; }
+    .paperclip-icon:hover { color: var(--accent-blue); }
+    #fileInput { display: none; }
+
+    .suggestions-container { width: 100%; max-width: 700px; text-align: left; margin-bottom: 40px; }
+    .suggestions-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; display: block; padding-left: 5px; }
+    .suggestions-grid { display: flex; gap: 10px; flex-wrap: wrap; }
+    .suggestion-chip { font-size: 13px; color: var(--text-main); background: var(--bg-card); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 12px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
+    .suggestion-chip:hover { border-color: var(--accent-blue); color: var(--accent-blue); background: rgba(0, 113, 227, 0.05); transform: translateY(-2px); }
+
+    @media (max-width: 900px) { .container { grid-template-columns: 1fr; padding: 20px; } .ad-column { display: none; } h1 { font-size: 34px; } }
 </style>
+{% endblock %}
+
+{% block content %}
 
 <div id="loading-overlay">
     <div class="spinner"></div>
-    <div style="margin-top: 15px; font-weight: bold; color: #555;">Yapay Zeka Yanıtlıyor...</div>
+    <div class="loading-text" id="loading-message">L.E.X.I. başlatılıyor...</div>
 </div>
 
-<div class="main-layout">
-    
-    <aside class="side-col">
-        {% if banner_sol and banner_sol.resim %}
-            <div class="banner-box">
-                <a href="{{ banner_sol.link|default:'#' }}" target="_blank" class="banner-link">
-                    <img src="{{ banner_sol.resim.url }}" class="banner-img" alt="Reklam">
-                </a>
-                <small style="color:#aaa; display:block; margin-top:5px;">Reklam</small>
-            </div>
-        {% elif request.user.is_superuser %}
-            <div class="admin-placeholder">
-                <span>📢 Sol Reklam Alanı</span>
-                <small>(Boş)</small>
-                <a href="/panel/ekle/reklam/" style="font-size:0.8rem; margin-top:5px;">+ Ekle</a>
+<div class="container">
+    <aside class="ad-column">
+        {% if banner_sol %}
+            <a href="{{ banner_sol.link|default:'#' }}" target="_blank" class="ad-banner" title="{{ banner_sol.isim }}">
+                <img src="{{ banner_sol.gorsel.url }}" alt="{{ banner_sol.isim }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+            </a>
+        {% else %}
+            <div class="ad-banner" style="display:flex; justify-content:center; align-items:center; color:#999; background:#eee;">
+                Reklam Alanı<br>(160x600)
             </div>
         {% endif %}
     </aside>
 
-    <main class="center-col">
-        <div style="text-align: center; margin-bottom: 30px;">
-            <h1 style="color: var(--baslik-renk); margin-bottom: 10px;">{{ ayar.site_basligi }}</h1>
-            
-            {% if kalan_hak > 0 %}
-                <span style="background: var(--ana-renk); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem;">
-                    🎁 Kalan Hakkınız: <strong>{{ kalan_hak }}</strong>
-                </span>
-            {% else %}
-                <span style="background: #dc3545; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem;">
-                    🔒 Hakkınız bitti.
-                </span>
-            {% endif %}
-        </div>
+    <main class="main-content">
+        <h1>L.E.X.I. <span class="highlight">Uzman Zekası</span></h1>
+        <p class="subtitle">Aşağıdan alan seçimi yapın, yapay zeka sadece o alanın kanunlarını tarasın.</p>
 
-        <div class="ai-response-box">
-            {% if cevap %}
-                {{ cevap|safe }}
-            {% else %}
-                <div style="text-align: center; color: #888; padding: 40px;">
-                    <span style="font-size: 3rem; display: block; margin-bottom: 10px;">⚖️</span>
-                    Sorunuzu aşağıya yazın, yapay zeka mevzuata göre cevaplasın.
+        {% if cevap %}
+        <div class="response-wrapper">
+            <div class="audio-control-bar">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <button id="playBtn" class="audio-btn" onclick="toggleSpeech()">
+                        <span id="playIcon">🔊</span> Oku
+                    </button>
+                    <select id="speedRate" class="speed-select" onchange="changeSpeed()">
+                        <option value="0.8">0.8x</option>
+                        <option value="1" selected>1.0x</option>
+                        <option value="1.2">1.2x</option>
+                        <option value="1.5">1.5x</option>
+                    </select>
                 </div>
-            {% endif %}
-        </div>
+                <span style="font-size: 11px; color: var(--text-secondary); font-weight: 600;">AI ASİSTAN</span>
+            </div>
 
-        <form method="post" class="chat-form" onsubmit="showLoading()">
+            <div class="response-area" id="responseText">
+                {{ cevap|safe }}
+            </div>
+            
+            <div style="text-align: right; margin-top: 8px;">
+                <span style="font-size: 11px; color: var(--text-secondary);">Kalan Hakkınız: <strong>{{ kalan_hak }}</strong></span>
+            </div>
+        </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'home' %}" class="search-form-container" id="chatForm">
             {% csrf_token %}
-            <input type="text" name="soru" class="chat-input" placeholder="Örn: Kıdem tazminatı nasıl hesaplanır?" required autocomplete="off">
-            <button type="submit" class="chat-btn">Gönder</button>
+            
+            <div class="agent-selector">
+                <label><input type="radio" name="bot_slug" value="genel" {% if secilen_bot == 'genel' %}checked{% endif %} onchange="updateInterface('genel', 'Genel Hukuk')"><span class="agent-label">⚖️ Genel</span></label>
+                {% for kat in kategoriler %}
+                <label><input type="radio" name="bot_slug" value="{{ kat.slug }}" {% if secilen_bot == kat.slug %}checked{% endif %} onchange="updateInterface('{{ kat.slug }}', '{{ kat.isim }}')"><span class="agent-label">{{ kat.ikon }} {{ kat.isim }}</span></label>
+                {% endfor %}
+            </div>
+
+            <div class="rights-badge" title="Kalan Soru Sorma Hakkınız">
+                ⚡ Kalan Hakkınız: <strong>{{ kalan_hak|default:"0" }}</strong>
+            </div>
+
+            <div class="search-wrapper">
+                <div class="paperclip-icon" onclick="document.getElementById('fileInput').click()" title="Belge Yükle">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+                </div>
+                <input type="file" id="fileInput" name="document"> 
+
+                <input type="text" class="search-bar" id="mainInput" name="soru" placeholder="Hukuki sorunuzu yazın..." required autocomplete="off">
+                
+                <div class="input-actions">
+                    <button type="button" class="icon-btn" onclick="startDictation()">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                    </button>
+                    <button type="submit" class="icon-btn submit-btn">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </div>
+            </div>
         </form>
+
+        {% if not cevap %}
+        <div class="suggestions-container">
+            <span class="suggestions-label" id="suggestionTitle">✨ Bu konuda şunları sorabilirsiniz:</span>
+            <div class="suggestions-grid" id="suggestionBox"></div>
+        </div>
+        {% endif %}
     </main>
 
-    <aside class="side-col">
-        {% if banner_sag and banner_sag.resim %}
-            <div class="banner-box">
-                <a href="{{ banner_sag.link|default:'#' }}" target="_blank" class="banner-link">
-                    <img src="{{ banner_sag.resim.url }}" class="banner-img" alt="Reklam">
-                </a>
-                <small style="color:#aaa; display:block; margin-top:5px;">Reklam</small>
-            </div>
-        {% elif request.user.is_superuser %}
-            <div class="admin-placeholder">
-                <span>📢 Sağ Reklam Alanı</span>
-                <small>(Boş)</small>
-                <a href="/panel/ekle/reklam/" style="font-size:0.8rem; margin-top:5px;">+ Ekle</a>
+    <aside class="ad-column">
+        {% if banner_sag %}
+            <a href="{{ banner_sag.link|default:'#' }}" target="_blank" class="ad-banner" title="{{ banner_sag.isim }}">
+                <img src="{{ banner_sag.gorsel.url }}" alt="{{ banner_sag.isim }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+            </a>
+        {% else %}
+            <div class="ad-banner" style="display:flex; justify-content:center; align-items:center; color:#999; background:#eee;">
+                Reklam Alanı<br>(160x600)
             </div>
         {% endif %}
     </aside>
-
 </div>
+{% endblock %}
 
+{% block extra_js %}
 <script>
-    function showLoading() {
-        document.getElementById('loading-overlay').style.display = 'flex';
+    // --- 1. DİNAMİK YÜKLEME EKRANI ---
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const loadingMessage = document.getElementById('loading-message');
+    const form = document.getElementById('chatForm');
+    const loadingTexts = ["L.E.X.I. veritabanını tarıyor...", "İlgili kanunlar analiz ediliyor...", "Riskler hesaplanıyor...", "Cevap hazırlanıyor..."];
+
+    form.addEventListener('submit', function(e) {
+        const inputVal = document.getElementById('mainInput').value.trim();
+        if(!inputVal) return;
+        loadingOverlay.style.display = 'flex';
+        setTimeout(() => { loadingOverlay.style.opacity = '1'; }, 10);
+        let i = 0; loadingMessage.innerText = loadingTexts[0];
+        setInterval(() => { i = (i + 1) % loadingTexts.length; loadingMessage.innerText = loadingTexts[i]; }, 1500);
+    });
+
+    // --- 2. SESLİ OKUMA (TEXT TO SPEECH) - DÜZELTİLDİ ---
+    let synth = window.speechSynthesis;
+    let utterance = null;
+    let isSpeaking = false;
+
+    function toggleSpeech() {
+        const btn = document.getElementById('playBtn');
+        const textContainer = document.getElementById('responseText');
+
+        if (!textContainer) return; // Cevap yoksa çık
+
+        if (synth.speaking && isSpeaking) {
+            synth.cancel();
+            isSpeaking = false;
+            btn.innerHTML = '<span id="playIcon">🔊</span> Oku';
+            btn.classList.remove('playing');
+        } else {
+            const textToRead = textContainer.innerText || textContainer.textContent;
+            utterance = new SpeechSynthesisUtterance(textToRead);
+            utterance.lang = 'tr-TR';
+            utterance.rate = parseFloat(document.getElementById('speedRate').value);
+            
+            utterance.onend = function() {
+                isSpeaking = false;
+                if(btn) {
+                    btn.innerHTML = '<span id="playIcon">🔊</span> Oku';
+                    btn.classList.remove('playing');
+                }
+            };
+
+            synth.speak(utterance);
+            isSpeaking = true;
+            btn.innerHTML = '<span>⏸️</span> Durdur';
+            btn.classList.add('playing');
+        }
     }
+
+    function changeSpeed() {
+        if (synth.speaking) {
+            synth.cancel();
+            setTimeout(toggleSpeech, 100);
+        }
+    }
+
+    // --- 3. DİĞER FONKSİYONLAR ---
+    const botQuestions = {
+        'genel': ["Hukuki danışmanlık ücretleri?", "Arabuluculuk zorunlu mu?", "Vekaletname nasıl çıkarılır?"],
+        'kira': ["Kiracım kirayı ödemiyor, ne yapmalıyım?", "%25 zam sınırı devam ediyor mu?", "Tahliye davası ne kadar sürer?"],
+        'bosanma': ["Çekişmeli boşanma süresi?", "Anlaşmalı boşanma protokolü", "Velayet kime verilir?"],
+        'is': ["Kıdem tazminatı hesaplama", "İstifa edersem tazminat alır mıyım?", "Mobbing davası şartları"],
+        'ceza': ["HAGB nedir?", "İfadeye çağrıldım ne yapmalıyım?", "Adli sicil kaydı silinmesi"],
+        'default': ["Bu konuda kanun ne diyor?", "Dava süreci nasıl işler?", "Haklarım nelerdir?"]
+    };
+
+    function updateInterface(slug, name) {
+        const input = document.getElementById('mainInput');
+        const box = document.getElementById('suggestionBox');
+        if(slug === 'genel') input.placeholder = "Hukuki sorunuzu genel olarak yazın...";
+        else input.placeholder = `Sadece ${name} veritabanında taranıyor...`;
+        
+        box.innerHTML = '';
+        const questions = botQuestions[slug] || botQuestions['default'];
+        questions.forEach(text => {
+            const chip = document.createElement('div');
+            chip.className = 'suggestion-chip';
+            chip.innerHTML = `<span class="suggestion-icon">💬</span> ${text}`;
+            chip.onclick = function() { fillInput(text); };
+            box.appendChild(chip);
+        });
+    }
+
+    function fillInput(text) { 
+        const input = document.getElementById('mainInput'); input.value = text; input.focus(); 
+    }
+
+    function startDictation() {
+        if (window.hasOwnProperty('webkitSpeechRecognition')) {
+            const recognition = new webkitSpeechRecognition();
+            recognition.continuous = false; recognition.interimResults = false; recognition.lang = "tr-TR"; recognition.start();
+            const input = document.getElementById('mainInput');
+            input.placeholder = "Dinliyorum...";
+            recognition.onresult = function(e) { input.value = e.results[0][0].transcript; recognition.stop(); };
+            recognition.onerror = function() { recognition.stop(); };
+        } else { alert("Tarayıcınız sesli aramayı desteklemiyor."); }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const selectedRadio = document.querySelector('input[name="bot_slug"]:checked');
+        if (selectedRadio) {
+            updateInterface(selectedRadio.value, selectedRadio.nextElementSibling.innerText); 
+        } else {
+            updateInterface('genel', 'Genel Hukuk');
+        }
+    });
 </script>
 {% endblock %}

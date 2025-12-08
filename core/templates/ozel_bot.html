@@ -1,42 +1,170 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ kategori.isim }} Asistanı</title>
-    <style>
-        body { font-family: sans-serif; background: #e5ddd5; margin: 0; display: flex; flex-direction: column; height: 100vh; }
-        .header { background: #075e54; color: white; padding: 15px; text-align: center; }
-        .chat-area { flex: 1; padding: 20px; overflow-y: auto; }
-        .msg { background: white; padding: 10px; border-radius: 10px; margin-bottom: 10px; max-width: 80%; }
-        .bot { background: white; align-self: flex-start; }
-        .user { background: #dcf8c6; align-self: flex-end; margin-left: auto; }
-        .input-area { padding: 20px; background: #f0f0f0; display: flex; gap: 10px; }
-        input { flex: 1; padding: 10px; border-radius: 20px; border: 1px solid #ccc; }
-        button { padding: 10px 20px; background: #075e54; color: white; border: none; border-radius: 20px; cursor: pointer; }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>{{ kategori.isim }} Uzmanı</h1>
-        <a href="{% url 'asistan_secimi' %}" style="color:white; text-decoration:none; font-size: 0.8rem;">&larr; Ana Sayfaya Dön</a>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    /* CHAT ARAYÜZ STİLLERİ */
+    .chat-wrapper {
+        max-width: 900px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 80vh; /* Ekranın %80'ini kaplasın */
+    }
+
+    .chat-header {
+        background: linear-gradient(135deg, #2c3e50, #4ca1af);
+        padding: 20px;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .chat-header .icon-box {
+        font-size: 2rem;
+        background: rgba(255,255,255,0.2);
+        width: 50px; height: 50px;
+        display: flex; align-items: center; justify-content: center;
+        border-radius: 50%;
+    }
+
+    .chat-body {
+        flex: 1;
+        padding: 30px;
+        background-color: #f4f7f6;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* Mesaj Baloncukları */
+    .message {
+        max-width: 80%;
+        padding: 15px 20px;
+        border-radius: 15px;
+        line-height: 1.5;
+        font-size: 1rem;
+        position: relative;
+        animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .bot-message {
+        align-self: flex-start;
+        background: white;
+        color: #333;
+        border-bottom-left-radius: 2px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        border: 1px solid #e1e1e1;
+    }
+
+    .user-message {
+        align-self: flex-end;
+        background: #007bff; /* Mavi renk */
+        color: white;
+        border-bottom-right-radius: 2px;
+        box-shadow: 0 2px 5px rgba(0,123,255,0.3);
+    }
+
+    /* Referans Kutusu (Botun cevabındaki kanun kısmı) */
+    .referans-kutu {
+        margin-top: 10px;
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 10px;
+        font-size: 0.9rem;
+        color: #856404;
+        border-radius: 4px;
+    }
+
+    /* Alt Input Alanı */
+    .chat-footer {
+        padding: 20px;
+        background: white;
+        border-top: 1px solid #eee;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .chat-input {
+        flex: 1;
+        padding: 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 30px;
+        font-size: 1rem;
+        outline: none;
+        transition: 0.3s;
+    }
+    .chat-input:focus { border-color: #007bff; }
+
+    .btn-send {
+        background: #007bff;
+        color: white;
+        border: none;
+        width: 50px; height: 50px;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        transition: 0.3s;
+    }
+    .btn-send:hover { transform: scale(1.1); background: #0056b3; }
+
+</style>
+
+<div class="chat-wrapper">
+    
+    <div class="chat-header">
+        <a href="{% url 'asistan_secimi' %}" style="color: white; font-size: 1.5rem; text-decoration: none;">&larr;</a>
+        <div class="icon-box">{{ kategori.ikon }}</div>
+        <div>
+            <h2 style="margin: 0; font-size: 1.2rem;">{{ kategori.isim }} Asistanı</h2>
+            <p style="margin: 0; font-size: 0.8rem; opacity: 0.8;">Yapay Zeka Destekli Uzman</p>
+        </div>
     </div>
 
-    <div class="chat-area">
+    <div class="chat-body" id="chatBox">
+        
+        <div class="message bot-message">
+            <strong>🤖 Asistan:</strong><br>
+            Merhaba! Ben {{ kategori.isim }} konusunda uzmanlaşmış asistanım. Size nasıl yardımcı olabilirim?
+        </div>
+
         {% if soru %}
-            <div class="msg user"><strong>Siz:</strong> {{ soru }}</div>
+        <div class="message user-message">
+            {{ soru }}
+        </div>
+        {% endif %}
+
+        {% if cevap %}
+        <div class="message bot-message">
+            {{ cevap|safe }}
+        </div>
         {% endif %}
         
-        {% if cevap %}
-            <div class="msg bot"><strong>Bot:</strong> {{ cevap|safe }}</div>
-        {% else %}
-            <div class="msg bot">Merhaba! Ben {{ kategori.isim }} konusunda uzmanım. Sorunuzu bekliyorum.</div>
-        {% endif %}
     </div>
 
-    <form class="input-area" method="POST">
+    <form class="chat-footer" method="POST">
         {% csrf_token %}
-        <input type="text" name="soru" placeholder="Sorunuzu yazın..." required>
-        <button type="submit">Gönder</button>
+        <input type="text" name="soru" class="chat-input" placeholder="Sorunuzu buraya yazın..." required autocomplete="off" autofocus>
+        <button type="submit" class="btn-send">➤</button>
     </form>
-</body>
-</html>
+
+</div>
+
+<script>
+    // Sayfa açılınca en aşağı kaydır (Son mesajı göster)
+    var chatBox = document.getElementById("chatBox");
+    chatBox.scrollTop = chatBox.scrollHeight;
+</script>
+
+{% endblock %}

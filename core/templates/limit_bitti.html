@@ -1,28 +1,57 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<div style="text-align: center; padding: 60px 20px;">
-    <div style="font-size: 5rem;">🛑</div>
-    <h1 style="color: var(--baslik-renk);">Ücretsiz Soru Hakkınız Doldu</h1>
-    <p style="font-size: 1.2rem; color: #666; max-width: 600px; margin: 10px auto;">
-        Detaylı analiz ve hukuki destek almaya devam etmek için size en uygun paketi seçin veya tek seferlik soru hakkı satın alın.
+<div style="
+    max-width: 800px; 
+    margin: 80px auto; 
+    text-align: center; 
+    padding: 40px; 
+    background: white; 
+    border-radius: 20px; 
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    border: 1px solid #eee;">
+    
+    <div style="font-size: 60px; margin-bottom: 20px;">🔒</div>
+    
+    <h1 style="color: #333; margin-bottom: 15px;">Ücretsiz Soru Hakkınız Doldu</h1>
+    
+    <p style="font-size: 18px; color: #666; margin-bottom: 40px; line-height: 1.6;">
+        L.E.X.I. ile daha derinlemesine analiz yapmak ve sınırsız soru sormak için 
+        size uygun bir paket seçin veya uzman avukatlarımızdan randevu alın.
     </p>
 
-    <div style="margin-top: 40px;">
-        <a href="{% url 'paketler' %}" class="btn" style="padding: 15px 40px; font-size: 1.2rem; animation: pulse 2s infinite;">
-            🚀 Paketleri İncele ve Satın Al
+    <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+        
+        <a href="{% url 'paketler' %}" style="
+            text-decoration: none;
+            padding: 15px 40px;
+            background: #0071e3;
+            color: white;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(0, 113, 227, 0.3);
+            transition: transform 0.2s;">
+            📦 Paketleri İncele
         </a>
+
+        <a href="{% url 'avukatlar' %}" style="
+            text-decoration: none;
+            padding: 15px 40px;
+            background: white;
+            color: #0071e3;
+            border: 2px solid #0071e3;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background 0.2s;">
+            ⚖️ Avukata Danış
+        </a>
+
     </div>
     
-    <p style="margin-top: 30px; font-size: 0.9rem; color: #999;">
-        Profesyonel avukatlarımızla görüşmek için <a href="{% url 'avukatlar' %}" style="color: var(--ana-renk);">tıklayın.</a>
+    <p style="margin-top: 30px; font-size: 13px; color: #999;">
+        *Premium üyeler sınırsız sorgulama yapabilir.
     </p>
 </div>
-
-<style>
-    @keyframes pulse {
-        0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7); }
-        50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(0, 0, 0, 0); }
-        100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
-    }
-</style>
 {% endblock %}

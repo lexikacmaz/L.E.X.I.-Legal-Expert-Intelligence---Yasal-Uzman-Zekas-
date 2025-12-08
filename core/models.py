@@ -1,212 +1,206 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils.text import slugify
+from PIL import Image
+
+# --- SİTE AYARLARI ---
+# core/models.py
+
+# --- GENİŞLETİLMİŞ FONT LİSTESİ ---
+FONT_SECENEKLERI = [
+    ('Inter', 'Inter (Modern & Temiz)'),
+    ('Roboto', 'Roboto (Standart & Okunaklı)'),
+    ('Open Sans', 'Open Sans (Ferah & Açık)'),
+    ('Lato', 'Lato (Yuvarlak & Samimi)'),
+    ('Montserrat', 'Montserrat (Geometrik & Güçlü)'),
+    ('Raleway', 'Raleway (Zarif & İnce)'),
+    ('Poppins', 'Poppins (Popüler & Yuvarlak)'),
+    ('Playfair Display', 'Playfair Display (Tırnaklı & Klasik)'),
+    ('Merriweather', 'Merriweather (Okuma Odaklı)'),
+    ('Lora', 'Lora (Hukuki & Ciddi)'),
+    ('Oswald', 'Oswald (Dik & Sıkışık)'),
+    ('Rubik', 'Rubik (Yumuşak Köşeli)'),
+]
 
 class SiteAyarlari(models.Model):
-    # GENEL
-    site_basligi = models.CharField(max_length=100, default="LegalAI", verbose_name="Site Başlığı (Sol Üstte Yazan)")
-    logo = models.ImageField(upload_to='logos/', blank=True, null=True, verbose_name="Site Logosu")
+    site_basligi = models.CharField(max_length=200, default="L.E.X.I.")
+    logo = models.ImageField(upload_to='logo/', null=True, blank=True)
     
-    # RENKLER (AÇIKLAMALI)
-    renk_ana = models.CharField(
-        max_length=20, 
-        default="#003366", 
-        verbose_name="Ana Renk (Çizgiler, Kenarlıklar, Vurgular)"
-    )
+    # Fontlar
+    font_baslik = models.CharField(max_length=100, choices=FONT_SECENEKLERI, default="Inter")
+    font_genel = models.CharField(max_length=100, choices=FONT_SECENEKLERI, default="Inter")
     
-    renk_arkaplan = models.CharField(
-        max_length=20, 
-        default="#FDFBF7", 
-        verbose_name="Tüm Sayfa Arka Plan Rengi"
-    )
+    # --- ORTAK RENKLER ---
+    renk_ana = models.CharField(max_length=20, default="#0071e3", verbose_name="Ana Vurgu Rengi (Mavi vb.)")
     
-    renk_menu_bg = models.CharField(
-        max_length=20, 
-        default="#ffffff", 
-        verbose_name="Üst Menü Arka Planı (Navbar)"
-    )
-
-    renk_yazi_baslik = models.CharField(
-        max_length=20, 
-        default="#003366", 
-        verbose_name="Büyük Başlık Rengi (H1, H2)"
-    )
+    # --- LIGHT MODE RENKLERİ ---
+    renk_arkaplan_light = models.CharField(max_length=20, default="#f5f5f7", verbose_name="Açık Mod Arkaplan")
+    renk_yazi_light = models.CharField(max_length=20, default="#1d1d1f", verbose_name="Açık Mod Yazı")
+    renk_kart_light = models.CharField(max_length=20, default="#ffffff", verbose_name="Açık Mod Kart Rengi")
     
-    renk_yazi_genel = models.CharField(
-        max_length=20, 
-        default="#333333", 
-        verbose_name="Genel Yazı Rengi (Paragraflar)"
-    )
-    
-    renk_buton = models.CharField(
-        max_length=20, 
-        default="#003366", 
-        verbose_name="Buton Rengi (Satın Al, Gönder)"
-    )
-    
-    # SOHBET KUTUSU RENKLERİ
-    renk_ai_balon = models.CharField(
-        max_length=20, 
-        default="#ffffff", 
-        verbose_name="Yapay Zeka Cevap Kutusu Rengi"
-    )
-    
-    renk_user_balon = models.CharField(
-        max_length=20, 
-        default="#f0f0f0", 
-        verbose_name="Kullanıcı Mesaj Balonu Rengi"
-    )
-    
-    renk_input_bg = models.CharField(
-        max_length=20, 
-        default="#ffffff", 
-        verbose_name="Soru Yazma Kutusu (Input) Rengi"
-    )
-    
-    # FONTLAR
-    FONT_SECENEKLERI = [
-        ('Times New Roman', 'Times New Roman (Klasik)'),
-        ('Playfair Display', 'Playfair Display (Elit & Şık)'),
-        ('Merriweather', 'Merriweather (Okunaklı Kitap Havası)'),
-        ('Lora', 'Lora (Hukuki & Zarif)'),
-        ('Segoe UI', 'Segoe UI (Modern Standart)'),
-        ('Roboto', 'Roboto (Google Standardı - Net)'),
-        ('Open Sans', 'Open Sans (Ferah & Açık)'),
-        ('Montserrat', 'Montserrat (Güçlü Başlıklar İçin)'),
-        ('Poppins', 'Poppins (Geometrik & Yeni Nesil)'),
-        ('Oswald', 'Oswald (Dikkat Çekici Uzun)'),
-    ]
-    font_baslik = models.CharField(max_length=50, choices=FONT_SECENEKLERI, default='Playfair Display', verbose_name="Başlık Yazı Tipi")
-    font_genel = models.CharField(max_length=50, choices=FONT_SECENEKLERI, default='Open Sans', verbose_name="Genel Yazı Tipi")
+    # --- DARK MODE RENKLERİ ---
+    renk_arkaplan_dark = models.CharField(max_length=20, default="#202020", verbose_name="Koyu Mod Arkaplan")
+    renk_yazi_dark = models.CharField(max_length=20, default="#f5f5f7", verbose_name="Koyu Mod Yazı")
+    renk_kart_dark = models.CharField(max_length=20, default="#1c1c1e", verbose_name="Koyu Mod Kart Rengi")
 
     def __str__(self):
         return "Site Ayarları"
 
-# Diğer Modeller Aynen Kalıyor (Avukat, Paket vb.)
-class Avukat(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Kullanıcı Hesabı")
-    isim = models.CharField(max_length=100)
-    uzmanlik = models.CharField(max_length=100)
-    resim = models.ImageField(upload_to='avukatlar/', blank=True, null=True)
-    ozet = models.TextField(blank=True, verbose_name="Biyografi")
+# --- KATEGORİ SİSTEMİ (Chat Bot İçin) ---
+class HukukKategori(models.Model):
+    isim = models.CharField(max_length=100) # Örn: Aile Hukuku
+    slug = models.SlugField(unique=True) # Örn: aile-hukuku
+    ikon = models.CharField(max_length=50, default="⚖️") # Emoji
+    aciklama = models.TextField(blank=True)
+    ai_talimati = models.TextField(help_text="Bu kategorideki AI botuna verilecek özel gizli talimat.")
+    aktif_mi = models.BooleanField(default=True)
+
     def __str__(self):
         return self.isim
 
+# --- AVUKAT MODELİ (GÜNCELLENDİ: Eposta ve Telefon Eklendi) ---
+class Avukat(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    isim = models.CharField(max_length=100)
+    resim = models.ImageField(upload_to='avukatlar/', null=True, blank=True)
+    uzmanlik = models.CharField(max_length=100)
+    ozet = models.TextField()
+    
+    # EKSİK OLAN ALANLAR EKLENDİ:
+    eposta = models.EmailField(max_length=254, null=True, blank=True)
+    telefon = models.CharField(max_length=20, null=True, blank=True)
+
+    def __str__(self):
+        return self.isim
+
+# --- REKLAM BANNER (Genişlik/Yükseklik Dahil) ---
+class ReklamBanner(models.Model):
+    isim = models.CharField(max_length=100, verbose_name="Reklam Adı (Örn: Sol Taraf)")
+    gorsel = models.ImageField(upload_to='reklamlar/', verbose_name="Reklam Görseli")
+    link = models.URLField(blank=True, null=True, verbose_name="Tıklanınca Gideceği Link")
+    
+    pozisyon = models.CharField(
+        max_length=10, 
+        choices=[('Sol', 'Sol'), ('Sag', 'Sag')], 
+        verbose_name="Sayfadaki Yeri"
+    )
+    
+    # Kullanıcıya göstermek için varsayılan değerler
+    genislik = models.PositiveIntegerField(default=160, verbose_name="Genişlik (px)", editable=False)
+    yukseklik = models.PositiveIntegerField(default=600, verbose_name="Yükseklik (px)", editable=False)
+    
+    aktif_mi = models.BooleanField(default=True, verbose_name="Sitede Görünsün mü?")
+
+    def save(self, *args, **kwargs):
+        # Önce kaydet (Dosya oluşsun)
+        super().save(*args, **kwargs)
+
+        if self.gorsel:
+            img_path = self.gorsel.path
+            img = Image.open(img_path)
+
+            # Hedef boyutlar (Standart Skyscraper Reklamı)
+            target_size = (160, 600)
+
+            # Eğer boyut farklıysa yeniden boyutlandır
+            if img.height != 600 or img.width != 160:
+                # Resmi bozmadan sığdırmak yerine, alanı tam doldurması için 'resize' kullanıyoruz.
+                # İstersen 'thumbnail' ile oran koruyarak da yapabiliriz ama reklam alanları genelde tam dolmalıdır.
+                img = img.resize(target_size, Image.Resampling.LANCZOS)
+                img.save(img_path)
+
+    def __str__(self):
+        return f"{self.isim} ({self.pozisyon})"
+
+# --- KANUN MADDELERİ ---
+class KanunMaddesi(models.Model):
+    kategori = models.ForeignKey(HukukKategori, on_delete=models.SET_NULL, null=True, blank=True)
+    kanun_adi = models.CharField(max_length=200) # Örn: Türk Borçlar Kanunu
+    madde_no = models.CharField(max_length=50) # Örn: Madde 12
+    icerik = models.TextField()
+
+    def __str__(self):
+        return f"{self.kanun_adi} - {self.madde_no}"
+
+# --- EMSAL KARARLAR ---
+class EmsalKarar(models.Model):
+    baslik = models.CharField(max_length=200)
+    ozet = models.TextField()
+    dosya_linki = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return self.baslik
+
+# --- HİZMET PAKETLERİ ---
 class Paket(models.Model):
     isim = models.CharField(max_length=100)
-    fiyat = models.CharField(max_length=50)
-    ozellikler = models.TextField()
-    def __str__(self): return self.isim
+    fiyat = models.DecimalField(max_digits=10, decimal_places=2)
+    aciklama = models.TextField()
+    ozellikler = models.TextField(help_text="Her satıra bir özellik yazın")
 
+    def __str__(self):
+        return self.isim
+
+# --- SİPARİŞLER ---
 class Siparis(models.Model):
     paket = models.ForeignKey(Paket, on_delete=models.CASCADE)
     ad_soyad = models.CharField(max_length=100)
     telefon = models.CharField(max_length=20)
-    email = models.EmailField()
-    adres = models.TextField(blank=True)
-    tarih = models.DateTimeField(auto_now_add=True)
+    eposta = models.EmailField()
+    notlar = models.TextField(blank=True)
     odendi_mi = models.BooleanField(default=False)
-    def __str__(self): return f"{self.ad_soyad} - {self.paket.isim}"
-    
+    tarih = models.DateTimeField(auto_now_add=True)
 
-# 1. SOHBET KAYITLARI (Yapay Zeka ile Konuşmalar)
-class SohbetGecmisi(models.Model):
-    soru = models.TextField(verbose_name="Kullanıcı Sorusu")
-    cevap = models.TextField(verbose_name="AI Cevabı")
-    tarih = models.DateTimeField(auto_now_add=True, verbose_name="Tarih")
-    
     def __str__(self):
-        return f"{self.soru[:50]}..."
+        return f"{self.ad_soyad} - {self.paket.isim}"
 
-# 2. AVUKAT RANDEVULARI
+# --- SOHBET GEÇMİŞİ ---
+class SohbetGecmisi(models.Model):
+    soru = models.TextField()
+    cevap = models.TextField()
+    tarih = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.soru[:50]
+
+# --- AVUKAT RANDEVU ---
 class AvukatRandevu(models.Model):
-    avukat = models.ForeignKey(Avukat, on_delete=models.CASCADE, verbose_name="Seçilen Avukat")
-    ad_soyad = models.CharField(max_length=100, verbose_name="Müşteri Adı")
-    telefon = models.CharField(max_length=20, verbose_name="Telefon")
-    mesaj = models.TextField(verbose_name="Konuşulacak Konu/Not", blank=True)
+    avukat = models.ForeignKey(Avukat, on_delete=models.CASCADE)
+    ad_soyad = models.CharField(max_length=100)
+    telefon = models.CharField(max_length=20)
+    eposta = models.EmailField()
+    mesaj = models.TextField()
     tarih = models.DateTimeField(auto_now_add=True)
     durum = models.CharField(
         max_length=20, 
-        default='Bekliyor', 
-        choices=[('Bekliyor', 'Bekliyor'), ('Görüşüldü', 'Görüşüldü'), ('İptal', 'İptal')]
+        choices=[('Bekliyor', 'Bekliyor'), ('Tamamlandı', 'Tamamlandı'), ('İptal', 'İptal')],
+        default='Bekliyor'
     )
 
     def __str__(self):
-        return f"{self.ad_soyad} - {self.avukat.isim}"
+        return f"{self.ad_soyad} -> {self.avukat.isim}"
     
-    # core/models.py EN ALTINA EKLE:
+    # models.py içine ekle
 
-class ReklamBanner(models.Model):
-    isim = models.CharField(max_length=100, verbose_name="Reklam Adı (Örn: Coca Cola)")
-    
-    # BURAYA help_text EKLEDİK:
-    resim = models.ImageField(
-        upload_to='reklamlar/', 
-        verbose_name="Banner Resmi",
-        help_text="📢 ÖNERİLEN BOYUT: Genişlik 200px x Yükseklik 600px (Dikey Resim). Farklı boyutta yüklerseniz tasarım bozulabilir."
-    )
-    
-    link = models.URLField(verbose_name="Tıklayınca Gideceği Link", blank=True)
-    
-    POZISYONLAR = [('Sol', 'Sol Taraf'), ('Sag', 'Sağ Taraf')]
-    pozisyon = models.CharField(max_length=10, choices=POZISYONLAR, default='Sol')
-    
-    aktif_mi = models.BooleanField(default=True, verbose_name="Yayında mı?")
-
-    def __str__(self):
-        return f"{self.isim} ({self.pozisyon})"
-    
-    from django.db import models
-
-# core/models.py dosyasında HukukKategori modelini güncelle:
-
-class HukukKategori(models.Model):
-    isim = models.CharField(max_length=100, verbose_name="Kategori Adı")
-    slug = models.SlugField(unique=True, blank=True, verbose_name="Link (Otomatik)")
-    
-    # --- YENİ EKLENEN ALANLAR ---
-    ikon = models.CharField(max_length=20, default="⚖️", verbose_name="İkon (Emoji)")
-    aciklama = models.TextField(max_length=300, verbose_name="Kart Açıklaması", default="Bu alandaki kanun ve emsal kararlarla eğitilmiş uzman asistan.")
-    
-    # Botun kişiliğini buradan yöneteceksin!
-    ai_talimati = models.TextField(
-        verbose_name="AI Gizli Talimatı (Prompt)", 
-        default="Sen bu alanda uzman, yardımsever bir hukuk asistanısın. Kanun maddelerine dayanarak cevap ver.",
-        help_text="Örn: 'Sen sert mizaçlı bir ceza avukatısın' veya 'Sen çok açıklayıcı bir kira uzmanısın' gibi."
-    )
-    
-    aktif_mi = models.BooleanField(default=True, verbose_name="Sitede Göster")
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.isim)
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return self.isim
-
-class KanunMaddesi(models.Model):
-    # Mevzuat.gov.tr'den gelecek veriler
+class VeriGuncellemeLog(models.Model):
     kategori = models.ForeignKey(HukukKategori, on_delete=models.CASCADE)
-    kanun_no = models.CharField(max_length=20) # Örn: 5237
-    kanun_adi = models.CharField(max_length=200) # Örn: Türk Ceza Kanunu
-    madde_no = models.CharField(max_length=20) # Örn: Madde 1
-    icerik = models.TextField() # Maddenin tamamı
-    konu = models.CharField(max_length=200)
-    def __str__(self): return self.madde_no
+    islem_tarihi = models.DateTimeField(auto_now_add=True)
+    eklenen_veri_sayisi = models.IntegerField(default=0)
+    basarili_mi = models.BooleanField(default=True)
+    hata_mesaji = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        durum = "✅" if self.basarili_mi else "❌"
+        return f"{durum} - {self.kategori.isim} - {self.islem_tarihi.strftime('%d.%m.%Y')}"
+
+class SistemBildirimi(models.Model):
+    """Admin'e (Sana) gidecek bildirimler"""
+    baslik = models.CharField(max_length=200)
+    mesaj = models.TextField()
+    okundu_mu = models.BooleanField(default=False)
+    tarih = models.DateTimeField(auto_now_add=True)
     
-    def __str__(self):
-        return f"{self.kanun_adi} - {self.madde_no}"
-
-class EmsalKarar(models.Model):
-    # Yargitay.gov.tr'den gelecek veriler
-    kategori = models.ForeignKey(HukukKategori, on_delete=models.CASCADE)
-    daire = models.CharField(max_length=100) # Örn: 3. Hukuk Dairesi
-    esas_no = models.CharField(max_length=50)
-    karar_no = models.CharField(max_length=50)
-    tarih = models.DateField(null=True, blank=True)
-    ozet = models.TextField() # Kararın özeti
-    tam_metin = models.TextField() # Kararın tamamı (KVKK temizlenmiş)
+    # Kritik seviye: Bilgi, Uyarı, Acil
+    seviye = models.CharField(max_length=20, choices=[('info', 'Bilgi'), ('warning', 'Uyarı'), ('danger', 'Acil')], default='info')
 
     def __str__(self):
-        return f"{self.daire} - {self.esas_no}/{self.karar_no}"
+        return self.baslik

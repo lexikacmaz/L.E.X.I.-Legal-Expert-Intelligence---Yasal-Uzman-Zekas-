@@ -1,91 +1,179 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Basit Yönetim Paneli</title>
-    <style>
-        body { font-family: sans-serif; background: #f4f4f4; padding: 40px; text-align: center; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; max-width: 900px; margin: 0 auto; }
-        .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; transition: 0.3s; text-decoration: none; color: #333; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
-        h1 { color: #333; margin-bottom: 20px; }
-        .icon { font-size: 3rem; margin-bottom: 15px; display: block; }
-        .btn-back { display: inline-block; margin-top: 30px; color: #666; text-decoration: none; }
-        
-        /* Yeni eklenen Admin Butonu Stili */
-        .btn-django-admin {
-            display: inline-block;
-            background-color: #333;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            margin-bottom: 40px;
-            transition: 0.3s;
-        }
-        .btn-django-admin:hover { background-color: #000; }
-    </style>
-</head>
-<body>
-    <h1>⚙️ Site Yönetim Merkezi</h1>
+{% extends 'base.html' %}
+{% load static %}
 
-    <a href="/admin/" target="_blank" class="btn-django-admin">🔧 Teknik Admin Girişi (Django)</a>
+{% block extra_css %}
+<style>
+    /* PANEL GENEL DÜZENİ */
+    .panel-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
     
-    <div class="grid">
-        <a href="{% url 'panel_ayarlar' %}" class="card">
-            <span class="icon">🎨</span>
-            <h3>Tasarım & Renkler</h3>
-            <p>Sitenin rengini, fontunu ve logosunu değiştir.</p>
-        </a>
-        <a href="{% url 'panel_icerik' 'siparis' %}" class="card">
-            <span class="icon">💰</span>
-            <h3>Siparişler</h3>
-            <p>Kim ne satın aldı?</p>
-        </a>
+    /* HOŞGELDİN KUTUSU (Renkli & Canlı) */
+    .panel-welcome {
+        background: linear-gradient(135deg, var(--accent-blue), #4facfe);
+        color: white;
+        padding: 40px;
+        border-radius: 20px;
+        margin-bottom: 40px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+    .panel-welcome h1 { margin: 0; font-size: 36px; color: white; font-weight: 800; }
+    .panel-welcome p { margin-top: 10px; font-size: 18px; opacity: 0.9; }
+    
+    /* Dekoratif Arka Plan Emojileri */
+    .bg-emoji { position: absolute; font-size: 150px; opacity: 0.1; top: -20px; right: -20px; transform: rotate(15deg); }
 
-        <a href="{% url 'panel_icerik' 'sohbet' %}" class="card">
-            <span class="icon">💬</span>
-            <h3>Sohbet Kayıtları</h3>
-            <p>Kullanıcılar ne sordu?</p>
-        </a>
+    /* IZGARA YAPISI */
+    .control-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+    }
 
-        <a href="{% url 'panel_icerik' 'randevu' %}" class="card">
-            <span class="icon">📅</span>
-            <h3>Avukat Görüşmeleri</h3>
-            <p>Randevu talepleri.</p>
-        </a>
-        <a href="{% url 'panel_icerik' 'avukat' %}" class="card">
-            <span class="icon">👨‍⚖️</span>
-            <h3>Avukatları Yönet</h3>
-            <p>Avukat ekle veya çıkar.</p>
-        </a>
+    /* KART TASARIMI (Dummy Proof - Çok Basit ve Büyük) */
+    .control-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 24px;
+        padding: 30px;
+        text-align: center;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        cursor: default;
+    }
 
-        <a href="{% url 'panel_icerik' 'paket' %}" class="card">
-            <span class="icon">📦</span>
-            <h3>Paketleri Yönet</h3>
-            <p>Fiyatları ve paketleri güncelle.</p>
-        </a>
+    /* Hover Efekti: Kart Zıplasın */
+    .control-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        border-color: var(--accent-blue);
+    }
 
-        <a href="{% url 'panel_icerik' 'kanun' %}" class="card">
-            <span class="icon">📚</span>
-            <h3>AI Bilgi Bankası</h3>
-            <p>Yapay zekaya yeni kanunlar öğret.</p>
-        </a>
-        
-        <a href="{% url 'panel_icerik' 'reklam' %}" class="card">
-            <span class="icon">📢</span>
-            <h3>Reklam Yönetimi</h3>
-            <p>Sağ/Sol bannerları düzenle.</p>
-        </a>
+    /* EMOJİLER (Büyüme Efektli) */
+    .card-emoji {
+        font-size: 55px;
+        margin-bottom: 20px;
+        display: inline-block;
+        transition: transform 0.3s;
+    }
+    .control-card:hover .card-emoji { transform: scale(1.2) rotate(10deg); }
 
-        <a href="/admin/core/hukukkategori/" target="_blank" class="card" style="border: 2px solid #007bff;">
-            <span class="icon">🤖</span>
-            <h3>AI Bot Kategorileri</h3>
-            <p>Bot türlerini (Kira, Ceza vb.) ve talimatlarını düzenle.</p>
-        </a>
+    .card-title { font-size: 22px; font-weight: 800; color: var(--text-main); margin-bottom: 10px; }
+    .card-desc { color: var(--text-secondary); font-size: 14px; margin-bottom: 25px; line-height: 1.5; }
+
+    /* BUTON GRUBU */
+    .btn-group-panel { display: flex; gap: 10px; margin-top: auto; }
+    .p-btn {
+        flex: 1;
+        padding: 12px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 14px;
+        transition: 0.2s;
+        text-align: center;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .p-btn-list { background: var(--bg-tag); color: var(--text-main); }
+    .p-btn-list:hover { background: #d1d1d6; }
+    
+    .p-btn-add { background: var(--accent-blue); color: white; }
+    .p-btn-add:hover { opacity: 0.9; box-shadow: 0 5px 15px rgba(0, 113, 227, 0.3); }
+
+    /* ÖZEL TASARIM KARTI (Vurgulu) */
+    .design-card { border: 2px solid var(--accent-blue); }
+    .design-card .p-btn-add { background: linear-gradient(45deg, var(--accent-blue), #00c6ff); width: 100%; }
+
+    /* TEKNİK PANEL LİNKİ */
+    .tech-panel-link {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin-top: 50px;
+        color: var(--text-secondary);
+        font-size: 13px;
+        text-decoration: none;
+        opacity: 0.6;
+        transition: 0.2s;
+    }
+    .tech-panel-link:hover { opacity: 1; color: var(--accent-blue); }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="panel-container">
+    
+    <div class="panel-welcome">
+        <div class="bg-emoji">👋</div>
+        <h1>Hoşgeldin Patron!</h1>
+        <p>Siteni yönetmek için aşağıdaki kutulara tıkla. Her şey parmaklarının ucunda.</p>
+    </div>
+
+    <div class="control-grid">
+
+        <div class="control-card design-card" onclick="location.href='{% url 'panel_ayarlar' %}'" style="cursor: pointer;">
+            <div class="card-emoji">🎨</div>
+            <div class="card-title">Site Tasarımı</div>
+            <div class="card-desc">Logoyu, renkleri ve yazıları buradan değiştir. Kod yazmana gerek yok, tıkla ve seç!</div>
+            <div class="btn-group-panel">
+                <span class="p-btn p-btn-add">Ayarları Düzenle</span>
+            </div>
+        </div>
+
+        <div class="control-card">
+            <div class="card-emoji">👨‍⚖️</div>
+            <div class="card-title">Avukatlar</div>
+            <div class="card-desc">Sitedeki avukat listesini gör veya yeni avukat ekle.</div>
+            <div class="btn-group-panel">
+                <a href="{% url 'panel_icerik' tip='avukat' %}" class="p-btn p-btn-list">Listele</a>
+                <a href="{% url 'panel_ekle' tip='avukat' %}" class="p-btn p-btn-add">+ Ekle</a>
+            </div>
+        </div>
+
+        <div class="control-card">
+            <div class="card-emoji">📚</div>
+            <div class="card-title">Yapay Zeka Verisi</div>
+            <div class="card-desc">Botun öğrendiği kanunları ve bilgileri buradan güncelle.</div>
+            <div class="btn-group-panel">
+                <a href="{% url 'panel_icerik' tip='kanun' %}" class="p-btn p-btn-list">Listele</a>
+                <a href="{% url 'panel_ekle' tip='kanun' %}" class="p-btn p-btn-add">+ Ekle</a>
+            </div>
+        </div>
+
+        <div class="control-card">
+            <div class="card-emoji">📦</div>
+            <div class="card-title">Paketler & Fiyat</div>
+            <div class="card-desc">Satış fiyatlarını ve paket özelliklerini belirle.</div>
+            <div class="btn-group-panel">
+                <a href="{% url 'panel_icerik' tip='paket' %}" class="p-btn p-btn-list">Listele</a>
+                <a href="{% url 'panel_ekle' tip='paket' %}" class="p-btn p-btn-add">+ Ekle</a>
+            </div>
+        </div>
+
+        <div class="control-card">
+            <div class="card-emoji">📢</div>
+            <div class="card-title">Reklam Alanları</div>
+            <div class="card-desc">Sağ ve sol sütundaki reklam görsellerini değiştir.</div>
+            <div class="btn-group-panel">
+                <a href="{% url 'panel_icerik' tip='reklam' %}" class="p-btn p-btn-list">Listele</a>
+                <a href="{% url 'panel_ekle' tip='reklam' %}" class="p-btn p-btn-add">+ Ekle</a>
+            </div>
+        </div>
 
     </div>
 
-    <a href="{% url 'home' %}" class="btn-back">← Siteye Geri Dön</a>
-</body>
-</html>
+    <a href="/admin/" target="_blank" class="tech-panel-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        Gelişmiş Teknik Panel (Django Admin)
+    </a>
+
+</div>
+{% endblock %}

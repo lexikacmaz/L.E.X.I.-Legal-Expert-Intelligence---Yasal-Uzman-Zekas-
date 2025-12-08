@@ -19,11 +19,16 @@
             <p style="color: #888; font-style: italic; margin: 5px 0;">{{ avukat.uzmanlik }}</p>
             <p style="font-size: 0.9rem; color: var(--yazi-renk);">{{ avukat.ozet }}</p>
             
-            <a href="{% url 'randevu_al' avukat.id %}" class="btn" style="display:block; margin-top:15px; width:100%; box-sizing: border-box;">
-                📞 Görüşme Talep Et
-            </a>
-            
-        </div>
+            {% if not avukat_mi %}
+                <a href="{% url 'randevu_al' avukat.id %}" class="btn" style="display:block; margin-top:15px; width:100%; box-sizing: border-box;">
+                    📞 Görüşme Talep Et
+                </a>
+            {% else %}
+                <div style="margin-top:15px; padding: 10px; background: #f1f1f1; color: #888; border-radius: 5px; font-weight: bold; border: 1px dashed #ccc;">
+                    🔒 Meslektaş
+                </div>
+            {% endif %}
+            </div>
     </div>
     {% empty %}
         <p style="text-align: center; width: 100%;">Henüz eklenmiş bir avukat yok.</p>

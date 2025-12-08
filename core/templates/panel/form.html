@@ -1,66 +1,181 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        /* TÜM GOOGLE FONTLARINI ADMİN PANELİNE ÇEKELİM Kİ ÖNİZLEME ÇALIŞSIN */
-        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond&family=Inter&family=Lato&family=Libre+Baskerville&family=Lora&family=Merriweather&family=Montserrat&family=Open+Sans&family=Oswald&family=Playfair+Display&family=Poppins&family=Raleway&family=Roboto&display=swap');
+{% extends 'base.html' %}
+{% load static %}
 
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 40px; }
-        .container { background: white; max-width: 600px; margin: 0 auto; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: #333; margin-bottom: 30px; }
-        
-        label { display: block; margin: 15px 0 8px; font-weight: 600; color: #555; }
-        input[type="text"], input[type="password"], textarea, select { 
-            width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; box-sizing: border-box; 
-        }
-        
-        /* Renk Kutuları */
-        input[type="color"] { width: 100%; height: 50px; padding: 5px; cursor: pointer; border: 1px solid #ddd; border-radius: 8px; }
-        
-        /* FONT SEÇİM KUTUSUNDAKİ SİHİR */
-        select option { padding: 10px; font-size: 1.1rem; }
-        
-        button { background: linear-gradient(135deg, #007bff, #0056b3); color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; margin-top: 30px; cursor: pointer; font-size: 1.1rem; font-weight: bold; transition: 0.3s; }
-        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,123,255,0.3); }
-        .cancel { display: block; text-align: center; margin-top: 20px; color: #888; text-decoration: none; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>✏️ {{ title }}</h2>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% if form.instance.resim %}
-            <div style="text-align: center; margin-bottom: 20px; background: #f9f9f9; padding: 10px; border-radius: 10px;">
-                <p style="color:#666; margin:0;">Mevcut Banner:</p>
-                <img src="{{ form.instance.resim.url }}" style="max-height: 150px; border: 1px solid #ddd; margin-top: 5px;">
+{% block extra_css %}
+<style>
+    /* 1. TÜM FONTLARI YÜKLE */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Lato:wght@300;400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Merriweather:wght@300;400;700&family=Montserrat:wght@300;400;700&family=Open+Sans:wght@300;400;700&family=Oswald:wght@300;400;700&family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;700&family=Raleway:wght@300;400;700&family=Roboto:wght@300;400;700&family=Rubik:wght@300;400;700&display=swap');
+
+    .form-container {
+        max-width: 900px; /* Genişlettik ki yan yana sığsın */
+        margin: 40px auto;
+        background: var(--bg-card);
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: var(--shadow-soft);
+        border: 1px solid var(--border-color);
+    }
+
+    h2 { text-align: center; margin-bottom: 10px; font-size: 28px; }
+    p.desc { text-align: center; color: var(--text-secondary); margin-bottom: 40px; }
+
+    /* --- GRUPLAMA KUTULARI --- */
+    .settings-group {
+        background: var(--bg-input);
+        border: 1px solid var(--border-color);
+        padding: 25px;
+        border-radius: 16px;
+        margin-bottom: 30px;
+    }
+    .group-title {
+        font-size: 18px; font-weight: 800; margin-bottom: 20px;
+        color: var(--text-main); display: flex; align-items: center; gap: 10px;
+        border-bottom: 1px solid var(--border-color); padding-bottom: 10px;
+    }
+
+    /* --- YAN YANA IZGARA (COMPACT) --- */
+    .compact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* İki sütun */
+        gap: 20px;
+    }
+
+    /* Form Elemanları */
+    label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 13px; color: var(--text-secondary); }
+    
+    input[type="text"], input[type="file"], select {
+        width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);
+        background: var(--bg-card); font-size: 14px; outline: none; box-sizing: border-box;
+    }
+    
+    /* Font Önizleme Kutusu */
+    .font-preview-box {
+        margin-top: 10px; padding: 15px; border: 1px dashed var(--accent-blue);
+        background: white; color: black; border-radius: 8px; text-align: center;
+        font-size: 24px; transition: all 0.3s;
+    }
+
+    .btn-save {
+        width: 100%; padding: 16px; background: var(--accent-blue); color: white;
+        border: none; border-radius: 12px; font-size: 16px; font-weight: 700;
+        cursor: pointer; transition: 0.2s; margin-top: 10px;
+    }
+    .btn-save:hover { opacity: 0.9; transform: scale(1.01); }
+
+    /* Mobil Uyum */
+    @media (max-width: 768px) { .compact-grid { grid-template-columns: 1fr; } }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>✏️ {{ title|default:"Düzenleme Ekranı" }}</h2>
+    <p class="desc">Sitenin tüm ayarlarını buradan görsel olarak değiştirebilirsin.</p>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="settings-group">
+            <div class="group-title">🌍 Genel Bilgiler</div>
+            <div class="compact-grid">
+                <div>
+                    <label>Site Başlığı</label>
+                    {{ form.site_basligi }}
+                </div>
+                <div>
+                    <label>Logo Yükle</label>
+                    {{ form.logo }}
+                </div>
+                <div>
+                    <label>Ana Vurgu Rengi (Butonlar vb.)</label>
+                    {{ form.renk_ana }}
+                </div>
             </div>
-        {% endif %}
-            {% for field in form %}
-                <label>{{ field.label }}</label>
-                
-                {% if field.name == 'font_baslik' or field.name == 'font_genel' %}
-                    <select name="{{ field.name }}" id="id_{{ field.name }}" onchange="updatePreview(this)">
-                        {% for value, label in field.field.choices %}
-                            <option value="{{ value }}" 
-                                    style="font-family: '{{ value }}', sans-serif;" 
-                                    {% if field.value == value %}selected{% endif %}>
-                                {{ label }} (Önizleme: Hukuk Adalet)
-                            </option>
+        </div>
+
+        <div class="settings-group">
+            <div class="group-title">✍️ Tipografi (Yazı Tipleri)</div>
+            
+            <div class="compact-grid">
+                <div>
+                    <label>Başlık Fontu (H1, H2...)</label>
+                    <select name="font_baslik" id="id_font_baslik" onchange="updatePreview('baslik', this.value)">
+                        {% for value, label in form.fields.font_baslik.choices %}
+                            <option value="{{ value }}" {% if form.instance.font_baslik == value %}selected{% endif %}>{{ label }}</option>
                         {% endfor %}
                     </select>
-                {% else %}
-                    {{ field }}
-                {% endif %}
-                
-                {% if field.help_text %}
-                    <small style="color: #999;">{{ field.help_text }}</small>
-                {% endif %}
-            {% endfor %}
+                    <div id="preview_baslik" class="font-preview-box">
+                        L.E.X.I. Hukuk
+                    </div>
+                </div>
 
-            <button type="submit">Değişiklikleri Kaydet</button>
-        </form>
-        <a href="{% url 'panel_dashboard' %}" class="cancel">İptal</a>
-    </div>
-</body>
-</html>
+                <div>
+                    <label>Genel Yazı Fontu (Paragraflar)</label>
+                    <select name="font_genel" id="id_font_genel" onchange="updatePreview('genel', this.value)">
+                        {% for value, label in form.fields.font_genel.choices %}
+                            <option value="{{ value }}" {% if form.instance.font_genel == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <div id="preview_genel" class="font-preview-box" style="font-size: 16px;">
+                        Adalet mülkün temelidir. Yapay zeka ile analiz yapın.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-group">
+            <div class="group-title">🌗 Tema Renkleri (Ayrı Ayrı)</div>
+            
+            <div class="compact-grid">
+                <div style="background: #f9f9f9; padding: 15px; border-radius: 10px; border: 1px solid #ddd;">
+                    <h4 style="margin-bottom: 15px; color: #333;">☀️ Açık Mod (Light)</h4>
+                    <label>Arkaplan Rengi</label>
+                    {{ form.renk_arkaplan_light }}
+                    
+                    <label style="margin-top:10px;">Kart Rengi (Kutular)</label>
+                    {{ form.renk_kart_light }}
+                    
+                    <label style="margin-top:10px;">Yazı Rengi</label>
+                    {{ form.renk_yazi_light }}
+                </div>
+
+                <div style="background: #222; padding: 15px; border-radius: 10px; border: 1px solid #444;">
+                    <h4 style="margin-bottom: 15px; color: #fff;">🌙 Koyu Mod (Dark)</h4>
+                    <label style="color:#aaa;">Arkaplan Rengi</label>
+                    {{ form.renk_arkaplan_dark }}
+                    
+                    <label style="margin-top:10px; color:#aaa;">Kart Rengi (Kutular)</label>
+                    {{ form.renk_kart_dark }}
+                    
+                    <label style="margin-top:10px; color:#aaa;">Yazı Rengi</label>
+                    {{ form.renk_yazi_dark }}
+                </div>
+            </div>
+        </div>
+
+        {% for field in form.hidden_fields %}{{ field }}{% endfor %}
+
+        <button type="submit" class="btn-save">💾 Ayarları Kaydet</button>
+        <a href="{% url 'panel_dashboard' %}" style="display:block; text-align:center; margin-top:15px; color:#888; text-decoration:none;">İptal Et</a>
+    </form>
+</div>
+
+<script>
+    // Sayfa Yüklendiğinde Önizlemeyi Çalıştır
+    document.addEventListener("DOMContentLoaded", function() {
+        const baslikSelect = document.getElementById('id_font_baslik');
+        const genelSelect = document.getElementById('id_font_genel');
+        
+        if(baslikSelect) updatePreview('baslik', baslikSelect.value);
+        if(genelSelect) updatePreview('genel', genelSelect.value);
+    });
+
+    // Font Değişince Anında Göster
+    function updatePreview(tip, fontName) {
+        const previewBox = document.getElementById('preview_' + tip);
+        if(previewBox) {
+            previewBox.style.fontFamily = fontName;
+        }
+    }
+</script>
+{% endblock %}
