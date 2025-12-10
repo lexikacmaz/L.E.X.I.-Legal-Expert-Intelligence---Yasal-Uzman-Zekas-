@@ -1,123 +1,222 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giriş Yap • Hukuk AI</title>
+    <title>Giriş Yap | TURA.AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        /* --- TURA TEMEL TASARIM DEĞİŞKENLERİ --- */
         :root {
-            --apple-gray: #f5f5f7;
-            --apple-blue: #0071e3;
-            --apple-text: #1d1d1f;
-            --blur-bg: rgba(255, 255, 255, 0.7);
+            --bg-dark: #050a14;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --gold: #d4af37;
+            --neon-blue: #00f3ff;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: url('https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=2000&auto=format&fit=crop') no-repeat center center fixed; 
-            background-size: cover;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        /* Arkaplanı biraz karartalım ki yazı okunsun */
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            z-index: -1;
-        }
-        .container {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 40px;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            width: 100%;
-            max-width: 360px;
-            text-align: center;
-        }
-        h2 { margin-top: 0; color: #333; }
-        
-        input {
-            width: 100%;
-            padding: 16px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 12px;
-            font-size: 16px;
-            box-sizing: border-box;
-            background: rgba(255,255,255,0.9);
-        }
-        
-        button {
-            width: 100%;
-            padding: 16px;
-            background-color: var(--apple-blue);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        button:hover { background-color: #005bb5; transform: scale(1.02); }
-        button:active { transform: scale(0.98); }
-        
-        /* Butona basılınca gelecek stil */
-        button.loading {
-            background-color: #999;
-            cursor: not-allowed;
-            pointer-events: none;
+            overflow: hidden;
+            position: relative;
         }
 
-        .alert {
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            font-weight: 500;
-            font-size: 14px;
+        /* Arkaplan Efekti */
+        .background-glow {
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(0, 243, 255, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            animation: pulse 8s infinite alternate;
         }
-        .alert-error { background-color: #ffe5e5; color: #d32f2f; border: 1px solid #ffcdd2; }
-        .alert-success { background-color: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
+        @keyframes pulse {
+            0% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        /* Giriş Kartı (Glassmorphism) */
+        .login-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 50px 40px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #fff, var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 3px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Form Elemanları */
+        .form-group { margin-bottom: 20px; text-align: left; }
         
-        .footer-link { margin-top: 20px; display: block; color: var(--apple-blue); text-decoration: none; font-size: 14px; }
+        label {
+            display: block;
+            color: var(--gold);
+            font-size: 0.75rem;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        input:focus {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        /* Buton */
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 10px;
+            background: linear-gradient(45deg, rgba(0, 243, 255, 0.1), rgba(0, 243, 255, 0.05));
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 0 0 20px var(--neon-blue);
+        }
+
+        /* Alt Linkler */
+        .footer-links {
+            margin-top: 25px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        
+        .footer-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            transition: 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+        
+        .footer-links a:hover {
+            color: var(--gold);
+            border-color: var(--gold);
+        }
+
+        /* Mesaj Kutuları (Hata/Başarı) */
+        .alert {
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .alert-error {
+            background: rgba(255, 59, 48, 0.1);
+            border: 1px solid #ff3b30;
+            color: #ff453a;
+        }
+        .alert-success {
+            background: rgba(52, 199, 89, 0.1);
+            border: 1px solid #34c759;
+            color: #32d74b;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Giriş Yap</h2>
+    <div class="background-glow"></div>
 
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">
-                {{ message }}
+    <div class="login-card">
+        <div class="logo">LEXI</div>
+        <p class="subtitle">Beta Programı Girişi</p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    <i class="fa-solid fa-circle-info"></i> {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label>Kullanıcı Adı</label>
+                <input type="text" name="kullanici_adi" required placeholder="Kullanıcı adınız..." autocomplete="off">
             </div>
-        {% endfor %}
-    {% endif %}
 
-    <form method="POST" onsubmit="butonuKilitle()">
-        {% csrf_token %}
-        <input type="text" name="kullanici_adi" required placeholder="Kullanıcı Adı" autofocus>
-        <input type="password" name="sifre" required placeholder="Şifre">
-        <button type="submit" id="girisBtn">Giriş Yap</button>
-    </form>
+            <div class="form-group">
+                <label>Şifre</label>
+                <input type="password" name="sifre" required placeholder="••••••••">
+            </div>
 
-    <a href="{% url 'beta_basvuru' %}" class="footer-link">Hesabın yok mu? Başvuru Yap</a>
-</div>
+            <button type="submit">Sisteme Gir</button>
+        </form>
 
-<script>
-    function butonuKilitle() {
-        var btn = document.getElementById("girisBtn");
-        btn.innerHTML = "Giriş Yapılıyor...";
-        btn.classList.add("loading");
-    }
-</script>
+        <div class="footer-links">
+            Hesabınız yok mu? <a href="{% url 'beta_basvuru' %}">Başvuru Yapın</a>
+        </div>
+    </div>
 
 </body>
 </html>

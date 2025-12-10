@@ -116,3 +116,7 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# HukukProje/settings.py dosyasının en alt satırına ekle:
+
+GOOGLE_API_KEY = "AIzaSyAiAsM8IIa0LqLlUhfbqVS3RiRE3g_M12Q"

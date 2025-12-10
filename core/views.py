@@ -10,6 +10,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.conf import settings 
+from django.http import JsonResponse
 
 # MODELLER
 from .models import (
@@ -95,29 +96,66 @@ def beta_giris_yap(request):
 # --- AI VE ANASAYFA ---
 # ==========================================
 
+# --- HIZLANDIRILMIŞ AI FONKSİYONU ---
+# --- GÜÇLENDİRİLMİŞ & HIZLANDIRILMIŞ AI FONKSİYONU ---
 def generate_safe_content(prompt):
-    model_listesi = ["gemini-flash-latest", "gemini-1.5-flash", "gemini-1.5-pro", "gemini-pro"]
-    last_error = None
+    # Denenecek Modeller (Sırasıyla en hızlıdan en güçlüye)
+    model_listesi = [
+        "gemini-1.5-flash",          # En hızlısı (Varsa)
+        "gemini-1.5-flash-latest",   # Alternatif isim
+        "gemini-1.5-pro",            # Daha zeki
+        "gemini-pro",                # En kararlı (Eski ama sağlam)
+    ]
+    
+    system_instruction = "Sen uzman bir hukuk asistanısın. Cevaplarını HTML formatında (h3, ul, li) ver. Kısa ve net ol."
+
     for model_name in model_listesi:
         try:
-            model = genai.GenerativeModel(model_name)
-            res = model.generate_content(prompt)
-            return res.text
+            # Modeli başlat
+            model = genai.GenerativeModel(
+                model_name,
+                system_instruction=system_instruction
+            )
+            
+            # İçerik üret (Hız ayarlarıyla)
+            response = model.generate_content(
+                prompt,
+                generation_config=genai.types.GenerationConfig(
+                    candidate_count=1,
+                    max_output_tokens=800, # Hız için sınırı koru
+                    temperature=0.7
+                )
+            )
+            # Eğer cevap boş değilse döndür
+            if response.text:
+                return response.text
+                
         except Exception as e:
-            last_error = e
+            # Bu model çalışmadıysa (404 vs.) sessizce diğerine geç
             continue
-    raise Exception(f"Hiçbir model çalıştırılamadı. Hata: {last_error}")
+
+    # Hiçbir model çalışmazsa
+    return "<h3>⚠️ Bağlantı Hatası</h3><p>Şu an AI servislerine erişilemiyor. Lütfen daha sonra tekrar deneyin.</p>"
 
 # core/views.py içindeki home fonksiyonunu bununla değiştir:
 
+# ... importların ...
+
 def home(request):
+    # ============================================================
+    # 🛡️ GÜVENLİK DUVARI: GİRİŞ YAPMAYANI İÇERİ ALMA
+    # ============================================================
+    # Eğer kullanıcı Admin değilse VE Beta girişi yapmamışsa -> Beta Girişe Fırlat
+    if not request.user.is_superuser and 'beta_kullanici_id' not in request.session:
+        return redirect('beta_giris')
+    # ============================================================
+
     ayar = get_settings()
     banner_sol = ReklamBanner.objects.filter(pozisyon='Sol', aktif_mi=True).order_by('?').first()
     banner_sag = ReklamBanner.objects.filter(pozisyon='Sag', aktif_mi=True).order_by('?').first()
     kategoriler = HukukKategori.objects.filter(aktif_mi=True)
     
-    # 1. ADIM: Cevabı Session'dan (Hafızadan) Al ve SİL
-    # Sayfa yenilendiğinde bu değişken boş geleceği için cevap kutusu kaybolur.
+    # Session'daki cevabı al ve temizle (Sayfa yenilenince gitmesi için)
     cevap = request.session.pop('ai_cevap', None)
     
     secilen_bot_slug = "genel"
@@ -130,65 +168,77 @@ def home(request):
         soru = request.POST.get("soru")
         secilen_bot_slug = request.POST.get("bot_slug")
 
+        # Hak Kontrolü
         if kalan_hak <= 0 and not request.user.is_superuser:
+            # AJAX isteği ise JSON dön
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'error': 'Limitiniz doldu. Lütfen paket satın alın.'}, status=403)
             return render(request, 'limit_bitti.html', {'ayar': ayar})
 
-        # --- AI İŞLEMLERİ ---
-        yeni_cevap = ""
         try:
+            # --- AI İŞLEMLERİ ---
             if secilen_bot_slug == 'genel':
                 prompt = f"""
-                GÖREVİN: Sen uzman bir hukuk asistanısın.
+                VERİ: {context_text}
                 SORU: "{soru}"
-                KURALLAR: Cevabı HTML formatında (h3, ul, li) ver. Kısa ve net olsun.
-                Başlıklar: 🧐 Durum Analizi, ⚠️ Riskler, 💰 Masraflar, ✅ Yol Haritası.
+                GÖREV: Yukarıdaki veriyi kullanarak soruya kısa, maddeler halinde ve net bir cevap ver.
+                FORMAT: <h3>Durum</h3>... <h3>Öneri</h3>... şeklinde HTML kullan.
                 """
-                yeni_cevap = generate_safe_content(prompt)
+                cevap = generate_safe_content(prompt)
             else:
                 # Özel Bot Mantığı
                 try:
                     collection = chroma_client.get_collection(name=secilen_bot_slug)
                 except:
-                    # Hata durumunda session'a hata mesajı kaydedip dön
-                    request.session['ai_cevap'] = "<h3>⚠️ Veri Tabanı Hatası</h3><p>Veri yüklenmemiş. Genel Bot'u kullanın.</p>"
-                    return redirect('home')
-
-                try:
-                    soru_vec = genai.embed_content(model=EMBEDDING_MODEL, content=soru, task_type="retrieval_query")['embedding']
-                except:
-                    soru_vec = genai.embed_content(model="models/embedding-001", content=soru, task_type="retrieval_query")['embedding']
-
-                results = collection.query(query_embeddings=[soru_vec], n_results=3)
+                    cevap = "<h3>⚠️ Veri Tabanı Hatası</h3><p>Veri yüklenmemiş. Genel Bot'u kullanın.</p>"
                 
-                if 'documents' in results and results['documents'] and results['documents'][0]:
-                    bulunan_metinler = results['documents'][0]
-                    context_text = "\n\n".join(bulunan_metinler)
-                    prompt = f"""
-                    GÖREVİN: Sadece aşağıdaki verileri kullanan hukuk uzmanısın.
-                    VERİ: {context_text}
-                    SORU: "{soru}"
-                    KURALLAR: HTML formatında cevapla. Uydurma.
-                    """
-                    yeni_cevap = generate_safe_content(prompt)
-                else:
-                    yeni_cevap = f"<h3>🚫 Sonuç Bulunamadı</h3><p>Veritabanında bilgi yok.</p>"
+                if not cevap or "Hata" not in cevap:
+                    try:
+                        soru_vec = genai.embed_content(model=EMBEDDING_MODEL, content=soru, task_type="retrieval_query")['embedding']
+                    except:
+                        soru_vec = genai.embed_content(model="models/embedding-001", content=soru, task_type="retrieval_query")['embedding']
 
-            # Cevap temizliği ve kaydı
-            yeni_cevap = yeni_cevap.replace('```html', '').replace('```', '')
-            SohbetGecmisi.objects.create(soru=soru, cevap=yeni_cevap)
+                    results = collection.query(query_embeddings=[soru_vec], n_results=2)
+                    
+                    if 'documents' in results and results['documents'] and results['documents'][0]:
+                        bulunan_metinler = results['documents'][0]
+                        context_text = "\n\n".join(bulunan_metinler)
+                        prompt = f"""
+                        GÖREVİN: Sadece aşağıdaki verileri kullanan hukuk uzmanısın.
+                        VERİ: {context_text}
+                        SORU: "{soru}"
+                        KURALLAR: HTML formatında cevapla. Uydurma.
+                        """
+                        cevap = generate_safe_content(prompt)
+                    else:
+                        cevap = f"<h3>🚫 Sonuç Bulunamadı</h3><p>Veritabanında bilgi yok.</p>"
+
+            # Temizlik ve Kayıt
+            cevap = cevap.replace('```html', '').replace('```', '')
+            SohbetGecmisi.objects.create(soru=soru, cevap=cevap)
             
             if not request.user.is_superuser:
                 request.session['kalan_hak'] -= 1
                 request.session.modified = True
+                kalan_hak = request.session['kalan_hak'] # Güncel hakkı al
+
+            # AJAX İsteği ise JSON Döndür (Sayfa Yenilenmez)
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'cevap': cevap,
+                    'kalan_hak': kalan_hak
+                })
             
-            # 2. ADIM: Cevabı Session'a Kaydet ve Yönlendir
-            # Bu sayede sayfa "POST" modunda kalmaz, "GET" moduna geçer.
-            request.session['ai_cevap'] = yeni_cevap
-            return redirect('home') 
+            # Normal POST ise Session'a kaydet ve yönlendir (Yenileme sorununu çözer)
+            request.session['ai_cevap'] = cevap
+            return redirect('home')
 
         except Exception as e:
-            # Hata durumunda da yönlendir
-            request.session['ai_cevap'] = f"<p class='error'>Hata: {str(e)}</p>"
+            error_msg = f"<p class='error'>Hata: {str(e)}</p>"
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'error': str(e)}, status=500)
+            
+            request.session['ai_cevap'] = error_msg
             return redirect('home')
 
     return render_home(request, ayar, cevap, kategoriler, banner_sol, banner_sag, secilen_bot_slug, kalan_hak)
