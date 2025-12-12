@@ -1,0 +1,27 @@
+{
+    "dosya_adi": "3HukukDairesi_E2017-5341_K2018-11195.txt",
+    "kimlik": {
+        "esas_no": "2017/5341",
+        "karar_no": "2018/11195",
+        "tarih": "01.08.2011",
+        "daire": "3. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira Bedeli Tespiti",
+            "Türk Borçlar Kanunu",
+            "TBK 344",
+            "TBK 345",
+            "Aktif Husumet Ehliyeti",
+            "Dava Süresi",
+            "Hak ve Nesafet",
+            "ÜFE",
+            "Sözleşme Süresi"
+        ],
+        "hukuki_ilke": "Kira bedeli tespiti davalarında, kira sözleşmesinin toplam süresi (beş yıl ve üzeri olması) uygulanacak artış oranının (ÜFE veya hak ve nesafet) belirlenmesinde esas olup, davanın doğru kira dönemine ilişkin ve aktif husumet ehliyeti olan kişilerce açılması zorunludur.",
+        "ozet_hikaye": "Davacı, 01.08.2011 başlangıç tarihli kira sözleşmesiyle kiralanan konutun aylık kira bedelinin emsalleri karşısında düşük kaldığını iddia ederek 01.08.2012 tarihinden itibaren kira bedelinin tespitini istemiştir. Yerel mahkeme davanın kısmen kabulüne karar vermiş, davalı kararı temyiz etmiştir.",
+        "kritik_uyari": "Kira bedeli tespiti davasında uygulanacak artış oranı (ÜFE artışı veya hak ve nesafet indirimi), kiracılık ilişkisinin toplam süresine (özellikle beş yıldan uzun süreli olup olmadığına) göre farklılık arz eder. Ayrıca, davanın TBK 345 maddesindeki süre şartlarına uygun olarak doğru döneme ilişkin açılması ve davayı açan kişinin (kiraya veren veya malik) aktif husumet ehliyetine sahip olması, davanın usulden veya esastan reddedilmemesi için kritik öneme sahiptir.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 20:01:10"
+}

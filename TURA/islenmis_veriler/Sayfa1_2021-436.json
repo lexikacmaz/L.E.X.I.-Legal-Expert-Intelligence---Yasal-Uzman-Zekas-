@@ -1,0 +1,24 @@
+{
+    "dosya_adi": "Sayfa1_2021-436.txt",
+    "kimlik": {
+        "esas_no": "2017/2836",
+        "karar_no": "2021/436",
+        "tarih": "01.07.2007",
+        "daire": "6. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira",
+            "Tahliye",
+            "İtirazın Kaldırılması",
+            "Temerrüt",
+            "Kira Sözleşmesi",
+            "Kira Bedeli"
+        ],
+        "hukuki_ilke": "Borçlu kiracı, ilamsız tahliye takibine itiraz ederken yazılı kira sözleşmesindeki imzasını açık ve kesin olarak reddetmezse, kira sözleşmesini kabul etmiş sayılır ve sözleşmede belirtilen kira bedeli ile artış oranı taraflar için bağlayıcı hale gelir.",
+        "ozet_hikaye": "Alacaklı (kiraya veren), yazılı kira sözleşmesinde belirtilen yıllık artış oranına uyulmadığı ve eksik ödeme yapıldığı gerekçesiyle kiracının tahliyesi ve kira alacağının tahsili için icra takibi başlatmıştır. Borçlu (kiracı) ise yazılı sözleşmenin hiç uygulanmadığını, taraflar arasında şifahi bir anlaşma ile daha düşük bir kira bedelinin (1.250 TL) kabul edildiğini savunmuştur. İlk derece mahkemesi, alacaklının kendi gönderdiği ihtarnamede dahi 1.250 TL kira bedelini belirtmesi ve uzun süreli ödeme pratiğini dikkate alarak şifahi anlaşmayı geçerli saymış ve davayı reddetmiştir. Ancak Özel Daire, borçlunun yazılı sözleşmedeki imzasını açıkça inkar etmediği için sözleşmenin geçerli olduğunu ve kira bedelinin sözleşmedeki artış oranına göre belirlenmesi gerektiğini belirterek kararı bozmuştur. Mahkeme bozmaya direnmiştir.",
+        "kritik_uyari": "İcra takibinde, borçlunun yazılı kira sözleşmesine veya imzasının varlığına itiraz ederken 'açık ve kesin' bir dille inkarda bulunmaması, sözleşmenin varlığını ve içindeki kira bedeli ile artış oranını kabul ettiği anlamına gelir; bu durum, ispat yükünü ve itirazın kaldırılması süreçlerindeki taleplerin kaderini doğrudan etkiler.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 05:53:48"
+}

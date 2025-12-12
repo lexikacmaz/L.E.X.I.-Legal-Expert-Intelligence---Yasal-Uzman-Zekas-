@@ -1,0 +1,24 @@
+{
+    "dosya_adi": "3HukukDairesi_E2018-5299_K2019-7393.txt",
+    "kimlik": {
+        "esas_no": "2018/5299",
+        "karar_no": "2019/7393",
+        "tarih": "Belirtilmemiş",
+        "daire": "3. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira",
+            "Tahliye",
+            "İtirazın İptali",
+            "Kira Bedeli Tespiti",
+            "İspat Yükü",
+            "Yazılı Delil"
+        ],
+        "hukuki_ilke": "Kira bedelinin tespiti davasında, tarafların sunduğu kira sözleşmelerinde aylık kira bedeli birbiriyle uyumlu olmasına rağmen, yıllık kira bedeliyle uyumsuzluk olması halinde, kiracı tarafından kabul edilen ve aylık ödemelere uyumlu olan bedelin esas alınması gerekir.",
+        "ozet_hikaye": "Davacı kiraya veren, davalı kiracının ödenmeyen kira bedelleri nedeniyle başlattığı icra takibine yapılan itirazın iptali ve tahliyesini talep etmiştir. Davalı kiracı, kira bedelinin daha düşük olduğunu savunmuştur. Yerel mahkeme yıllık kira bedelini esas alarak davayı kısmen kabul etse de, Yargıtay tarafların sunduğu sözleşmelerdeki aylık kira bedelinin uyumuna dikkat çekerek, bu bedelin esas alınması gerektiğini belirtmiştir.",
+        "kritik_uyari": "Kira bedelinin belirlenmesinde, HMK 200. maddedeki senetle ispat sınırının aşılması durumunda yazılı belge ile ispat zorunluluğu bulunmaktadır; ayrıca, yazılı kira sözleşmesindeki aylık ve yıllık kira bedeli arasında uyumsuzluk olması halinde, tarafların kabulündeki ve ödeme biçimiyle uyumlu olan aylık bedel esas alınmalıdır.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 20:03:23"
+}

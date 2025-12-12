@@ -1,0 +1,23 @@
+{
+    "dosya_adi": "Sayfa1_2019-396.txt",
+    "kimlik": {
+        "esas_no": "2017/7428",
+        "karar_no": "2019/396",
+        "tarih": "17.11.2014",
+        "daire": "3. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira Bedelinin Tespiti",
+            "Kira Sözleşmesi Başlangıç Tarihi",
+            "Hak ve Nesafet İlkesi",
+            "Bilirkişi Raporunun Yetersizliği",
+            "Emsal Kira Bedelleri"
+        ],
+        "hukuki_ilke": "Kira bedelinin tespiti davalarında, kira sözleşmesinin başlangıç tarihi öncelikle bir ön sorun olarak tespit edilmeli; belirlenen kira bedeli emsal karşılaştırmalarını içeren, hak ve nesafete uygun, net veya brüt ayrımı açıkça belirtilmiş ve denetime elverişli bir bilirkişi raporuna dayanmalıdır.",
+        "ozet_hikaye": "Yeni malik, satın aldığı taşınmazın kira bedelinin artırılmasını talep ederek tespit davası açmıştır. Davalı kiracı, önceki kira bedelinin düşük olduğunu savunarak davanın reddini istemiştir. Yerel mahkeme, hak ve nesafet ilkesine göre kira bedelini 1.575 TL olarak belirlemiştir. Yargıtay, kira sözleşmesinin başlangıç tarihinin belirlenmemesi ve bilirkişi raporunun emsal karşılaştırmaları ile net/brüt ayrımı konularında yetersiz olması nedeniyle hükmü bozmuştur.",
+        "kritik_uyari": "Kira bedelinin tespiti davalarında, kira sözleşmesinin başlangıç tarihinin doğru tespiti, yeni dönemin başlangıcının belirlenmesi açısından kritik öneme sahiptir. Ayrıca, bilirkişi raporlarının denetime elverişli olması, emsal karşılaştırmalarını somut gerekçelerle açıklaması ve belirlenen kira bedelinin net mi brüt mü olduğunu açıkça belirtmesi gerekmektedir, aksi takdirde karar bozmayı gerektirecektir.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 05:53:23"
+}

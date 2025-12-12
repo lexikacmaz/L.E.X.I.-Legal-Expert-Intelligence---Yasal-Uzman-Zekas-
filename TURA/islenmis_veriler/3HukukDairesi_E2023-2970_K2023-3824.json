@@ -1,0 +1,24 @@
+{
+    "dosya_adi": "3HukukDairesi_E2023-2970_K2023-3824.txt",
+    "kimlik": {
+        "esas_no": "2023/2970",
+        "karar_no": "2023/3824",
+        "tarih": "01.09.2020",
+        "daire": "3. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira Alacağı",
+            "İspat Külfeti",
+            "Kira Sözleşmesi",
+            "Eksik İnceleme",
+            "Usul",
+            "Kanun Yararına Bozma"
+        ],
+        "hukuki_ilke": "Kira alacağı davalarında kira bedelinin ispatı kiralayana ait olup, senetle ispat sınırının üzerindeki miktarlar kesin delille kanıtlanmazsa kiracının kabulündeki miktar esas alınmalı; ayrıca kira sözleşmesi ve artış şartı dosyada mevcutsa, mahkemece artış şartına göre dönem kira bedeli belirlenerek karar verilmelidir.",
+        "ozet_hikaye": "Davacı kiralayan, davalı kiracıdan ödenmeyen 20 günlük kira bedelini talep etmiş; davalı ise taşınmazı boşalttığını ve kira borcu olmadığını savunmuştur. İlk derece mahkemesi, davacının kira bedelini ispat edemediği gerekçesiyle davayı reddetmiş; ancak Yargıtay, dosyada mevcut kira sözleşmesi, artış şartı ve kiracının kabulünde olan kira bedeli gibi hususlar dikkate alınmadan eksik incelemeyle karar verildiği gerekçesiyle kararı kanun yararına bozmuştur.",
+        "kritik_uyari": "Kira alacağı davalarında ispat külfeti kiralayana ait olsa da, dosyadaki kira sözleşmesi, banka dekontları ve davalının beyanları gibi mevcut tüm delillerin kira miktarının belirlenmesinde dikkate alınması hayati olup, aksi takdirde eksik inceleme nedeniyle karar bozulabilir.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 20:03:44"
+}

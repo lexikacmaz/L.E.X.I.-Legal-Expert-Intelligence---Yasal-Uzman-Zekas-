@@ -1,0 +1,26 @@
+{
+    "dosya_adi": "3HukukDairesi_E2017-4779_K2018-193.txt",
+    "kimlik": {
+        "esas_no": "2017/4779",
+        "karar_no": "2018/193",
+        "tarih": "18.06.2012",
+        "daire": "3. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira Bedeli Tespiti",
+            "Bilirkişi Raporu",
+            "Emsal Kira",
+            "Dava Süresi",
+            "Hak ve Nesafet",
+            "Yeni Malik",
+            "TBK 344",
+            "TBK 345"
+        ],
+        "hukuki_ilke": "Kira bedeli tespiti davalarında, bilirkişi raporunun emsal karşılaştırmalarını dava konusu taşınmaz ve emsallerin konum, vasıf ve özellikleri belirtilerek somut ve gerekçeli yapması zorunlu olup, kira artış şartı bulunmayan sözleşmelerde tespit istenen yeni kira döneminin başlangıcından en geç otuz gün önce dava açılmadığı veya yazılı bildirimde bulunulmadığı takdirde dava o döneme ilişkin süresinde açılmamış sayılır.",
+        "ozet_hikaye": "Yeni malik olan davacı, sözlü kira sözleşmesiyle kiracı olan davalıdan aylık kira bedelinin 1.100 TL olarak tespitini talep etmiştir. Yerel mahkeme davayı kısmen kabul ederek aylık 840 TL'ye hükmetmiş, ancak Yargıtay, hem bilirkişi raporunun yetersizliği hem de davanın tespit istenen döneme ilişkin süresinde açılmaması nedeniyle hükmü bozmuştur.",
+        "kritik_uyari": "Kira bedeli tespiti davasında, kira sözleşmesinde artış şartı bulunmadığı hallerde, yeni dönemin başlangıcından en geç 30 gün önce dava açılması veya kiracıya yazılı bildirimde bulunulması gerekmektedir. Aksi takdirde, mahkemece belirlenecek kira bedeli yeni dönemin başlangıcından itibaren geçerli olmayacak, hatta dava süresinde açılmadığı gerekçesiyle reddedilebilecektir. Ayrıca, bilirkişi raporunun emsal taşınmazları yeterli vasıf ve gerekçelerle incelemesi ve somutlaştırması, hüküm kurmaya elverişli olması açısından hayati önem taşır.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 20:00:55"
+}

@@ -1,0 +1,22 @@
+{
+  "kimlik": {
+    "daire": "3. Hukuk Dairesi",
+    "tarih": "04.09.2025"
+  },
+  "analiz": {
+    "konu_etiketleri": [
+      "Temyiz Sınırı",
+      "Kira Alacağı",
+      "Temyiz Edilemezlik",
+      "Kesinlik Sınırı"
+    ],
+    "hukuki_ilke": "6100 sayılı Hukuk Muhakemeleri Kanunu'nun 362. maddesi uyarınca, kira ilişkisinden doğan ve miktar veya değeri kesinlik sınırını geçmeyen alacak davalarına ilişkin nihai kararlar ile kira ilişkisinden doğan ve üç aylık kira tutarı kesinlik sınırını geçmeyen diğer davalara ilişkin nihai kararlar temyiz edilemez. Temyize konu miktarın kesinlik sınırının altında kalması hâlinde, HMK 366 atfıyla 352/1-b uyarınca temyiz dilekçesinin reddi gerekir."
+  },
+  "uzman_gozuyle": {
+    "kritik_hata": "Davacı asıl tarafından, temyiz edilebilirlik kesinlik sınırının (544.000,00 TL) çok altında kalan (12.000,00 TL) bir uyuşmazlık için Bölge Adliye Mahkemesi'nin usulüne uygun verdiği temyiz dilekçesinin reddi yönündeki ek kararın temyiz edilmeye çalışılmasıdır.",
+    "ispat_araci": "Temyize konu edilen davada üç aylık kira tutarı toplamının 12.000,00 TL olduğunun tespiti ve bu miktarın karar tarihindeki kesinlik sınırı olan 544.000,00 TL'nin altında kaldığının belirlenmesi."
+  },
+  "sonuc": {
+    "hukum": "Bölge Adliye Mahkemesince verilen 21.03.2025 tarihli ek kararın ONANMASINA."
+  }
+}

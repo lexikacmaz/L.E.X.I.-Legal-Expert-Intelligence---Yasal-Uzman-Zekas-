@@ -1,0 +1,24 @@
+{
+    "dosya_adi": "6HukukDairesi_E2013-8092_K2014-1600.txt",
+    "kimlik": {
+        "esas_no": "2013/8092",
+        "karar_no": "2014/1600",
+        "tarih": "03.06.2011",
+        "daire": "6. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira",
+            "Kira Bedeli Tespiti",
+            "Kira Sözleşmesi",
+            "Mevsimlik Kira",
+            "Sözleşme Yorumu",
+            "Narenciye Bahçesi"
+        ],
+        "hukuki_ilke": "Mevsimlik olarak kiralanan taşınmazlarda (özellikle tarım arazisi gibi), kira sözleşmesinde bedel yıllık olarak belirtilmiş olsa dahi, bu bedel sözleşmede kararlaştırılan mevsimlik sürenin toplam kira bedeli olarak kabul edilmeli; ihale tutanağında aylık bedel gösterilmesi veya sözleşme süresinin bir yıldan kısa olması, yıllık bedelin pro-rata olarak aylığa bölünmesini gerektirmez.",
+        "ozet_hikaye": "Kiracı, ihale ile 7 aylığına kiraladığı iki adet narenciye bahçesinin kira bedelinin bu 7 aylık süreye göre hesaplanarak bakiye borcunun 2.899 TL olduğunun tespitini istemiştir. Kiralayan ise sözleşmenin yıllık kira bedeli üzerinden yapıldığını ve kiracının yıllık bedelden sorumlu olması gerektiğini savunmuştur. Yerel mahkeme kiracının talebini kabul ederek kira bedelini 7 aylık süreye göre hesaplamış; ancak Yargıtay, kira sözleşmesinin mevsimlik niteliğini vurgulayarak, sözleşmede 'yıllık' olarak belirtilen bedelin aslında tüm mevsimlik süreyi kapsayan bedel olduğunu ve ihale tutanağındaki aylık bedel gösteriminin veya sözleşme süresinin 7 ay olmasının bu yorumu değiştirmeyeceğini belirterek yerel mahkeme kararını bozmuştur.",
+        "kritik_uyari": "Mevsimlik nitelikteki kira sözleşmelerinde (özellikle tarım arazileri için), kira bedeli yıllık olarak belirtildiğinde, tarafların bu bedelin yıllık toplam bedel mi yoksa sözleşmedeki kısa sezon süresi için toplam bedel mi olduğunu sözleşmede açıkça belirtmeleri büyük önem taşır. Aksi takdirde, 'yıllık' yazılan bedelin, sözleşmedeki mevsimlik sürenin toplam bedeli olarak yorumlanma riski bulunmaktadır.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 20:04:28"
+}

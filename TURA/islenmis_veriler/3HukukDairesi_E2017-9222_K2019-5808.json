@@ -1,0 +1,26 @@
+{
+    "dosya_adi": "3HukukDairesi_E2017-9222_K2019-5808.txt",
+    "kimlik": {
+        "esas_no": "2017/9222",
+        "karar_no": "2019/5808",
+        "tarih": "29.09.2015",
+        "daire": "3. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira Bedelinin Tespiti",
+            "Adi Kira",
+            "Çatılı İşyeri Kirası",
+            "Uygulanacak Hukuk",
+            "Eksik İnceleme",
+            "TBK Genel Hükümler",
+            "Tacir Kiracı",
+            "Kira Artışı"
+        ],
+        "hukuki_ilke": "Kira bedelinin tespiti davalarında, kiralananın niteliğinin (adi kira veya çatılı işyeri kirası) doğru belirlenmesi ve kiracının tacir olup olmadığına göre uygulanacak yasa hükümlerinin (TBK genel hükümler, konut/çatılı işyeri kira hükümleri veya geçici madde hükümleri) tespit edilmesi, davanın esası için kritik öneme sahiptir.",
+        "ozet_hikaye": "Davacı, 'çay alım yeri' olarak kiralanan taşınmazın kira bedelinin rayicin altında kaldığını belirterek kira bedelinin tespitini talep etmiştir. İlk derece mahkemesi davayı reddetmiştir. Yargıtay, kiralananın vasfı (adi kira veya çatılı işyeri kirası) ve buna bağlı olarak uygulanacak yasa hükümlerinin (TBK genel hükümler veya konut/çatılı işyeri kira hükümleri, tacir kiracı durumunda geçici madde hükümleri) eksik araştırma ve keşif yapılmadan belirlenmesi nedeniyle kararı bozmuştur.",
+        "kritik_uyari": "Kira tespit davasında, davanın hangi kira dönemi için açıldığı ve bu dönemin başlangıç tarihi ile ilgili TBK madde 345'teki süre şartlarına dikkat edilmesi ve kiralananın vasfının (adi kira/çatılı işyeri kirası) keşif ile netleştirilerek doğru kanun hükümlerinin (TBK genel hükümler/özel hükümler, tacir kiracı muafiyeti dahil) uygulanması gerekmektedir.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 20:02:54"
+}

@@ -1,0 +1,25 @@
+{
+    "dosya_adi": "Sayfa1_2011-9216.txt",
+    "kimlik": {
+        "esas_no": "2011/9059",
+        "karar_no": "2011/9216",
+        "tarih": "31.12.2006",
+        "daire": "6. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira Sözleşmesi",
+            "Kira Alacağı",
+            "Menfi Tespit",
+            "İspat Yükü",
+            "Zamanaşımı",
+            "Sözleşme Başlangıç Tarihi",
+            "Kira Artış Oranı"
+        ],
+        "hukuki_ilke": "Kira sözleşmesinin temel şartları (başlangıç tarihi, artış oranı) ihtilaflı olup asıl sözleşme sunulamadığında, başlangıç tarihini ispat yükü davacıya, kira ödemesini ispat yükü davalıya aittir ve zamanaşımı def'i dikkate alınarak karar verilmelidir.",
+        "ozet_hikaye": "Davacı, davalıdan kira alacağı ve bayilik sözleşmesinden kaynaklanan borçsuzluğunun tespiti talebinde bulunmuş; davalı, kira ilişkisinin ve sözleşme şartlarının (başlangıç tarihi, artış oranı) ihtilaflı olduğunu, kira borcunun olmadığını ve zamanaşımı def'ini ileri sürmüştür. Yerel mahkeme davanın reddine karar vermiş, davacı temyiz etmiştir.",
+        "kritik_uyari": "Kira sözleşmesinin başlangıç tarihi gibi esaslı unsurlarının taraflarca ihtilaflı olduğu ve yazılı delillerin eksik olduğu durumlarda, bu tarihin ispat yükü davacıya düşer; ayrıca davalının zamanaşımı def'i mahkemece mutlaka değerlendirilmelidir.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 05:51:07"
+}

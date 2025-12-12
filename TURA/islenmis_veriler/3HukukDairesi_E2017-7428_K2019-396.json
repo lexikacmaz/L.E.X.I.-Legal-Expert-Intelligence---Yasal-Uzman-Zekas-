@@ -1,0 +1,23 @@
+{
+    "dosya_adi": "3HukukDairesi_E2017-7428_K2019-396.txt",
+    "kimlik": {
+        "esas_no": "2017/7428",
+        "karar_no": "2019/396",
+        "tarih": "17.11.2014",
+        "daire": "3. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira Bedelinin Tespiti",
+            "Hak ve Nesafet",
+            "Kira Sözleşmesinin Başlangıç Tarihi",
+            "Bilirkişi Raporu",
+            "Yeni Malikin Kira Bedeli Tespit Talebi"
+        ],
+        "hukuki_ilke": "Kira bedelinin tespiti davalarında, özellikle beş yıldan uzun süreli sözleşmelerde hak ve nesafete göre kira bedeli belirlenirken, kira sözleşmesinin başlangıç tarihinin ön sorun olarak net bir şekilde tespiti ve emsallerin somut gerekçelerle incelendiği, net veya brüt olduğunun açıkça belirtildiği, Yargıtay denetimine elverişli ve detaylı bir bilirkişi raporunun alınması esastır.",
+        "ozet_hikaye": "Yeni malik olan davacı, satın aldığı taşınmazın kira bedelinin önceki malik ile davalı kiracı arasındaki sözlü sözleşmeye göre düşük olduğunu iddia ederek güncel piyasa rayicine göre tespitini talep etmiştir. Yerel mahkemece hak ve nesafete göre kısmen kabul kararı verilmiş, ancak davalı vekili bu kararı temyiz etmiştir.",
+        "kritik_uyari": "Kira bedelinin tespiti davasında mahkemenin, taraflar arasındaki kira sözleşmesinin başlangıç tarihini öncelikle ve açıkça belirlemesi zorunludur. Ayrıca, hak ve nesafet ilkesine uygun kira bedeli tespiti için alınan bilirkişi raporunun, emsalleri detaylı incelemesi, boş kiralanabilecek değeri somut gerekçelerle belirtmesi, kira bedelinin brüt mü yoksa net mi olduğunu açıkça ortaya koyması ve Yargıtay denetimine elverişli olması kritik önem taşır; aksi halde eksik inceleme nedeniyle hükmün bozulması gerekecektir.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 20:02:24"
+}

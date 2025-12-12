@@ -1,0 +1,24 @@
+{
+    "dosya_adi": "6HukukDairesi_E2011-9059_K2011-9216.txt",
+    "kimlik": {
+        "esas_no": "2011/9059",
+        "karar_no": "2011/9216",
+        "tarih": "31.12.2006",
+        "daire": "6. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira",
+            "Kira Alacağı",
+            "Menfi Tespit",
+            "Sözleşme İhtilafı",
+            "İspat Yükü",
+            "Zamanaşımı"
+        ],
+        "hukuki_ilke": "Kira ilişkisi sabit olsa dahi, taraflar arasında kira başlangıç tarihi ve kira artış oranı gibi esaslı sözleşme koşullarında uyuşmazlık bulunması halinde, davacı bu koşulları ispatlamakla yükümlüdür; kira bedelinin ödendiği iddiasının ispat yükü ise kiracıdadır ve zamanaşımı def'i incelenmelidir.",
+        "ozet_hikaye": "Davacı, davalıdan 2001-2006 dönemi kira alacaklarını ve işlemiş faizlerini talep etmiş, davalı ise kira ilişkisini ve borçlu olmadığını ileri sürerek davanın reddini istemiştir. Yerel mahkeme davayı reddetmiş, Yargıtay ise menfi tespit isteminin reddini doğru bulurken, kira alacağına ilişkin olarak, kira sözleşmesinin başlangıç tarihi ve kira artış oranındaki ihtilafların davacı tarafından ispatlanması ve davalının zamanaşımı def'inin dikkate alınması gerektiği gerekçesiyle kararı bozmuştur.",
+        "kritik_uyari": "Kira alacağı davalarında, kira sözleşmesinin başlangıç tarihi ve artış oranı gibi esaslı koşullarda uyuşmazlık varsa ispat yükü davacıda, kira bedelinin ödendiğine dair ispat yükü ise kiracıdadır; ayrıca, kira alacaklarına ilişkin zamanaşımı süresi dikkatle incelenmelidir.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 20:04:01"
+}

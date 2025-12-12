@@ -1,0 +1,25 @@
+{
+    "dosya_adi": "3HukukDairesi_E2011-15564_K2011-15064.txt",
+    "kimlik": {
+        "esas_no": "2011/15564",
+        "karar_no": "2011/15064",
+        "tarih": "12.06.2001",
+        "daire": "3. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira",
+            "Kira Tespit Davası",
+            "Hak ve Nesafet",
+            "Emsal Kira",
+            "Endeks Artışı",
+            "Kira Artışı",
+            "Yenilenen Sözleşme"
+        ],
+        "hukuki_ilke": "Kira tespit davalarında, mevcut kira bedelinin belirlendiği tarihteki emsal ve rayice uygunluğunun araştırılması, eğer uygun değilse, özellikle 5 yıldan uzun süreli kira ilişkilerinde hak ve nesafet ilkesi uyarınca emsal araştırması ve bilirkişi incelemesiyle makul bir kira bedelinin tespiti esastır; ayrıca kira tespitinin başlangıç tarihi için ihtarname veya dava tebliğ şartları dikkate alınmalıdır.",
+        "ozet_hikaye": "Davacı, aylık kira bedelinin 9000 TL olarak tespitini talep etmiş; mahkeme, mevcut kira bedelini endeks artışıyla 4085 TL olarak belirlemiş ancak bu bedelin belirlendiği tarihteki emsal ve rayice uygunluğunu araştırmadığı ve tespitin hangi dönem için yapıldığını belirtmediği için davacı vekili kararı temyiz etmiştir.",
+        "kritik_uyari": "Mahkeme, kira tespitinde mevcut kira bedelinin emsal ve rayice uygunluğunu araştırmalı, uygun değilse hak ve nesafet ilkesi uyarınca emsal ve bilirkişi incelemesiyle makul kira belirlemelidir; ayrıca kira tespitinin başlangıç tarihi için ihtarname veya dava tebliğ şartları göz önünde bulundurulmalıdır.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 19:59:52"
+}

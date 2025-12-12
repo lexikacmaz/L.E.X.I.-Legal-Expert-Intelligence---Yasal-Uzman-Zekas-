@@ -1,0 +1,23 @@
+{
+    "dosya_adi": "3HukukDairesi_E2018-2245_K2018-5591.txt",
+    "kimlik": {
+        "esas_no": "2018/2245",
+        "karar_no": "2018/5591",
+        "tarih": "19.02.2018",
+        "daire": "3. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira",
+            "Tahliye",
+            "Kira Bedelinin Tespiti",
+            "TBK 344",
+            "Kira Artışı"
+        ],
+        "hukuki_ilke": "Taraflar arasında kira bedeline ilişkin bir uyuşmazlık bulunması ve hukuki yarar oluşması durumunda, kira sözleşmesinde artış şartı olsun veya olmasın, Türk Borçlar Kanunu'nun 344. maddesinin ilk iki fıkrası kapsamında (bir önceki kira yılının ÜFE artış oranını geçmeyecek şekilde) yeni dönem kira bedelinin mahkemece tespiti, beş yıllık sürenin dolması şartına bağlı değildir.",
+        "ozet_hikaye": "Davacılar, ihtiyaç nedeniyle tahliye ve düşük kalan kira bedelinin tespiti talebinde bulunmuşlardır. Yerel mahkeme, tahliye talebini ihtiyaç iddiasının samimi olmadığı, kira tespiti talebini ise kira sözleşmesinde artış hükmü bulunmadığı ve beş yıl dolmadığı gerekçesiyle reddetmiştir. Yargıtay, tahliye ret kararını onarken, kira tespiti talebi yönünden yerel mahkemenin hem artış şartının varlığına ilişkin tespitini hem de beş yıllık sürenin beklenmesi gerektiği yönündeki hukuki yorumunu hatalı bularak bozmuştur.",
+        "kritik_uyari": "Kira tespiti davalarında, kira sözleşmesinde artış şartı bulunmasa dahi veya TBK m.344/3'teki beş yıllık süre dolmamış olsa bile, tarafların TBK m.344/1 ve m.344/2 uyarınca kira bedelinin tespiti için dava açmakta hukuki yararları vardır ve bu taleplerin beş yıl şartına bağlanarak reddi hatalıdır. Yerel mahkemenin kira sözleşmesindeki artış şartını gözden kaçırması da önemli bir hata olmuştur.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 20:03:12"
+}

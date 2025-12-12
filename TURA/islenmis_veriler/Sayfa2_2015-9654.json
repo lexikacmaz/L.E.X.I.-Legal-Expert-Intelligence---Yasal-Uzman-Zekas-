@@ -1,0 +1,23 @@
+{
+    "dosya_adi": "Sayfa2_2015-9654.txt",
+    "kimlik": {
+        "esas_no": "2015/6135",
+        "karar_no": "2015/9654",
+        "tarih": "10.02.2014",
+        "daire": "6. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira",
+            "Kira Bedeli Tespiti",
+            "İspat Yükü",
+            "Kira Sözleşmesi Başlangıç Tarihi",
+            "Hisseli Taşınmaz"
+        ],
+        "hukuki_ilke": "Kira bedelinin tespiti davalarında, kira ilişkisinin varlığı, kira sözleşmesinin başlangıç tarihi ve son dönem kira bedelini ispat yükü davacıya ait olup, davacının yazılı delil sunamaması ve yemin teklifinde bulunmaması halinde davalının bildirdiği kira başlangıç tarihi esas alınarak karar verilmelidir.",
+        "ozet_hikaye": "Davacı, yarım pay sahibi olduğu taşınmazda kuyumculuk faaliyeti yürüten davalının hissesine düşen kira bedelinin 10.02.2014 tarihinden itibaren aylık 10.000 TL olarak tespitini talep etmiştir. Davalı, kira sözleşmesinin 15.10.1984 tarihinde başladığını ve aylık 100 TL kira ödediğini savunmuştur. Mahkeme, davacının talebini kısmen kabul ederek 10.02.2014 tarihinden itibaren aylık 10.000 TL kira bedeli tespitine karar vermiş, ancak Yargıtay, ispat yükü davacıda olmasına ve davacının kira başlangıç tarihini ispatlayamamasına rağmen davalının beyanının esas alınmaması ve eksik inceleme yapılması nedeniyle hükmü bozmuştur.",
+        "kritik_uyari": "Kira bedeli tespiti davasında davacı, kira sözleşmesinin başlangıç tarihini ve son dönem kira bedelini yazılı delille kanıtlayamaz veya davalıya yemin teklif etmezse, mahkemece davalının bildirdiği kira başlangıç tarihi kabul edilerek bir önceki döneme ait kira bedeli de belirlenmelidir.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 05:54:32"
+}

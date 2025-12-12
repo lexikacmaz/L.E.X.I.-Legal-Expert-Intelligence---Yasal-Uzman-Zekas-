@@ -1,0 +1,27 @@
+{
+    "dosya_adi": "3HukukDairesi_E2017-6437_K2019-2754.txt",
+    "kimlik": {
+        "esas_no": "2017/6437",
+        "karar_no": "2019/2754",
+        "tarih": "15.09.2002",
+        "daire": "3. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira",
+            "Kira Bedelinin Tespiti",
+            "Kira Alacağı",
+            "Hak ve Nesafet",
+            "Bilirkişi Raporu",
+            "Emsal Kira",
+            "TBK 344",
+            "Hakkaniyet İndirimi",
+            "Sözleşme Hükümleri"
+        ],
+        "hukuki_ilke": "Kira bedelinin hak ve nesafet ilkelerine göre belirlenmesinde, emsal kira sözleşmeleri, taşınmazın durumu ve eski kiracılık durumu dikkate alınarak detaylı bir bilirkişi raporuyla hakkaniyet indirimi uygulanmalı; kira alacağı hesaplamalarında ise sözleşmedeki artış oranları ile Türk Borçlar Kanunu'nun ilgili hükümlerindeki sınırlamalar dönemsel olarak değerlendirilmelidir.",
+        "ozet_hikaye": "Davacı, kendisine ait taşınmazda kiracı olan davalının düşük kira ödediğini iddia ederek kira bedelinin yeniden tespitini ve eksik ödenen kira alacağının tahsilini talep etmiştir. Yerel mahkeme davayı kabul etmiş, Yargıtay ise kira bedeli tespitinde hak ve nesafet ilkeleri, emsal incelemesi ve hakkaniyet indirimi konusunda yetersiz bilirkişi raporu ile karar verildiği; kira alacağı hesabında ise sözleşmesel artış ve TBK 344 hükümlerinin dönemsel olarak hatalı uygulandığı gerekçesiyle kararı davalı lehine bozmuştur.",
+        "kritik_uyari": "Kira bedeli tespiti kararı kesinleşmeden alacak talebine konu edilemez. Kira artış oranları ve alacak hesaplamalarında sözleşme hükümleri ile TBK 344'ün farklı dönemler için öngördüğü yasal sınırlamalar ve davalının usuli kazanılmış hakları ayrı ayrı gözetilmelidir.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 20:01:55"
+}

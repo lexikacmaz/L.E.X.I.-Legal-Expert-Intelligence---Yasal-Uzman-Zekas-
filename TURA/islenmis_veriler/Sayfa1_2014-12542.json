@@ -1,0 +1,24 @@
+{
+    "dosya_adi": "Sayfa1_2014-12542.txt",
+    "kimlik": {
+        "esas_no": "2014/10939",
+        "karar_no": "2014/12542",
+        "tarih": "21.11.1966",
+        "daire": "6. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira Tespiti",
+            "Kira İlişkisi",
+            "İspat Külfeti",
+            "Türk Borçlar Kanunu",
+            "TBK 344",
+            "Hakkaniyet"
+        ],
+        "hukuki_ilke": "Kira parasının tespiti davasında, öncelikle taraflar arasındaki kira ilişkisinin varlığı, başlangıç tarihi, tespiti talep edilen dönem ve son ödenen kira bedeli gibi temel unsurların kesin olarak belirlenmesi gerekir; aksi halde hak ve nesafete uygun bir kira tespiti yapılamaz ve bu unsurları ispat külfeti davacıya aittir.",
+        "ozet_hikaye": "Davacı, kira parasının 700 TL olarak tespitini talep etmiş, davalı ise davacı ile arasında kira ilişkisi olmadığını ve kira bedelinin 150 TL olduğunu iddia etmiştir. Mahkeme aylık 600 TL kira tespitine karar vermiş, davalı temyiz etmiştir. Yargıtay, taraflar arasındaki kira ilişkisinin varlığı, başlangıç tarihi ve son ödenen kira bedeli gibi temel hususların tam olarak belirlenmeden karar verilmesini eksik bularak bozmuştur.",
+        "kritik_uyari": "Kira ilişkisinin varlığını ispat yükü davacıya ait olup, mahkemece bu ilişkinin ve temel şartlarının (başlangıç tarihi, son ödenen kira) netleştirilmesi zorunludur.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 05:51:18"
+}

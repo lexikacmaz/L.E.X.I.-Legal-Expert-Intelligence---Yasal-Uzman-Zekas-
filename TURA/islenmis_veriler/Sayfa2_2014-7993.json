@@ -1,0 +1,22 @@
+{
+    "dosya_adi": "Sayfa2_2014-7993.txt",
+    "kimlik": {
+        "esas_no": "2014/6351",
+        "karar_no": "2014/7993",
+        "tarih": "01.01.2012",
+        "daire": "6. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira Bedelinin Tespiti",
+            "Hak ve Nesafet",
+            "Uzun Süreli Kira Sözleşmesi",
+            "İçtihadı Birleştirme Kararı"
+        ],
+        "hukuki_ilke": "Kira ilişkisinin başlangıcından itibaren on yıldan fazla bir süre geçmiş ve tarafların yenilenen dönem kira bedeli üzerinde anlaşamamış olması durumunda, kira bedeli sadece endeks uygulanarak değil, kiralananın serbest piyasa koşullarında getirebileceği rayiç kira parası ile davalının eski kiracı olma durumu dikkate alınarak hak ve nesafet ilkelerine göre belirlenmelidir.",
+        "ozet_hikaye": "Davacı, 01.01.2012 tarihinden itibaren başlayan dönem için kira bedelinin brüt 1.750 TL olarak tespitini talep etmiştir. Davalı, 10 yıllık kira sözleşmesinin süresinin dolduğunu, önceki dönemlerin endeksle belirlendiğini ve mevcut koşullarda artışın endeksle sınırlı olması gerektiğini savunmuştur. Yerel mahkeme, kira bedelini endeks uygulanarak aylık brüt 500 TL olarak kısmen kabul etmiş, davacı bu kararı temyiz etmiştir.",
+        "kritik_uyari": "Uzun süreli kira sözleşmelerinde (10 yıldan fazla) tarafların yeni dönem kira bedelinde anlaşamaması halinde, hakimin sadece ÜFE/TÜFE gibi endeksler üzerinden değil, kiralananın rayiç değeri ile kiracının 'eski kiracı' statüsünü birlikte değerlendirerek hak ve nesafet kurallarına uygun bir kira bedeli takdir etmesi gerektiği, aksi yöndeki kararların bozma sebebi olacağı kritiktir.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 05:54:00"
+}

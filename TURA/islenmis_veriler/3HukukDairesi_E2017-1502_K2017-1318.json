@@ -1,0 +1,24 @@
+{
+    "dosya_adi": "3HukukDairesi_E2017-1502_K2017-1318.txt",
+    "kimlik": {
+        "esas_no": "2017/1502",
+        "karar_no": "2017/1318",
+        "tarih": "01.07.2012",
+        "daire": "3. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira",
+            "Kira Tespiti",
+            "TBK 344",
+            "ÜFE",
+            "Hak ve Nesafet",
+            "Bozma"
+        ],
+        "hukuki_ilke": "Kira bedeli tespiti davalarında Türk Borçlar Kanunu'nun 344. maddesi uyarınca, kira sözleşmesinin ilk beş yılı içinde Üretici Fiyat Endeksi (ÜFE) artışı esas alınmalı, beş yılını dolduran veya beş yıldan sonra yenilenen sözleşmelerde ise emsal bedeller ve kiralananın durumu gözetilerek hakkaniyete uygun indirimle kira bedeli belirlenmelidir.",
+        "ozet_hikaye": "Davacı, paydaşı olduğu taşınmaz için 01.07.2012 tarihinden itibaren rayiç kira bedelinin tespitini talep etmiştir. Mahkemece belirlenen kira bedeli, mevcut kira sözleşmesinin ilk beş yıllık dönemi içinde olmasına rağmen, Üretici Fiyat Endeksi (ÜFE) artışı yerine hak ve nesafet ilkeleriyle tespit edildiği için Yargıtayca bozulmuştur.",
+        "kritik_uyari": "Kira bedelinin tespiti davasında, talep edilen dönemin kira sözleşmesinin süresi içindeki yerine (ilk beş yıl veya sonrası) göre Türk Borçlar Kanunu'nun 344. maddesindeki ÜFE artışı veya hakkaniyet indirimi yöntemlerinden hangisinin uygulanacağının doğru belirlenmesi esastır; ayrıca belirlenen kira bedeli son ödenen bedelden düşük olmamalıdır.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 20:00:13"
+}

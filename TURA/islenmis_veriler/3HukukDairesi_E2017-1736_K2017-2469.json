@@ -1,0 +1,24 @@
+{
+    "dosya_adi": "3HukukDairesi_E2017-1736_K2017-2469.txt",
+    "kimlik": {
+        "esas_no": "2017/1736",
+        "karar_no": "2017/2469",
+        "tarih": "01.03.2005",
+        "daire": "3. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira",
+            "Kira Bedeli Tespiti",
+            "Dava Süresi",
+            "Borçlar Kanunu",
+            "Kira Sözleşmesi",
+            "Geriyeyürürlülük"
+        ],
+        "hukuki_ilke": "Kira bedelinin tespiti davasında, sözleşmede artış şartı bulunsa veya kiracıya yazılı bildirim yapılmış olsa dahi, mahkemece belirlenecek kira bedelinin yeni kira döneminin başlangıcından itibaren geçerli olabilmesi için davanın o yeni kira döneminin sonuna kadar açılması zorunludur; aksi halde geriye dönük kira tespiti yapılamaz.",
+        "ozet_hikaye": "Davacı kiralayan, kira sözleşmesindeki özel şarta dayanarak 01.03.2008 tarihinde başlayacak 4. kira dönemi için kira bedelinin tespitini talep etmiştir. Davacı, bu dönem için ihtarname göndermiş ancak tespit davasını, ilgili kira döneminin bitiminden çok sonra, 28.02.2013 tarihinde açmıştır. Yerel mahkeme kira bedelini tespit etse de, davalının temyizi üzerine Yargıtay, kira bedeli tespit davasının ilgili dönemin sonuna kadar açılmadığı gerekçesiyle yerel mahkeme kararını bozmuştur.",
+        "kritik_uyari": "Kira bedeli tespit davasının, belirlenecek kira bedelinin yeni kira döneminin başlangıcından itibaren uygulanabilmesi için, sözleşmede artış şartı veya bildirim olsa bile, davanın mutlaka ilgili yeni kira döneminin sonuna kadar açılması gerekmektedir. Bu süreye riayet edilmemesi, geriye dönük kira tespiti yapılmasına engel teşkil eder.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 20:00:27"
+}

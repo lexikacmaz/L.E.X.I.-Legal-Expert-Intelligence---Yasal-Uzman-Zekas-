@@ -5,11 +5,11 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-# .env dosyasını yükle
-load_dotenv()
 
 # Projenin ana dizini
 BASE_DIR = Path(__file__).resolve().parent.parent
+# .env dosyasını yükle
+load_dotenv()
 
 # API Anahtarı
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
@@ -21,6 +21,7 @@ SECRET_KEY = 'django-insecure--q$bpt%v66x-c!od&m!v3+2*+$w-5$@047ti4bw5b$bq^7sdyf
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+DEBUG = True
 
 
 # UYGULAMA TANIMLARI
@@ -67,6 +68,8 @@ WSGI_APPLICATION = 'HukukProje.wsgi.application'
 
 
 # VERİTABANI AYARLARI
+# LEXI/settings.py
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -119,4 +122,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # HukukProje/settings.py dosyasının en alt satırına ekle:
 
-GOOGLE_API_KEY = "AIzaSyAiAsM8IIa0LqLlUhfbqVS3RiRE3g_M12Q"
+GOOGLE_API_KEY = "AIzaSyBWbHfRJyybRTAw84trv9f8xNaw8o04ij0"

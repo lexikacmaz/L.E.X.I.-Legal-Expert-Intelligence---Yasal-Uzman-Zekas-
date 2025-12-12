@@ -1,0 +1,24 @@
+{
+    "dosya_adi": "Sayfa1_2014-12753.txt",
+    "kimlik": {
+        "esas_no": "2014/2897",
+        "karar_no": "2014/12753",
+        "tarih": "18.11.1964",
+        "daire": "6. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira",
+            "Kira Bedelinin Tespiti",
+            "Hak ve Nesafet İlkesi",
+            "Emsal Kira Sözleşmeleri",
+            "Bilirkişi Raporu",
+            "Brüt Kira"
+        ],
+        "hukuki_ilke": "Kira bedeli tespiti davalarında hak ve nesafet ilkesi uyarınca, taraflarca sunulan tüm emsal kira sözleşmelerinin ve gerekirse resen yapılan emsal araştırmalarının bilirkişi tarafından taşınmazın nitelikleri ile karşılaştırılarak denetime elverişli bir rapor alınması ve kira bedelinin brüt olarak belirlenmesi esastır.",
+        "ozet_hikaye": "Kiraya veren, mevcut kira bedelinin artırılması için ihtarname göndermesine rağmen artış sağlanamayınca kira bedelinin 15.000 TL olarak tespitini talep etmiştir. Mahkeme davayı kısmen kabul ederek aylık net kira bedelini 9.000 TL olarak tespit etmiş, ancak Yargıtay, emsal kira sözleşmelerinin yeterince değerlendirilmemesi, bilirkişi raporunun eksikliği ve kira bedelinin net değil brüt olarak belirlenmesi gerektiği gerekçeleriyle kararı bozmuştur.",
+        "kritik_uyari": "Kira bedeli tespiti davalarında, taraflarca sunulan tüm emsal kira sözleşmeleri de dahil olmak üzere delillerin tam ve eksiksiz bir şekilde bilirkişi tarafından incelenmesi, raporun denetime elverişli, somut gerekçeler içermesi ve kira bedelinin vergi kesintileri düşülmeksizin brüt olarak tespit edilmesi gerekmektedir.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 05:51:49"
+}

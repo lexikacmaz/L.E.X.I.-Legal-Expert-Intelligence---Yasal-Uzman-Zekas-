@@ -1,0 +1,25 @@
+{
+    "dosya_adi": "Sayfa2_2017-1318.txt",
+    "kimlik": {
+        "esas_no": "2017/1502",
+        "karar_no": "2017/1318",
+        "tarih": "01.07.2012",
+        "daire": "3. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira Tespiti",
+            "Kira Bedelinin Belirlenmesi",
+            "Paydaşın Kira Talebi",
+            "Borçlar Kanunu",
+            "Üretici Fiyat Endeksi (ÜFE)",
+            "Hak ve Nesafet İlkesi",
+            "Bozma Kararı"
+        ],
+        "hukuki_ilke": "Kira tespit davalarında, kira sözleşmesinin başlangıç tarihi ve talep edilen döneme göre, Borçlar Kanunu'nun ilgili maddeleri uyarınca, beş yıldan kısa süreli veya beş yıllık dönemin ilk dört yılı içindeki artışlar için Üretici Fiyat Endeksi (ÜFE) baz alınarak, en son ödenen kira bedelinden düşük olmayacak şekilde kira bedeli belirlenmelidir; hak ve nesafet ilkelerine göre belirleme ancak beş yıldan uzun süreli veya beş yıldan sonra yenilenen dönemler için geçerlidir.",
+        "ozet_hikaye": "Bir taşınmazın paydaşı olan davacı, hissesine düşen rayiç kira bedelinin tespiti ve tahsilini talep etmiştir. Yerel mahkeme davayı kısmen kabul etmiş, ancak Yargıtay (önceki bozma sonrası tekrar temyiz incelemesinde), kira sözleşmesinin başlangıç tarihi (01.01.2010) ve kira tespiti talep edilen dönem (01.07.2012 itibarıyla) dikkate alındığında, bu dönemin ÜFE artış dönemi içinde kaldığı ve kira bedelinin hak ve nesafet yerine ÜFE oranına göre belirlenmesi gerektiği gerekçesiyle yerel mahkeme kararını bozmuştur.",
+        "kritik_uyari": "Kira tespit davalarında, kira sözleşmesinin başlangıç tarihi ve talep edilen dönemin, kira bedelinin Üretici Fiyat Endeksi (ÜFE) artış oranına göre mi yoksa hak ve nesafet ilkelerine göre mi belirleneceği açısından ayrımı kritik önem taşımaktadır. Ayrıca, belirlenecek yeni kira bedelinin, son ödenen kira bedelinden ÜFE oranında artırılmış halinden daha düşük olmaması esastır.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 05:54:49"
+}

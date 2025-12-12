@@ -1,0 +1,26 @@
+{
+    "dosya_adi": "3HukukDairesi_E2017-6028_K2019-1792.txt",
+    "kimlik": {
+        "esas_no": "2017/6028",
+        "karar_no": "2019/1792",
+        "tarih": "10.01.1994",
+        "daire": "3. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira bedelinin tespiti",
+            "Sözlü kira sözleşmesi",
+            "Kira sözleşmesinin başlangıcı",
+            "Hak ve nesafet ilkesi",
+            "Bilirkişi raporu",
+            "Emsal araştırılması",
+            "Eski kiracı indirimi",
+            "Yetersiz inceleme"
+        ],
+        "hukuki_ilke": "Kira bedelinin tespitinde, kira sözleşmesinin başlangıç ve bildirim tarihlerinin kesin olarak belirlenmesi, hak ve nesafet ilkesi uyarınca emsal taşınmazların somut karşılaştırması ve eski kiracıya hakkaniyet indirimi içeren, denetime elverişli bir bilirkişi raporu ile hüküm kurulması esastır.",
+        "ozet_hikaye": "Davacılar, davalının murise ait işyerinde 1994'ten beri kiracı olduğunu ve mevcut aylık 520 TL kira bedelinin emsallere göre düşük kaldığını iddia ederek, 02.08.2014 tarihinden itibaren aylık kira bedelinin net 1.500 TL olarak tespitini talep etmiştir. Davalı, taşınmazda kiracı olmadığını savunarak davanın reddini istemiştir. Mahkeme, bilirkişi raporu doğrultusunda 01.10.2015 tarihinden itibaren aylık net 1.200 TL kira bedeli tespitine karar vermiş; ancak Yargıtay, kira sözleşmesinin başlangıcı ve ihtarnamenin tebliğ tarihi konularında eksik inceleme yapıldığı ve hükme esas alınan bilirkişi raporunun denetime elverişli ve hüküm kurmaya yeterli olmadığı gerekçeleriyle kararı bozmuştur.",
+        "kritik_uyari": "Kira bedelinin tespiti davalarında, özellikle sözlü kira sözleşmesi olması halinde, kira sözleşmesinin başlangıç ve süresi ile kira artırımına ilişkin yazılı bildirimin tebliğ tarihinin ispatı ve kesin tespiti hayati önem taşımaktadır. Ayrıca, bilirkişi raporunun emsalleri somut gerekçelerle karşılaştırmalı, kiralananın boş olarak getirebileceği kira bedelini belirlemeli ve eski kiracıya hakkaniyet indirimi uygulayarak denetime elverişli ve hüküm kurmaya yeterli nitelikte hazırlanması zorunludur.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 20:01:40"
+}

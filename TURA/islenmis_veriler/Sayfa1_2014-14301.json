@@ -1,0 +1,23 @@
+{
+    "dosya_adi": "Sayfa1_2014-14301.txt",
+    "kimlik": {
+        "esas_no": "2014/12135",
+        "karar_no": "2014/14301",
+        "tarih": "01.07.2012",
+        "daire": "6. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira",
+            "Kira Tespiti",
+            "Kira Alacağı",
+            "Türk Borçlar Kanunu",
+            "Usul Hukuku"
+        ],
+        "hukuki_ilke": "Kira bedelinin tespitine ilişkin mahkeme kararı kesinleşmeden, tespit edilen kira bedeli üzerinden paya düşen kira alacağına hükmedilemez.",
+        "ozet_hikaye": "Davacı, hissedarı olduğu taşınmazın rayiç kira bedelinin tespiti ve hissesine düşen kira alacağının tahsilini talep etmiştir. Yerel mahkeme kira bedelini tespit etmiş ve kira alacağına hükmetmiştir. Yüksek Mahkeme ise, kira tespiti kararının kesinleşmeden alacağa hükmedilmesini ve talep edilen dönemin/sözleşme başlangıç tarihinin netleştirilmemesini bozma nedeni saymıştır.",
+        "kritik_uyari": "Kira tespiti davalarında, tespitin talep edildiği dönemin ve kira sözleşmesinin başlangıç tarihinin açıkça belirtilmesi ve mahkemece bu hususların eksiksiz açıklattırılması esastır.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 05:52:00"
+}

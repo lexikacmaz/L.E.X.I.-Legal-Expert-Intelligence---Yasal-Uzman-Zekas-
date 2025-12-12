@@ -1,0 +1,24 @@
+{
+    "dosya_adi": "Sayfa1_2015-2733.txt",
+    "kimlik": {
+        "esas_no": "2015/2163",
+        "karar_no": "2015/2733",
+        "tarih": "01.09.2013",
+        "daire": "6. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira",
+            "Kira Bedeli Tespiti",
+            "TBK 344",
+            "ÜFE Endeksi",
+            "Hakkaniyet",
+            "Bilirkişi Raporu"
+        ],
+        "hukuki_ilke": "Kira tespit davalarında belirlenecek yeni kira bedeli, bir önceki kira döneminde ödenen kira parasının ÜFE endeksine göre yapılacak artışından daha düşük olamaz ve beş yıldan sonraki tespitlerde boş rayice göre belirlenen bedelden eski kiracılık durumu gözetilerek hakkaniyete uygun indirim yapılmalıdır.",
+        "ozet_hikaye": "Davacı, 01.09.2013'den itibaren kira bedelinin 5.000 TL olarak tespitini istemiş, mahkeme aylık brüt 4.100 TL olarak karar vermiş; ancak bu miktar önceki dönem ödenen brüt 4.250 TL kira bedelinden düşük olduğu ve bilirkişi raporunda ÜFE artışının hesaplanmadığı için karar bozulmuştur.",
+        "kritik_uyari": "Kira tespitinde, önceki dönem ödenen kira bedelinin ÜFE endeksine göre artırılmış halinden daha düşük bir bedele hükmedilemez; ayrıca beş yıldan sonraki tespitlerde bilirkişinin boş taşınmaz rayici ile birlikte eski kiracının durumu için yapılacak hakkaniyet indirimi hesaplarını da raporlaması esastır.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 05:52:40"
+}

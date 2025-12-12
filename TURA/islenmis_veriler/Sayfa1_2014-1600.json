@@ -1,0 +1,24 @@
+{
+    "dosya_adi": "Sayfa1_2014-1600.txt",
+    "kimlik": {
+        "esas_no": "2013/8092",
+        "karar_no": "2014/1600",
+        "tarih": "03.06.2011",
+        "daire": "6. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira",
+            "Kira Bedelinin Tespiti",
+            "Mevsimlik Kira",
+            "Hasılat Kirası",
+            "Sözleşme Yorumu",
+            "Yıllık Kira Bedeli"
+        ],
+        "hukuki_ilke": "Mevsimlik/hasılat kiralarında, sözleşmede belirlenen 'yıllık' kira bedeli, kira süresi bir yıldan az olsa bile, kira döneminin tamamını kapsar ve ihale tutanağında belirtilen aylık bedellerden yedi aylık süreye orantılı hesaplama yapılamaz.",
+        "ozet_hikaye": "Davacı kiracılar, 7 aylık narenciye bahçesi kira sözleşmesinde kira bedelinin ihale zaptındaki aylık bedellere göre 7 ay üzerinden hesaplanması gerektiğini iddia ederken, davalı kiralayan sözleşmedeki 'yıllık' bedelin sezonluk kira süresinin tamamını kapsadığını savunmuştur. Mahkeme davacı lehine karar vermiş, Yüksek Mahkeme ise bu kararı bozmuştur.",
+        "kritik_uyari": "Mevsimlik/hasılat kiralarında sözleşmedeki 'yıllık' kira bedeli ifadesi, kira döneminin tamamına ilişkin bedeli gösterir ve sürenin kısalığına göre aylık bedeller üzerinden orantılı hesaplama yapılamayacağından sözleşme hükümlerinin yorumu ispat açısından kritiktir.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 05:52:23"
+}

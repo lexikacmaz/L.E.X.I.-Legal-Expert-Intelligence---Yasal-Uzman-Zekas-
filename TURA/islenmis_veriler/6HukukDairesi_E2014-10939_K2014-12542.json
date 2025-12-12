@@ -1,0 +1,23 @@
+{
+    "dosya_adi": "6HukukDairesi_E2014-10939_K2014-12542.txt",
+    "kimlik": {
+        "esas_no": "2014/10939",
+        "karar_no": "2014/12542",
+        "tarih": "21.11.1966",
+        "daire": "6. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira",
+            "Kira Bedeli Tespiti",
+            "Kiracılık İlişkisi",
+            "İspat Yükü",
+            "TBK 344"
+        ],
+        "hukuki_ilke": "Kira bedeli tespiti davasında, mahkemece öncelikle taraflar arasındaki kiracılık ilişkisinin varlığı, kira sözleşmesinin başlangıç tarihi, tespit talep edilen dönem ve son ödenen kira bedeli gibi temel hususlar belirlenmeden karar verilmesi hukuka aykırıdır ve bu hususların ispat külfeti davacıya aittir.",
+        "ozet_hikaye": "Davacı, kira bedelinin artırılarak tespitini talep etmiş; davalı ise davacı ile kira ilişkisi olmadığını savunmuştur. Yerel mahkeme kira bedelini tespit etmiş ancak Yargıtay, taraflar arasındaki kira ilişkisinin varlığı, sözleşme başlangıcı ve ödenen son kira bedeli gibi davanın temel unsurlarının netleştirilmemesi nedeniyle kararı bozmuştur.",
+        "kritik_uyari": "Kira bedeli tespiti davasında davacının, davalı ile arasında geçerli bir kiracılık ilişkisi olduğunu, kira sözleşmesinin başlangıç tarihini ve son ödenen kira bedelini açıkça ispat etmesi davanın yargılama ön koşuludur.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 20:04:45"
+}

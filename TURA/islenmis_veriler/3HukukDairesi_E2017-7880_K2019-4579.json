@@ -1,0 +1,26 @@
+{
+    "dosya_adi": "3HukukDairesi_E2017-7880_K2019-4579.txt",
+    "kimlik": {
+        "esas_no": "2017/7880",
+        "karar_no": "2019/4579",
+        "tarih": "17.05.1999",
+        "daire": "3. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira Bedelinin Tespiti",
+            "Kira Sözleşmesi",
+            "TBK 345",
+            "Hak ve Nesafet",
+            "Bilirkişi Raporu",
+            "Eski Kiracı",
+            "Hakkaniyet İndirimi",
+            "Kira Artış Şartı"
+        ],
+        "hukuki_ilke": "Kira bedelinin tespiti davalarında, sözleşmede artış şartı bulunması halinde mahkemece belirlenecek kira bedelinin yeni dönemin başlangıcından itibaren geçerli olması ve hak ve nesafet ilkesine göre tespitte bilirkişi raporunun taşınmazın boş olarak getirebileceği brüt kira bedelini açıkça belirtip eski kiracıya hakkaniyet indirimi uygulanması gerekir.",
+        "ozet_hikaye": "Davacılar, maliki oldukları taşınmazın kira bedelinin emsallere göre düşük kaldığını iddia ederek 17.05.2015 tarihinden itibaren aylık kira bedelinin net 12.000 TL olarak tespitini talep etmişlerdir. Yerel mahkeme, kira bedelini 01.05.2016 tarihinden itibaren brüt 10.530 TL olarak tespit etmiş, davacılar hükmü temyiz etmiştir.",
+        "kritik_uyari": "Kira bedelinin tespitinde, kira sözleşmesindeki artış şartının kira bedelinin geçerli olacağı dönemin başlangıcına etkisi kritik olup, hak ve nesafet ilkesi uyarınca yapılacak değerlemede bilirkişi raporunun taşınmazın boş olarak getirebileceği brüt kira bedelini net olarak belirtmesi ve eski kiracıya hakkaniyet indirimi uygulanması gerekliliği önemli ispat ve değerlendirme noktalarıdır.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 20:02:39"
+}

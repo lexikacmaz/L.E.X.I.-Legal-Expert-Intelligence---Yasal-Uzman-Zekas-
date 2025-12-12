@@ -1,6 +1,6 @@
 import google.generativeai as genai
 
-API_KEY = "AIzaSyAiAsM8IIa0LqLlUhfbqVS3RiRE3g_M12Q" # Senin Key
+API_KEY = "AIzaSyA8HzrxpyLDSdVBRQMc24SLHGiNSMMdYbo" # Senin Key
 genai.configure(api_key=API_KEY)
 
 print("🔍 Google API Bağlantısı Test Ediliyor...")

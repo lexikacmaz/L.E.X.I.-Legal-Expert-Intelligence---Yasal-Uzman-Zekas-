@@ -1,0 +1,26 @@
+{
+    "dosya_adi": "3HukukDairesi_E2017-6958_K2019-3016.txt",
+    "kimlik": {
+        "esas_no": "2017/6958",
+        "karar_no": "2019/3016",
+        "tarih": "01.01.2019",
+        "daire": "3. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira Bedelinin Tespiti",
+            "Kira Sözleşmesi",
+            "5 Yıllık Kira Süresi",
+            "Türk Borçlar Kanunu Madde 344",
+            "Türk Borçlar Kanunu Madde 345",
+            "Hak ve Nesafet",
+            "Dava Tarihi",
+            "Yargılama Süreci"
+        ],
+        "hukuki_ilke": "Kira bedelinin tespiti davası, 5 yıllık kira süresi dolmadan açılmış olsa dahi, yargılama sırasında bu sürenin sona ermesi halinde, mahkeme davacıdan sonraki dönem için kira bedeli tespiti isteyip istemediğini sorarak hak ve nesafete göre karar vermelidir.",
+        "ozet_hikaye": "Davacı, sözlü kira sözleşmesine dayanarak kira bedelinin emsallerin altında kaldığını belirterek kira bedelinin 500 TL olarak tespitini talep etmiştir. Davalı ise 5 yıl süreli yazılı kira sözleşmesi olduğunu ileri sürerek davanın reddini istemiştir. Yerel mahkeme, davanın uyarlama davası olduğu yanılgısıyla davayı reddetmiştir.",
+        "kritik_uyari": "Beş yıllık kira süresinin dolmasından önce açılan kira bedeli tespiti davasında, bu sürenin yargılama esnasında tamamlanması durumunda, mahkemenin davacının bir sonraki dönem için tespit talebini netleştirmesi ve bu doğrultuda karar vermesi esastır.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 20:02:11"
+}

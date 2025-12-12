@@ -1,0 +1,24 @@
+{
+    "dosya_adi": "6HukukDairesi_E2012-11196_K2013-3370.txt",
+    "kimlik": {
+        "esas_no": "2012/11196",
+        "karar_no": "2013/3370",
+        "tarih": "01.05.2008",
+        "daire": "6. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira",
+            "Alacak",
+            "Paydaşlık",
+            "Alt Kira",
+            "Muvafakatname",
+            "Vekalet"
+        ],
+        "hukuki_ilke": "Paydaşlar arasında yapılan kira sözleşmesinin ardından, kiracı paydaşın tüm taşınmazı üçüncü bir kişiye kiralamasının alt kira olup olmadığı açıkça ispatlanmadığı durumlarda, kiraya veren paydaşın, üçüncü kişiden tahsil edilen kira bedelinden payı oranında alacak talep etme hakkı vardır; bu durumda, muvafakatnamenin ve ilk kira sözleşmesinin içeriği, ikinci sözleşmenin alt kira mı yoksa paydaşlar adına vekaleten yapılan bir kira sözleşmesi mi olduğunu belirlemede kritik öneme sahiptir.",
+        "ozet_hikaye": "Davacı ile davalı paydaş oldukları taşınmazda, davacı payını davalıya kiralamıştır. Davalı, davacının verdiği muvafakatnameye dayanarak taşınmazın tamamını dava dışı bir GSM şirketine kiralamış ve kira bedellerini tahsil etmiştir. Davacı, davalının üçüncü şirketten tahsil ettiği kira bedelinden kendi payına düşeni talep etmiş, davalı ise bunun alt kira olduğunu ve davacının taraf olmadığı alt kira sözleşmesinden alacak talep edemeyeceğini savunmuştur. Mahkemece, alt kira kabul edilerek davanın reddine karar verilmişse de, Yargıtay söz konusu kira sözleşmelerini ve muvafakatnameyi değerlendirerek, alt kira olduğunun ispatlanamadığını belirtmiştir.",
+        "kritik_uyari": "Bir kira ilişkisinde ikinci bir kiralamanın alt kira olup olmadığının tespiti için hem ilk kira sözleşmesinin hükümleri (özellikle devir ve alt kira yasağı) hem de sonradan verilen muvafakatnamelerin içeriği dikkatle incelenmelidir. İkinci kiralamanın alt kira olduğu iddiasının ispat yükü bunu iddia edene aittir.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 20:04:12"
+}

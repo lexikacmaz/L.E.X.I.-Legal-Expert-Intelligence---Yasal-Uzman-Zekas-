@@ -1,0 +1,23 @@
+{
+    "dosya_adi": "Sayfa1_2015-8540.txt",
+    "kimlik": {
+        "esas_no": "2014/11268",
+        "karar_no": "2015/8540",
+        "tarih": "01.09.2005",
+        "daire": "6. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira",
+            "Kira Bedelinin Tespiti",
+            "Kira Artışı",
+            "Sözleşme",
+            "Türk Borçlar Kanunu Madde 345"
+        ],
+        "hukuki_ilke": "Türk Borçlar Kanunu'nun 345. maddesi uyarınca, kira sözleşmesinde artış şartı bulunmayan hallerde, kira bedelinin yeni dönemin başlangıcından itibaren tespiti için dava, yeni dönemin başlamasından en geç otuz gün önce açılmalı veya bu süre içinde yazılı bildirimde bulunulmalıdır.",
+        "ozet_hikaye": "Kira sözleşmesinde artış şartı bulunmayan bir taşınmaz için, kiraya veren tarafından yeni dönemin başlangıcına otuz günden az kala açılan kira bedeli tespiti davasında, talep edilen döneme ilişkin kira bedeli tespitinin yapılamayacağı, ancak yargılama sırasında başlayan bir sonraki dönem için bu talebin değerlendirilmesi gerektiği hakkında.",
+        "kritik_uyari": "Kira bedelinin tespiti davasında, talep edilen kira dönemine ilişkin tespitin geçerli olması için TBK 345. maddesindeki 30 günlük süre şartına uyulması zorunludur; aksi halde tespit, bir sonraki kira döneminden itibaren geçerli olabilir.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 05:52:56"
+}

@@ -1,0 +1,23 @@
+{
+    "dosya_adi": "3HukukDairesi_E2017-4631_K2019-391.txt",
+    "kimlik": {
+        "esas_no": "2017/4631",
+        "karar_no": "2019/391",
+        "tarih": "01.06.1999",
+        "daire": "3. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira",
+            "Kira Bedeli Tespiti",
+            "Sözleşme Şartı",
+            "Dava Süresi",
+            "TBK 345"
+        ],
+        "hukuki_ilke": "Kira sözleşmesinde kira bedelinin artırılacağına dair bir hüküm bulunması halinde, kira tespit davası yeni kira dönemi sonuna kadar açılsa bile mahkemece belirlenecek kira bedeli, bu yeni dönemin başlangıcından itibaren geçerli olur.",
+        "ozet_hikaye": "Davacılar, 01.06.1999 başlangıç tarihli kira sözleşmesindeki artış şartına rağmen mevcut kira bedelinin emsallere göre düşük kaldığını iddia ederek, 01.06.2014 tarihinden itibaren aylık 800 TL kira bedelinin tespitini istemiştir. Yerel mahkeme, davanın TBK 345'e göre 01.06.2015 tarihinden itibaren tespit edilebileceği ve taşınmazın tahliye edildiği gerekçesiyle davanın reddine karar vermiş, davacılar kararı temyiz etmiştir.",
+        "kritik_uyari": "Kira bedeli tespit davasının hangi tarihten itibaren geçerli olacağı, kira sözleşmesinde kira artışına ilişkin bir hükmün bulunup bulunmadığına göre değişiklik gösterir; artış hükmü varsa dava yeni dönem sonuna kadar açılsa dahi yeni dönemin başlangıcından itibaren kira bedeli belirlenebilir.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 20:00:42"
+}

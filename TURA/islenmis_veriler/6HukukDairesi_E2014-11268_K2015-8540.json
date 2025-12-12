@@ -1,0 +1,23 @@
+{
+    "dosya_adi": "6HukukDairesi_E2014-11268_K2015-8540.txt",
+    "kimlik": {
+        "esas_no": "2014/11268",
+        "karar_no": "2015/8540",
+        "tarih": "01.09.2005",
+        "daire": "6. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira Bedelinin Tespiti",
+            "Türk Borçlar Kanunu",
+            "Süre",
+            "Kira Artışı",
+            "Yazılı Bildirim"
+        ],
+        "hukuki_ilke": "Kira sözleşmesinde artış şartı bulunmadığında, kira bedelinin tespiti davası, belirlenecek kira bedelinin uygulanacağı dönemin başlangıcından en geç otuz gün önce açılmalı veya kiracıya yazılı bildirimde bulunulmalı; aksi takdirde, mahkemece tespit edilecek kira bedeli ancak bir sonraki kira dönemi için geçerli olur ve mahkeme bu durumu davacıya sormalıdır.",
+        "ozet_hikaye": "Davacı kiraya veren, sözleşmede artış şartı olmayan ve opsiyonla 01.09.2015 tarihine kadar uzatılan kira ilişkisinde, emsal bedellerin artışı nedeniyle 01.09.2012 döneminden itibaren yıllık kira bedelinin uyarlanarak tespitini talep etmiştir. Mahkeme, bilirkişi raporuyla belirlenen bedel üzerinden hakkaniyet indirimi uygulayarak 01.09.2012-01.09.2013 dönemi için yıllık 58.140,00 TL kira bedeli tespitine karar vermiştir.",
+        "kritik_uyari": "Kira bedelinin tespiti davasının, belirlenecek kira bedelinin uygulanacağı dönemin başlangıcından en geç otuz gün önce açılması veya kiracıya bu süre içinde yazılı bildirimde bulunulması yasal bir koşuldur; aksi halde tespit edilen kira bedeli ancak bir sonraki kira dönemi için geçerli olur.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 20:05:01"
+}

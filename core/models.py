@@ -42,6 +42,10 @@ class SiteAyarlari(models.Model):
     renk_yazi_dark = models.CharField(max_length=20, default="#f5f5f7", verbose_name="Koyu Mod Yazı")
     renk_kart_dark = models.CharField(max_length=20, default="#1c1c1e", verbose_name="Koyu Mod Kart Rengi")
 
+    class Meta:
+        verbose_name = "Site Ayarları"
+        verbose_name_plural = "Site Ayarları"
+
     def __str__(self):
         return "Site Ayarları"
 
@@ -54,10 +58,14 @@ class HukukKategori(models.Model):
     ai_talimati = models.TextField(help_text="Bu kategorideki AI botuna verilecek özel gizli talimat.")
     aktif_mi = models.BooleanField(default=True)
 
+    class Meta:
+        verbose_name = "Hukuk Kategorisi"
+        verbose_name_plural = "Hukuk Kategorileri"
+
     def __str__(self):
         return self.isim
 
-# --- AVUKAT MODELİ (GÜNCELLENDİ: Eposta ve Telefon Eklendi) ---
+# --- AVUKAT MODELİ ---
 class Avukat(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     isim = models.CharField(max_length=100)
@@ -65,14 +73,17 @@ class Avukat(models.Model):
     uzmanlik = models.CharField(max_length=100)
     ozet = models.TextField()
     
-    # EKSİK OLAN ALANLAR EKLENDİ:
     eposta = models.EmailField(max_length=254, null=True, blank=True)
     telefon = models.CharField(max_length=20, null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Avukat"
+        verbose_name_plural = "Avukatlar"
 
     def __str__(self):
         return self.isim
 
-# --- REKLAM BANNER (Genişlik/Yükseklik Dahil) ---
+# --- REKLAM BANNER ---
 class ReklamBanner(models.Model):
     isim = models.CharField(max_length=100, verbose_name="Reklam Adı (Örn: Sol Taraf)")
     gorsel = models.ImageField(upload_to='reklamlar/', verbose_name="Reklam Görseli")
@@ -84,29 +95,27 @@ class ReklamBanner(models.Model):
         verbose_name="Sayfadaki Yeri"
     )
     
-    # Kullanıcıya göstermek için varsayılan değerler
     genislik = models.PositiveIntegerField(default=160, verbose_name="Genişlik (px)", editable=False)
     yukseklik = models.PositiveIntegerField(default=600, verbose_name="Yükseklik (px)", editable=False)
     
     aktif_mi = models.BooleanField(default=True, verbose_name="Sitede Görünsün mü?")
 
     def save(self, *args, **kwargs):
-        # Önce kaydet (Dosya oluşsun)
         super().save(*args, **kwargs)
-
         if self.gorsel:
-            img_path = self.gorsel.path
-            img = Image.open(img_path)
+            try:
+                img_path = self.gorsel.path
+                img = Image.open(img_path)
+                target_size = (160, 600)
+                if img.height != 600 or img.width != 160:
+                    img = img.resize(target_size, Image.Resampling.LANCZOS)
+                    img.save(img_path)
+            except Exception as e:
+                print(f"Resim işlenirken hata: {e}")
 
-            # Hedef boyutlar (Standart Skyscraper Reklamı)
-            target_size = (160, 600)
-
-            # Eğer boyut farklıysa yeniden boyutlandır
-            if img.height != 600 or img.width != 160:
-                # Resmi bozmadan sığdırmak yerine, alanı tam doldurması için 'resize' kullanıyoruz.
-                # İstersen 'thumbnail' ile oran koruyarak da yapabiliriz ama reklam alanları genelde tam dolmalıdır.
-                img = img.resize(target_size, Image.Resampling.LANCZOS)
-                img.save(img_path)
+    class Meta:
+        verbose_name = "Reklam Banner"
+        verbose_name_plural = "Reklam Bannerları"
 
     def __str__(self):
         return f"{self.isim} ({self.pozisyon})"
@@ -118,16 +127,49 @@ class KanunMaddesi(models.Model):
     madde_no = models.CharField(max_length=50) # Örn: Madde 12
     icerik = models.TextField()
 
+    class Meta:
+        verbose_name = "Kanun Maddesi"
+        verbose_name_plural = "Kanun Maddeleri"
+
     def __str__(self):
         return f"{self.kanun_adi} - {self.madde_no}"
 
-# --- EMSAL KARARLAR ---
-class EmsalKarar(models.Model):
-    baslik = models.CharField(max_length=200)
-    ozet = models.TextField()
-    dosya_linki = models.URLField(blank=True, null=True)
+# --- DAVA ANALİZLERİ (TURA ENTEGRASYONU İÇİN GÜNCELLENDİ) ---
+# Eski 'EmsalKarar' modelini 'DavaAnalizi' olarak güçlendirdik.
+class DavaAnalizi(models.Model):
+    kategori = models.ForeignKey(HukukKategori, on_delete=models.CASCADE, related_name='davalar', null=True, blank=True)
+    
+    # Kimlik Bilgileri
+    daire = models.CharField(max_length=100, verbose_name="Daire", blank=True)
+    esas_no = models.CharField(max_length=50, verbose_name="Esas No", blank=True)
+    karar_no = models.CharField(max_length=50, verbose_name="Karar No", blank=True)
+    karar_tarihi = models.CharField(max_length=50, verbose_name="Tarih", blank=True)
+    
+    # İçerik ve Analiz (TURA JSON'dan gelecek)
+    baslik = models.CharField(max_length=255, verbose_name="Dava Başlığı") # EmsalKarar uyumu için
+    ozet_hikaye = models.TextField(verbose_name="Özet Hikaye", blank=True)
+    hukuki_ilke = models.TextField(verbose_name="Hukuki İlke", blank=True)
+    kritik_uyari = models.TextField(verbose_name="Kritik Uyarı", blank=True)
+    hukum_sonucu = models.CharField(max_length=100, verbose_name="Sonuç", blank=True)
+    
+    # Etiketler (JSON formatında saklanır: ["Kira", "Tahliye"])
+    konu_etiketleri = models.JSONField(default=list, verbose_name="Etiketler", blank=True)
+    
+    # Sistem
+    dosya_adi = models.CharField(max_length=255, unique=True, verbose_name="Kaynak Dosya", blank=True, null=True)
+    dosya_linki = models.URLField(blank=True, null=True) # Eski uyumluluk için
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Dava Analizi (AI)"
+        verbose_name_plural = "Dava Analizleri (AI)"
+        # Aynı esas/karar tekrar girilmesin
+        unique_together = ('daire', 'esas_no', 'karar_no')
 
     def __str__(self):
+        if self.esas_no and self.karar_no:
+            return f"{self.daire} - E:{self.esas_no} K:{self.karar_no}"
         return self.baslik
 
 # --- HİZMET PAKETLERİ ---
@@ -150,6 +192,10 @@ class Siparis(models.Model):
     odendi_mi = models.BooleanField(default=False)
     tarih = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = "Sipariş"
+        verbose_name_plural = "Siparişler"
+
     def __str__(self):
         return f"{self.ad_soyad} - {self.paket.isim}"
 
@@ -158,6 +204,10 @@ class SohbetGecmisi(models.Model):
     soru = models.TextField()
     cevap = models.TextField()
     tarih = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Sohbet Kaydı"
+        verbose_name_plural = "Sohbet Geçmişi"
 
     def __str__(self):
         return self.soru[:50]
@@ -176,11 +226,14 @@ class AvukatRandevu(models.Model):
         default='Bekliyor'
     )
 
+    class Meta:
+        verbose_name = "Randevu"
+        verbose_name_plural = "Randevular"
+
     def __str__(self):
         return f"{self.ad_soyad} -> {self.avukat.isim}"
-    
-    # models.py içine ekle
 
+# --- SİSTEM LOGLARI ---
 class VeriGuncellemeLog(models.Model):
     kategori = models.ForeignKey(HukukKategori, on_delete=models.CASCADE)
     islem_tarihi = models.DateTimeField(auto_now_add=True)
@@ -202,18 +255,24 @@ class SistemBildirimi(models.Model):
     # Kritik seviye: Bilgi, Uyarı, Acil
     seviye = models.CharField(max_length=20, choices=[('info', 'Bilgi'), ('warning', 'Uyarı'), ('danger', 'Acil')], default='info')
 
+    class Meta:
+        verbose_name = "Sistem Bildirimi"
+        verbose_name_plural = "Sistem Bildirimleri"
+
     def __str__(self):
         return self.baslik
-    
-    # core/models.py en altına ekle:
 
-# core/models.py içinde BetaKullanici modelini bul ve güncelle:
+# --- BETA KULLANICI ---
 class BetaKullanici(models.Model):
     kullanici_adi = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     sifre = models.CharField(max_length=100)
-    onaylandi = models.BooleanField(default=False) # Yeni eklediğimiz alan (Varsayılan: Onaysız)
+    onaylandi = models.BooleanField(default=False)
     olusturulma_tarihi = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Beta Kullanıcı Başvurusu"
+        verbose_name_plural = "Beta Kullanıcı Başvuruları"
 
     def __str__(self):
         return self.email

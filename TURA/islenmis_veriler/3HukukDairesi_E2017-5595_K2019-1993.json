@@ -1,0 +1,27 @@
+{
+    "dosya_adi": "3HukukDairesi_E2017-5595_K2019-1993.txt",
+    "kimlik": {
+        "esas_no": "2017/5595",
+        "karar_no": "2019/1993",
+        "tarih": "15.06.2013",
+        "daire": "3. Hukuk Dairesi"
+    },
+    "analiz": {
+        "konu_etiketleri": [
+            "Kira Sözleşmesi",
+            "Belirli Süreli Kira",
+            "Belirsiz Süreli Kira",
+            "Fesih İhbarı",
+            "Haksız İşgal",
+            "Ecrimisil",
+            "Kira Alacağı",
+            "Türk Borçlar Kanunu",
+            "Yargıtay Bozma"
+        ],
+        "hukuki_ilke": "Belirli süreli kira sözleşmesinin süresi dolmasına rağmen taraflar arasında fesih ihbarı yapılmaksızın kira ilişkisi sürdürülürse, sözleşme belirsiz süreliye dönüşür ve kira ilişkisi devam ettiğinden, kira bedeli mevcut sözleşme koşullarına göre talep edilmeli, haksız işgal veya ecrimisil hükümleri uygulanamaz.",
+        "ozet_hikaye": "Davacı, 10 yıllık kira sözleşmesi biten baz istasyonunun sökülmediğini ve kirasız kullanıldığını iddia ederek emsal kira bedeli ve onarım ücreti talep etmiştir. Davalı ise kira sözleşmesinin devam ettiğini ve haksız işgal olmadığını savunmuştur. Yerel mahkeme, kira sözleşmesinin sona erdiği ve davalının haksız işgalci olduğu gerekçesiyle emsal kira bedelinden sorumlu olduğuna karar vermiştir.",
+        "kritik_uyari": "Belirli süreli kira sözleşmelerinde sürenin dolması halinde kira ilişkisinin kendiliğinden belirsiz süreliye dönüşmesini engellemek için kiraya veren tarafından süresi içinde fesih ihbarı yapılması kritik öneme sahiptir.",
+        "hukum_sonucu": "BOZMA"
+    },
+    "islenme_zamani": "2025-12-10 20:01:25"
+}
